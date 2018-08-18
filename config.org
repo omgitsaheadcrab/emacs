@@ -1,644 +1,715 @@
 * Terminal
 ** Default Shell
-   :PROPERTIES:
-   :ID:       a1ca5ac0-f458-4b82-afd0-492106f3435d
-   :END:
-   Setting default shell to bash within ansi-term.
+:PROPERTIES:
+:ID:       a1ca5ac0-f458-4b82-afd0-492106f3435d
+:END:
+Setting default shell to bash within ansi-term.
 
-   #+BEGIN_SRC emacs-lisp
-     (defvar my-term-shell "/bin/bash")
-     (defadvice ansi-term  (before force-bash)
-       (interactive (list my-term-shell)))
-     (ad-activate 'ansi-term)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (defvar my-term-shell "/bin/bash")
+  (defadvice ansi-term  (before force-bash)
+    (interactive (list my-term-shell)))
+  (ad-activate 'ansi-term)
+#+END_SRC
 
 ** Hotkey
-   :PROPERTIES:
-   :ID:       f5062990-f60d-4c67-b494-97e18ee95599
-   :END:
-   Setting hotkey for ansi-term in emacs - Super+T.
+:PROPERTIES:
+:ID:       f5062990-f60d-4c67-b494-97e18ee95599
+:END:
+Setting hotkey for ansi-term in emacs - Super+T.
 
-   #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "s-t") 'ansi-term)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "s-t") 'ansi-term)
+#+END_SRC
 
 ** Emacs Shell $PATH
-   :PROPERTIES:
-   :ID:       5561db53-640f-478d-a4f2-bd16aca28e61
-   :END:
-   Make sure Emacs shell sees correct system $PATH from .bash_profile
+:PROPERTIES:
+:ID:       5561db53-640f-478d-a4f2-bd16aca28e61
+:END:
+Make sure Emacs shell sees correct system $PATH from .bash_profile
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package exec-path-from-shell
-       :ensure t
-       :init
-       (exec-path-from-shell-initialize))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (exec-path-from-shell-initialize))
+#+END_SRC
 
 ** Colour
-   :PROPERTIES:
-   :ID:       fe131591-ba56-4ede-82d1-5faee46a4708
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (use-package eterm-256color
-       :ensure t
-       :config
-       (add-hook 'term-mode-hook #'eterm-256color-mode))
-   #+END_SRC
+:PROPERTIES:
+:ID:       fe131591-ba56-4ede-82d1-5faee46a4708
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package eterm-256color
+    :ensure t
+    :config
+    (add-hook 'term-mode-hook #'eterm-256color-mode))
+#+END_SRC
 * PDF Tools
-  :PROPERTIES:
-  :ID:       66f963cc-4540-4388-8036-83794f162430
-  :END:
-  #+BEGIN_SRC emacs-lisp
-    (use-package pdf-tools
-      :pin manual ;; manually update
-      :config
-      ;; initialise
-      (pdf-tools-install)
-      ;; open pdfs scaled to fit page
-      (setq-default pdf-view-display-size 'fit-height)
-      ;; automatically annotate highlights
-      (setq pdf-annot-activate-created-annotations t)
-      ;; use normal isearch
-      (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-      ;; more fine-grained zooming
-      (setq pdf-view-resize-factor 1.1)
-      ;; keyboard shortcuts
-      (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
-      (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
-      (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
-  #+END_SRC
+:PROPERTIES:
+:ID:       66f963cc-4540-4388-8036-83794f162430
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :pin manual ;; manually update
+    :config
+    ;; initialise
+    (pdf-tools-install)
+    ;; open pdfs scaled to fit page
+    (setq-default pdf-view-display-size 'fit-height)
+    ;; automatically annotate highlights
+    (setq pdf-annot-activate-created-annotations t)
+    ;; use normal isearch
+    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+    ;; more fine-grained zooming
+    (setq pdf-view-resize-factor 1.1)
+    ;; keyboard shortcuts
+    (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
+    (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
+    (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
+#+END_SRC
 * Org Mode
 ** Org 
-   :PROPERTIES:
-   :ID:       b8727327-3f58-4271-aab3-13c4c50a6fd5
-   :END:
-   Use org-mode from Melpa.
+:PROPERTIES:
+:ID:       b8727327-3f58-4271-aab3-13c4c50a6fd5
+:END:
+Use org-mode from Melpa.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package org
-       :ensure t
-       :defer t
-       ;;:init (setq initial-major-mode 'org-mode) ;; Set mode of *scratch* buffer
-       :bind (("C-c l" . org-store-link)
-	      ("C-c c" . org-capture)
-	      ("C-c a" . org-agenda)
-	      :map org-mode-map
-	      ;; ("C-h" . org-delete-backward-char)
-	      ("C-c !" . org-time-stamp-inactive))
-       :mode ("\\.org$" . org-mode))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :ensure t
+    :defer t
+    ;;:init (setq initial-major-mode 'org-mode) ;; Set mode of *scratch* buffer
+    :bind (("C-c l" . org-store-link)
+           ("C-c c" . org-capture)
+           ("C-c a" . org-agenda)
+           :map org-mode-map
+           ;; ("C-h" . org-delete-backward-char)
+           ("C-c !" . org-time-stamp-inactive))
+    :mode ("\\.org$" . org-mode))
+#+END_SRC
 ** Org ID
-   :PROPERTIES:
-   :ID:       c80598a5-9641-4eed-a672-0be871198a7c
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-id
-       :config
-       (org-link-set-parameters "id" :store #'org-id-store-link))
-   #+END_SRC
+:PROPERTIES:
+:ID:       c80598a5-9641-4eed-a672-0be871198a7c
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package org-id
+    :config
+    (org-link-set-parameters "id" :store #'org-id-store-link))
+#+END_SRC
 ** Org Bullets
-   :PROPERTIES:
-   :ID:       98a1a25e-637b-4023-bda4-3541d0f9bb00
-   :END:
-   :PROPERTIES:
-   :ID:	      f4b83b9e-f2fa-4289-a550-38dbf5e56e84
-   :END:
+:PROPERTIES:
+:ID:       98a1a25e-637b-4023-bda4-3541d0f9bb00
+:END:
+:PROPERTIES:
+:ID:	      f4b83b9e-f2fa-4289-a550-38dbf5e56e84
+:END:
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-bullets
-       :ensure t
-       :config
-       (add-hook 'org-mode-hook (lambda ()  (org-bullets-mode))))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda ()  (org-bullets-mode))))
+#+END_SRC
 
 ** Org Settings
-   :PROPERTIES:
-   :ID:       9b3acb45-4ef9-4c95-8d17-82549e282738
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'org-mode-hook 'org-indent-mode)
-     (setq org-src-window-setup 'current-window)
-     (setq org-src-fontify-natively t)
-     (setq org-src-tab-acts-natively t)
-   #+END_SRC
+:PROPERTIES:
+:ID:       9b3acb45-4ef9-4c95-8d17-82549e282738
+:END:
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  (setq org-src-window-setup 'current-window)
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+#+END_SRC
 * Interface
 ** Toolbar Deactivation
-   :PROPERTIES:
-   :ID:       ba723c7b-3ca6-4346-a5bb-c5ba90e1454a
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (tool-bar-mode -1)
-   #+END_SRC
+:PROPERTIES:
+:ID:       ba723c7b-3ca6-4346-a5bb-c5ba90e1454a
+:END:
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode -1)
+#+END_SRC
 
 ** Menubar Deactivation
-   :PROPERTIES:
-   :ID:       03488665-43ac-46ac-bae1-d7b171059c11
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (menu-bar-mode -1)
-   #+END_SRC
+:PROPERTIES:
+:ID:       03488665-43ac-46ac-bae1-d7b171059c11
+:END:
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode -1)
+#+END_SRC
 
 ** Scrollbar Deactivation
-   :PROPERTIES:
-   :ID:       ff5d758e-d6ba-4676-844a-95d17565f516
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (scroll-bar-mode -1)
-   #+END_SRC
+:PROPERTIES:
+:ID:       ff5d758e-d6ba-4676-844a-95d17565f516
+:END:
+#+BEGIN_SRC emacs-lisp
+  (scroll-bar-mode -1)
+#+END_SRC
 
 ** Conservative Scrolling
-   :PROPERTIES:
-   :ID:       94138b24-ecad-46af-916d-db3f8781a66c
-   :END:
-   Reducing scroll distance so it's actually useful.
+:PROPERTIES:
+:ID:       94138b24-ecad-46af-916d-db3f8781a66c
+:END:
+Reducing scroll distance so it's actually useful.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq scroll-conservatively 100)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq scroll-conservatively 100)
+#+END_SRC
 
 ** Disable Splash Screen
-   :PROPERTIES:
-   :ID:       4182fb11-c9d5-43eb-8773-de9bc7965c01
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (setq inhibit-startup-message t)
-   #+END_SRC
+:PROPERTIES:
+:ID:       4182fb11-c9d5-43eb-8773-de9bc7965c01
+:END:
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message t)
+#+END_SRC
 
 ** Side-By-Side Buffers
-   :PROPERTIES:
-   :ID:       2455cb33-985b-4e69-abd7-2ce75835e38a
-   :END:
-   Buffers open with vertical split rather than horizontal split by default.
+:PROPERTIES:
+:ID:       2455cb33-985b-4e69-abd7-2ce75835e38a
+:END:
+Buffers open with vertical split rather than horizontal split by default.
 
-   #+BEGIN_SRC emacs-lisp
-     (defun 2-windows-vertical-to-horizontal ()
-       (let ((buffers (mapcar 'window-buffer (window-list))))
-	 (when (= 2 (length buffers))
-	   (delete-other-windows)
-	   (set-window-buffer (split-window-horizontally) (cadr buffers)))))
-     (add-hook 'emacs-startup-hook '2-windows-vertical-to-horizontal)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (defun 2-windows-vertical-to-horizontal ()
+    (let ((buffers (mapcar 'window-buffer (window-list))))
+      (when (= 2 (length buffers))
+        (delete-other-windows)
+        (set-window-buffer (split-window-horizontally) (cadr buffers)))))
+  (add-hook 'emacs-startup-hook '2-windows-vertical-to-horizontal)
+#+END_SRC
 
 ** Visual Line Mode
-   :PROPERTIES:
-   :ID:       0ee5a6d6-d2f9-484d-b63b-4d90e62056ce
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     ;; visual line mode (except for pdf)
-     (global-visual-line-mode 1)
-     (add-hook 'pdf-view-mode-hook (lambda() (visual-line-mode -1)))
-   #+END_SRC
+:PROPERTIES:
+:ID:       0ee5a6d6-d2f9-484d-b63b-4d90e62056ce
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; visual line mode (except for pdf)
+  (global-visual-line-mode 1)
+  (add-hook 'pdf-view-mode-hook (lambda() (visual-line-mode -1)))
+#+END_SRC
 ** Line Numbers
-   :PROPERTIES:
-   :ID:       40f9c775-7a11-42eb-b5d9-aa258f5034c8
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     ;; line numbers (except for some)
-     (global-linum-mode 1)
-     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
-     (add-hook 'LaTeX-mode-hook (lambda() (linum-mode -1))) ; with Emacs latex mode
-     (add-hook 'latex-mode-hook (lambda() (linum-mode -1))) ; with AUCTeX LaTeX mode
-     (use-package hlinum
-       :ensure t
-       :config
-       (hlinum-activate))
-   #+END_SRC
+:PROPERTIES:
+:ID:       40f9c775-7a11-42eb-b5d9-aa258f5034c8
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; line numbers (except for some)
+  (global-linum-mode 1)
+  (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
+  (add-hook 'LaTeX-mode-hook (lambda() (linum-mode -1))) ; with Emacs latex mode
+  (add-hook 'latex-mode-hook (lambda() (linum-mode -1))) ; with AUCTeX LaTeX mode
+  (use-package hlinum
+    :ensure t
+    :config
+    (hlinum-activate))
+#+END_SRC
 ** Buffers
-   :PROPERTIES:
-   :ID:       15b2fba8-29d8-4d50-8326-98afdf59d431
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     ;; better buffers with ibuffer
-     (global-set-key (kbd "C-x b") 'ibuffer)
+:PROPERTIES:
+:ID:       15b2fba8-29d8-4d50-8326-98afdf59d431
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; better buffers with ibuffer
+  (global-set-key (kbd "C-x b") 'ibuffer)
 
-     ;; ibuffer expert mode (delete without asking)
-     (setq ibuffer-expert t)
-   #+END_SRC
+  ;; ibuffer expert mode (delete without asking)
+  (setq ibuffer-expert t)
+#+END_SRC
 ** Column Numbers
-   :PROPERTIES:
-   :ID:       3af55133-ad30-47b0-9b60-c8cf569b517e
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (column-number-mode 1)
-   #+END_SRC
+:PROPERTIES:
+:ID:       3af55133-ad30-47b0-9b60-c8cf569b517e
+:END:
+#+BEGIN_SRC emacs-lisp
+  (column-number-mode 1)
+#+END_SRC
 ** Beacon
-   :PROPERTIES:
-   :ID:       31ece10b-342c-4cbc-a9ac-96c604332fe0
-   :END:
-   Highlight current cursor position with fancy fade.
+:PROPERTIES:
+:ID:       31ece10b-342c-4cbc-a9ac-96c604332fe0
+:END:
+Highlight current cursor position with fancy fade.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package beacon
-       :ensure t
-       :init
-       (beacon-mode 1))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package beacon
+    :ensure t
+    :init
+    (beacon-mode 1))
+#+END_SRC
 ** Which Key
-   :PROPERTIES:
-   :ID:       f7cd90ae-4cd5-4564-afbd-be6f4d680f2d
-   :END:
-   Which keybindings appears when you press part of a hotkey and wait.
+:PROPERTIES:
+:ID:       f7cd90ae-4cd5-4564-afbd-be6f4d680f2d
+:END:
+Which keybindings appears when you press part of a hotkey and wait.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package which-key
-       :ensure t
-       :init
-       (which-key-mode))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode))
+#+END_SRC
 ** Dashboard
-   :PROPERTIES:
-   :ID:       f3b10f7a-0cf2-49ea-a99e-aebd96c6cc39
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (use-package dashboard
-       :ensure t
-       :config
-       (dashboard-setup-startup-hook)
-       (setq dashboard-items '((recents . 10)))
-       (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-       (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME"))))
-   #+END_SRC
+:PROPERTIES:
+:ID:       f3b10f7a-0cf2-49ea-a99e-aebd96c6cc39
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-items '((recents . 10)))
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+    (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME"))))
+#+END_SRC
 ** Spaceline
 *** Config
-    :PROPERTIES:
-    :ID:       a26cef4c-67be-4dc2-982c-61e56315effe
-    :END:
-    #+BEGIN_SRC emacs-lisp
-      (use-package spaceline
-	:ensure t)
+:PROPERTIES:
+:ID:       a26cef4c-67be-4dc2-982c-61e56315effe
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package spaceline
+    :ensure t)
 
-      (use-package spaceline-config
-	:ensure spaceline
-	:config
-	(spaceline-helm-mode 1)
-	(spaceline-emacs-theme))
-    #+END_SRC
+  (use-package spaceline-config
+    :ensure spaceline
+    :config
+    (spaceline-helm-mode 1)
+    (spaceline-emacs-theme))
+#+END_SRC
 *** Theme
-    :PROPERTIES:
-    :ID:       ef8aa0aa-ca90-4922-bf3f-ddd7dcf792fd
-    :END:
-    #+BEGIN_SRC emacs-lisp
-      (use-package all-the-icons
-	:ensure t)
-      (use-package spaceline-all-the-icons
-	:ensure t
-	:after spaceline
-	:config
-	(spaceline-all-the-icons-theme)
-	(setq-default spaceline-all-the-icons-separator-type 'arrow)
-	(setq spaceline-all-the-icons-hide-long-buffer-path t))
-    #+END_SRC
+:PROPERTIES:
+:ID:       ef8aa0aa-ca90-4922-bf3f-ddd7dcf792fd
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :ensure t)
+  (use-package spaceline-all-the-icons
+    :ensure t
+    :after spaceline
+    :config
+    (spaceline-all-the-icons-theme)
+    (setq-default spaceline-all-the-icons-separator-type 'arrow)
+    (setq spaceline-all-the-icons-hide-long-buffer-path t))
+#+END_SRC
 ** Popup Kill Ring
-   :PROPERTIES:
-   :ID:       a9a1e88c-ccd9-41c7-b5f0-6d8ea3843418
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (use-package popup-kill-ring
-       :ensure t
-       :bind ("C-s-v" . popup-kill-ring))
-   #+END_SRC
+:PROPERTIES:
+:ID:       a9a1e88c-ccd9-41c7-b5f0-6d8ea3843418
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package popup-kill-ring
+    :ensure t
+    :bind ("C-s-v" . popup-kill-ring))
+#+END_SRC
 
 ** Swiper
-   :PROPERTIES:
-   :ID:       804cc97a-954e-4e7d-b5bc-07f92103f72f
-   :END:
-   Advanced searching.
-   #+BEGIN_SRC emacs-lisp
-     (use-package swiper
-       :ensure t
-       :bind ("C-s" . swiper))
-   #+END_SRC
+:PROPERTIES:
+:ID:       804cc97a-954e-4e7d-b5bc-07f92103f72f
+:END:
+Advanced searching.
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+    :ensure t
+    :bind ("C-s" . swiper))
+#+END_SRC
 * Useful Tweaks
 ** Consistent Answers
-   :PROPERTIES:
-   :ID:       5f184a63-b8d2-48ae-960e-d4ec85db3b4e
-   :END:
-   Setting yes and no to y and n for brevity and consistency.
+:PROPERTIES:
+:ID:       5f184a63-b8d2-48ae-960e-d4ec85db3b4e
+:END:
+Setting yes and no to y and n for brevity and consistency.
 
-   #+BEGIN_SRC emacs-lisp
-     (fset 'yes-or-no-p 'y-or-n-p)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
 
 ** Warning Bell Deactivation
-   :PROPERTIES:
-   :ID:       6bae70ba-ddce-4da4-82d5-04f6150c2e8d
-   :END:
-   Apparently there is a warning bell/beep and light - not seen it though..
+:PROPERTIES:
+:ID:       6bae70ba-ddce-4da4-82d5-04f6150c2e8d
+:END:
+Apparently there is a warning bell/beep and light - not seen it though..
 
-   #+BEGIN_SRC emacs-lisp
-     (setq ring-bell-function 'ignore)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+END_SRC
 
 ** UTF-8
 *** UTF-8 Uppercase Declaration
-    :PROPERTIES:
-    :ID:       8cef681a-e6b7-4150-b031-c5fb3f39de32
-    :END:
-    #+BEGIN_SRC emacs-lisp
-      (define-coding-system-alias 'UTF-8 'utf-8)
-    #+END_SRC
+:PROPERTIES:
+:ID:       8cef681a-e6b7-4150-b031-c5fb3f39de32
+:END:
+#+BEGIN_SRC emacs-lisp
+  (define-coding-system-alias 'UTF-8 'utf-8)
+#+END_SRC
 *** UFT-8 Everywhere
-    :PROPERTIES:
-    :ID:       35e57af2-28d4-49fb-bb3d-a3818f5bcabb
-    :END:
-    #+BEGIN_SRC emacs-lisp
-      (setq locale-coding-system 'utf-8)
-      (set-terminal-coding-system 'utf-8)
-      (set-keyboard-coding-system 'utf-8)
-      (set-selection-coding-system 'utf-8)
-      (prefer-coding-system 'utf-8)
-      (when (display-graphic-p)
-	(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
-    #+END_SRC
+:PROPERTIES:
+:ID:       35e57af2-28d4-49fb-bb3d-a3818f5bcabb
+:END:
+#+BEGIN_SRC emacs-lisp
+  (setq locale-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+  (when (display-graphic-p)
+    (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+#+END_SRC
 ** Pair Completion
-   :PROPERTIES:
-   :ID:       6d7edb6d-17ae-4be8-ab78-c9d08f5a9b49
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (setq electric-pair-pairs '(
-				 (?\( . ?\))
-				 (?\[ . ?\])
-				 (?\{ . ?\})
-				 (?\" . ?\")
-				 (?\' . ?\')))
-     (electric-pair-mode t)
-   #+END_SRC
+:PROPERTIES:
+:ID:       6d7edb6d-17ae-4be8-ab78-c9d08f5a9b49
+:END:
+#+BEGIN_SRC emacs-lisp
+  (setq electric-pair-pairs '(
+                              (?\( . ?\))
+                              (?\[ . ?\])
+                              (?\{ . ?\})
+                              (?\" . ?\")
+                              (?\' . ?\')))
+  (electric-pair-mode t)
+#+END_SRC
 ** Sudo Edit
-   :PROPERTIES:
-   :ID:       68be1506-4bcc-43f5-a389-b5e40577ee83
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (use-package sudo-edit
-       :ensure t
-       :bind ("s-u" . sudo-edit))
-   #+END_SRC
+:PROPERTIES:
+:ID:       68be1506-4bcc-43f5-a389-b5e40577ee83
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package sudo-edit
+    :ensure t
+    :bind ("s-u" . sudo-edit))
+#+END_SRC
 * Keybindings 
 ** Reload Config
-   :PROPERTIES:
-   :ID:       6a4940ee-ca5c-4ce3-b881-cf71108b7094
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (defun reload-init-file ()
-       (interactive)
-       (load-file "~/.emacs.d/init.el"))
+:PROPERTIES:
+:ID:       6a4940ee-ca5c-4ce3-b881-cf71108b7094
+:END:
+#+BEGIN_SRC emacs-lisp
+  (defun reload-init-file ()
+    (interactive)
+    (load-file "~/.emacs.d/init.el"))
 
-     (global-set-key (kbd "C-s-M-u") 'reload-init-file)
-   #+END_SRC
+  (global-set-key (kbd "C-s-M-u") 'reload-init-file)
+#+END_SRC
 ** F5 Refresh
-   :PROPERTIES:
-   :ID:       bf88588e-444c-4ee7-a6fd-915ecac5e177
-   :END:
-   Setting buffer refresh to F5 as usual in other programs.
+:PROPERTIES:
+:ID:       bf88588e-444c-4ee7-a6fd-915ecac5e177
+:END:
+Setting buffer refresh to F5 as usual in other programs.
 
-   #+BEGIN_SRC emacs-lisp
-     (global-set-key [f5]
-		     '(lambda () "Refresh the buffer from the disk (prompt of modified)."
-			(interactive)
-			(revert-buffer t (not (buffer-modified-p)) t)))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key [f5]
+                  '(lambda () "Refresh the buffer from the disk (prompt of modified)."
+                     (interactive)
+                     (revert-buffer t (not (buffer-modified-p)) t)))
+#+END_SRC
 
 ** Copy Whole Line
-   :PROPERTIES:
-   :ID:       36d8fcc9-bb3b-43bc-ba5f-4ed5530fab62
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (defun copy-whole-line ()
-       (interactive)
-       (save-excursion
-	 (kill-new
-	  (buffer-substring
-	   (point-at-bol)
-	   (point-at-eol)))))
-     (global-set-key (kbd "C-c w l") 'copy-whole-line)
-   #+END_SRC
+:PROPERTIES:
+:ID:       36d8fcc9-bb3b-43bc-ba5f-4ed5530fab62
+:END:
+#+BEGIN_SRC emacs-lisp
+  (defun copy-whole-line ()
+    (interactive)
+    (save-excursion
+      (kill-new
+       (buffer-substring
+        (point-at-bol)
+        (point-at-eol)))))
+  (global-set-key (kbd "C-c w l") 'copy-whole-line)
+#+END_SRC
 ** Expand Region
-   :PROPERTIES:
-   :ID:       bc4c16bd-7f4e-4fc6-a9bc-a4e05d9a55e6
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (use-package expand-region
-       :ensure t
-       :bind ("C-q" . er/expand-region))
-   #+End_SRC
+:PROPERTIES:
+:ID:       bc4c16bd-7f4e-4fc6-a9bc-a4e05d9a55e6
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :bind ("C-q" . er/expand-region))
+#+End_SRC
 ** Goto-line
-   :PROPERTIES:
-   :ID:       2faf3100-352b-47c7-9a21-8a847b32c115
-   :END:
-   Rebind goto-line to Meta+g rather than Meta+g+g
+:PROPERTIES:
+:ID:       2faf3100-352b-47c7-9a21-8a847b32c115
+:END:
+Rebind goto-line to Meta+g rather than Meta+g+g
 
-   #+BEGIN_SRC emacs-lisp
-     (global-set-key "\M-g" 'goto-line)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key "\M-g" 'goto-line)
+#+END_SRC
 
 ** Kill All Buffers
-   :PROPERTIES:
-   :ID:       326c4224-9bd6-4369-b02e-6f064fc4adc7
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (defun kill-all-buffers ()
-       (interactive)
-       (mapc 'kill-buffer (buffer-list)))
-     (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
-   #+END_SRC
+:PROPERTIES:
+:ID:       326c4224-9bd6-4369-b02e-6f064fc4adc7
+:END:
+#+BEGIN_SRC emacs-lisp
+  (defun kill-all-buffers ()
+    (interactive)
+    (mapc 'kill-buffer (buffer-list)))
+  (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
+#+END_SRC
 ** CUA Mode
-   :PROPERTIES:
-   :ID:       b320969f-f8e8-44fa-8ae5-f7f7b01061f4
-   :END:
-   Enable CUA mode + related settings.
+:PROPERTIES:
+:ID:       b320969f-f8e8-44fa-8ae5-f7f7b01061f4
+:END:
+Enable CUA mode + related settings.
 
-   #+BEGIN_SRC emacs-lisp
-     (cua-mode t)
-     (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
-     (transient-mark-mode 1) ;; No region when it is not highlighted
-     (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (cua-mode t)
+  (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
+  (transient-mark-mode 1) ;; No region when it is not highlighted
+  (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
+#+END_SRC
 
 * Appearance 
 ** Pretty Symbols
-   :PROPERTIES:
-   :ID:       2eba590b-acdd-40de-83fd-3cc140ce777f
-   :END:
+:PROPERTIES:
+:ID:       2eba590b-acdd-40de-83fd-3cc140ce777f
+:END:
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package pretty-mode
-       :ensure t
-       :config 
-       (global-pretty-mode 1))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package pretty-mode
+    :ensure t
+    :config 
+    (global-pretty-mode 1))
+#+END_SRC
 ** Colortheme
-   :PROPERTIES:
-   :ID:       03a33aa1-a740-4017-8fd8-2c92c4aa176b
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (use-package color-theme
-       :ensure t
-       :init 
-       (color-theme-initialize))
-   #+END_SRC
+:PROPERTIES:
+:ID:       03a33aa1-a740-4017-8fd8-2c92c4aa176b
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package color-theme
+    :ensure t
+    :init 
+    (color-theme-initialize))
+#+END_SRC
 
 ** Set Theme
-   :PROPERTIES:
-   :ID:       dd134dbf-0592-43cb-ab2b-5bebb16a81e5
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (load-file "~/.emacs.d/color-theme-sunburst.el")
-     (color-theme-tm)
-   #+END_SRC
+:PROPERTIES:
+:ID:       dd134dbf-0592-43cb-ab2b-5bebb16a81e5
+:END:
+#+BEGIN_SRC emacs-lisp
+  (load-file "~/.emacs.d/color-theme-sunburst.el")
+  (color-theme-tm)
+#+END_SRC
 ** Line Number Colour
-   :PROPERTIES:
-   :ID:       30954de2-c9dd-44db-b8b9-132bb0f789ff
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     (set-face-foreground 'linum "#444")
-     (set-face-foreground 'linum-highlight-face "#ffff00")
-     (set-face-background 'linum-highlight-face "#111")
-   #+END_SRC
+:PROPERTIES:
+:ID:       30954de2-c9dd-44db-b8b9-132bb0f789ff
+:END:
+#+BEGIN_SRC emacs-lisp
+  (set-face-foreground 'linum "#444")
+  (set-face-foreground 'linum-highlight-face "#ffff00")
+  (set-face-background 'linum-highlight-face "#111")
+#+END_SRC
 * Backups
-  :PROPERTIES:
-  :ID:       1e20764b-eb6e-47da-94da-29d58674fe9a
-  :END:
-  #+BEGIN_SRC emacs-lisp
-    ;; setting backup dir
-    (setq version-control t     ;; Use version numbers for backups.
-	  kept-new-versions 10  ;; Number of newest versions to keep.
-	  kept-old-versions 0   ;; Number of oldest versions to keep.
-	  delete-old-versions t ;; Don't ask to delete excess backup versions.
-	  backup-by-copying t)  ;; Copy all files, don't rename them.
-    (setq vc-make-backup-files t)
-    ;; Default and per-save backups go here:
-    (setq backup-directory-alist '(("" . "~/.emacs.d/backups/per-save")))
-    (defun force-backup-of-buffer ()
-      ;; Make a special "per session" backup at the first save of each
-      ;; emacs session.
-      (when (not buffer-backed-up)
-	;; Override the default parameters for per-session backups.
-	(let ((backup-directory-alist '(("" . "~/.emacs.d/backups/per-session")))
-	      (kept-new-versions 3))
-	  (backup-buffer)))
-      ;; Make a "per save" backup on each save.  The first save results in
-      ;; both a per-session and a per-save backup, to keep the numbering
-      ;; of per-save backups consistent.
-      (let ((buffer-backed-up nil))
-	(backup-buffer)))
-  #+END_SRC
+:PROPERTIES:
+:ID:       1e20764b-eb6e-47da-94da-29d58674fe9a
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; setting backup dir
+  (setq version-control t     ;; Use version numbers for backups.
+        kept-new-versions 10  ;; Number of newest versions to keep.
+        kept-old-versions 0   ;; Number of oldest versions to keep.
+        delete-old-versions t ;; Don't ask to delete excess backup versions.
+        backup-by-copying t)  ;; Copy all files, don't rename them.
+  (setq vc-make-backup-files t)
+  ;; Default and per-save backups go here:
+  (setq backup-directory-alist '(("" . "~/.emacs.d/backups/per-save")))
+  (defun force-backup-of-buffer ()
+    ;; Make a special "per session" backup at the first save of each
+    ;; emacs session.
+    (when (not buffer-backed-up)
+      ;; Override the default parameters for per-session backups.
+      (let ((backup-directory-alist '(("" . "~/.emacs.d/backups/per-session")))
+            (kept-new-versions 3))
+        (backup-buffer)))
+    ;; Make a "per save" backup on each save.  The first save results in
+    ;; both a per-session and a per-save backup, to keep the numbering
+    ;; of per-save backups consistent.
+    (let ((buffer-backed-up nil))
+      (backup-buffer)))
+#+END_SRC
 * Spellchecking
-  :PROPERTIES:
-  :ID:       a7c07d3b-b7cd-4a38-9499-78180798539b
-  :END:
-  #+BEGIN_SRC emacs-lisp
-    ;; find aspell and hunspell automatically
-    (cond
-     ;; try hunspell at first
-     ;; if hunspell does NOT exist, use aspell
-     ((executable-find "hunspell")
-      (setq ispell-program-name "hunspell")
-      (setq ispell-local-dictionary "en_GB")
-      (setq ispell-local-dictionary-alist
-	    ;; Please note the list `("-d" "en_US")` contains ACTUAL parameters passed to hunspell
-	    ;; You could use `("-d" "en_US,en_US-med")` to check with multiple dictionaries
-	    '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_GB") nil utf-8)
-	      )))
+:PROPERTIES:
+:ID:       a7c07d3b-b7cd-4a38-9499-78180798539b
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; find aspell and hunspell automatically
+  (cond
+   ;; try hunspell at first
+   ;; if hunspell does NOT exist, use aspell
+   ((executable-find "hunspell")
+    (setq ispell-program-name "hunspell")
+    (setq ispell-local-dictionary "en_GB")
+    (setq ispell-local-dictionary-alist
+          ;; Please note the list `("-d" "en_US")` contains ACTUAL parameters passed to hunspell
+          ;; You could use `("-d" "en_US,en_US-med")` to check with multiple dictionaries
+          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_GB") nil utf-8)
+            )))
 
-     ((executable-find "aspell")
-      (setq ispell-program-name "aspell")
-      ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
-      (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
-  #+END_SRC
+   ((executable-find "aspell")
+    (setq ispell-program-name "aspell")
+    ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
+    (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
+#+END_SRC
 * Autocompletion
-  :PROPERTIES:
-  :ID:       1ad0abd2-b839-4703-8b7f-31df04318300
-  :END:
-  #+BEGIN_SRC emacs-lisp
-    (use-package company
-      :ensure t
-      :init
-      (add-hook 'after-init-hook 'global-company-mode)
-      :config
-      (setq company-idle-delay 0)
-      (setq company-minimum-prefix-length 3))
-  #+END_SRC
+:PROPERTIES:
+:ID:       1ad0abd2-b839-4703-8b7f-31df04318300
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :init
+    (add-hook 'after-init-hook 'global-company-mode)
+    :config
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 3))
+#+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package company-irony
-      :ensure t
-      :config
-      (require 'company)
-      (add-to-list 'company-backends 'company-irony))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package company-irony
+    :ensure t
+    :config
+    (require 'company)
+    (add-to-list 'company-backends 'company-irony))
+#+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package irony
-      :ensure t
-      :config
-      (add-hook 'c++-mode-hook 'irony-mode)
-      (add-hook 'c-mode-hook 'irony-mode)
-      (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package irony
+    :ensure t
+    :config
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+#+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'company
-      (add-hook 'c++-mode-hook 'company-mode)
-      (add-hook 'c-mode-hook 'company-mode))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'company
+    (add-hook 'c++-mode-hook 'company-mode)
+    (add-hook 'c-mode-hook 'company-mode))
+#+END_SRC
+  
+#+BEGIN_SRC emacs-lisp
+  (use-package irony-eldoc
+    :ensure t
+    :config
+    (add-hook 'irony-mode-hook #'irony-eldoc))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-jedi
+    :ensure t
+    :config
+    (add-hook 'python-mode-hook 'jedi:setup))
+#+END_SRC
+ 
+#+BEGIN_SRC emacs-lisp
+  (defun my/python-mode-hook ()
+    (add-to-list 'company-backends 'company-jedi))
+  (add-hook 'python-mode-hook 'my/python-mode-hook)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (setq py-python-command "python3")
+  (setq python-shell-interpreter "python3")
+
+#+END_SRC
+* Snippets
+** Enable Yasnippet
+:PROPERTIES:
+:ID:       9cbc9021-cf0f-44a1-b574-bf50ba1e1de1
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config
+    (use-package yasnippet-snippets
+      :ensure t)
+    (yas-reload-all))
+#+END_SRC
+** Individual Mode Hooks
+*** C++
+:PROPERTIES:
+:ID:       b2d384da-ba21-41ba-87cf-abd66f4cd0a8
+:END:
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c++-mode-hook 'yas-minor-mode)
+#+END_SRC
+
+*** Python
+:PROPERTIES:
+:ID:       e456a968-a82e-43dc-b8e3-a6a28f228287
+:END:
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook 'yas-minor-mode)
+#+END_SRC
+
+*** Emacs Lisp
+:PROPERTIES:
+:ID:       d0f75f69-2771-4f5b-93d4-5166fcdb726f
+:END:
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook 'yas-minor-mode)
+#+END_SRC
+
+*** Bash
+:PROPERTIES:
+:ID:       5d6a92f4-f6d2-40e3-ae07-c57cc5732cb6
+:END:
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'bash-mode-hook 'yas-minor-mode)
+#+END_SRC
 * LaTeX 
-  :PROPERTIES:
-  :ID:       4c10c518-7261-4385-9342-ce0025efd1b9
-  :END:
-  #+BEGIN_SRC emacs-lisp
-    ;; latex stuff
-    ;;(use-package latex
-    ;;:ensure t)
-    (load "auctex.el" nil t t)
-    (load "preview-latex.el" nil t t)
+:PROPERTIES:
+:ID:       4c10c518-7261-4385-9342-ce0025efd1b9
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; latex stuff
+  ;;(use-package latex
+  ;;:ensure t)
+  (load "auctex.el" nil t t)
+  (load "preview-latex.el" nil t t)
 
-    ;;; AUCTeX config
-    (setq TeX-auto-save t
-	  TeX-parse-self t)
+  ;;; AUCTeX config
+  (setq TeX-auto-save t
+        TeX-parse-self t)
 
-    ;; master file in latex reset - ask user if not specified
-    (setq-default TeX-master nil)
+  ;; master file in latex reset - ask user if not specified
+  (setq-default TeX-master nil)
 
-    ;; enable RefTeX in AUCTeX (LaTeX-mode)
-    (setq reftex-plug-into-AUCTeX t)
-    (add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-    (add-hook 'LaTeX-mode-hook 'turn-on-reftex) ; with AUCTeX LaTeX mode
+  ;; enable RefTeX in AUCTeX (LaTeX-mode)
+  (setq reftex-plug-into-AUCTeX t)
+  (add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex) ; with AUCTeX LaTeX mode
 
 
-    (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-	  TeX-source-correlate-start-server t)
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+        TeX-source-correlate-start-server t)
 
-    ;; Update PDF buffers after successful LaTeX runs
-    (add-hook 'TeX-after-compilation-finished-functions
-	      #'TeX-revert-document-buffer)
-  #+END_SRC
+  ;; Update PDF buffers after successful LaTeX runs
+  (add-hook 'TeX-after-compilation-finished-functions
+            #'TeX-revert-document-buffer)
+#+END_SRC
 * Ido Mode
-  :PROPERTIES:
-  :ID:       2ef68f66-e742-437d-8363-b2d28785003f
-  :END:
-  #+BEGIN_SRC emacs-lisp
-    ;; ido mode
-    (setq ido-enable-flex-matching nil)
-    (setq ido-create-new-buffer 'always)
-    (setq ido-everywhere 1)
-    (setq ido-enable-prefix t)
-    (ido-mode 1)
+:PROPERTIES:
+:ID:       2ef68f66-e742-437d-8363-b2d28785003f
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; ido mode
+  (setq ido-enable-flex-matching nil)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-everywhere 1)
+  (setq ido-enable-prefix t)
+  (ido-mode 1)
 
-    ;; ido vertical
-    (use-package ido-vertical-mode
-      :ensure t
-      :init
-      (ido-vertical-mode 1))
+  ;; ido vertical
+  (use-package ido-vertical-mode
+    :ensure t
+    :init
+    (ido-vertical-mode 1))
 
-    ;; ido switch buffer
-    (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
-  #+END_SRC
+  ;; ido switch buffer
+  (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+#+END_SRC
 * Programming Modes
 ** C++
-   :PROPERTIES:
-   :ID:       116979f7-cfb4-4e98-93f3-7db3565c6ad7
-   :END:
-   #+BEGIN_SRC emacs-lisp
-     ;; consider .h files as c++ rather than c by default
-     (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-   #+END_SRC
+:PROPERTIES:
+:ID:       116979f7-cfb4-4e98-93f3-7db3565c6ad7
+:END:
+#+BEGIN_SRC emacs-lisp
+  ;; consider .h files as c++ rather than c by default
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+#+END_SRC

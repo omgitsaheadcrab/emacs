@@ -1,3 +1,4 @@
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -7,7 +8,7 @@
  '(custom-enabled-themes (quote (tango-dark)))
  '(package-selected-packages
    (quote
-    (company-irony irony pretty-mode expand-region latex color-theme org-id swiper popup-kill-ring eterm-256color exec-path-from-shell spaceline-all-the-icons spaceline all-the-icons company dashboard sudo-edit ido-vertical-mode org org-bullets beacon which-key use-package magit hlinum pdf-tools ## auctex)))
+    (company-jedi irony-eldoc yasnippet-snippets yasnippet company-irony irony pretty-mode expand-region latex color-theme org-id swiper popup-kill-ring eterm-256color exec-path-from-shell spaceline-all-the-icons spaceline all-the-icons company dashboard sudo-edit ido-vertical-mode org org-bullets beacon which-key use-package magit hlinum pdf-tools ## auctex)))
  '(preview-gs-options
    (quote
     ("-q" "-dNOSAFER" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4")))
