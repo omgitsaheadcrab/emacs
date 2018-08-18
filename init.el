@@ -22,4 +22,3 @@
 ;; Customization commands moved to standalone file
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
-(put 'downcase-region 'disabled nil)
