@@ -122,6 +122,14 @@ Use org-mode from Melpa.
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
 #+END_SRC
+** Org PDF View
+:PROPERTIES:
+:ID:       655d916d-578b-4bde-a7da-5fd7f9dabb7f
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package org-pdfview
+    :ensure t)
+#+END_SRC
 * Interface
 ** Toolbar Deactivation
 :PROPERTIES:
@@ -544,6 +552,12 @@ Enable CUA mode + related settings.
     (setq ispell-program-name "aspell")
     ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
     (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  ;; enable flyspell-mode by default in org and LaTeX.
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 #+END_SRC
 * Autocompletion
 :PROPERTIES:
