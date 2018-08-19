@@ -462,6 +462,13 @@ Enable CUA mode + related settings.
   (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 #+END_SRC
 
+** Magit
+:PROPERTIES:
+:ID:       515145bf-fd94-4142-a3ed-cb1cbd5f4bdf
+:END:
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x g") 'magit-status)
+#+END_SRC
 * Appearance 
 ** Pretty Symbols
 :PROPERTIES:
@@ -677,7 +684,7 @@ Enable CUA mode + related settings.
   (load "auctex.el" nil t t)
   (load "preview-latex.el" nil t t)
 
-  ;;; AUCTeX config
+    ;;; AUCTeX config
   (setq TeX-auto-save t
         TeX-parse-self t)
 
@@ -696,6 +703,15 @@ Enable CUA mode + related settings.
   ;; Update PDF buffers after successful LaTeX runs
   (add-hook 'TeX-after-compilation-finished-functions
             #'TeX-revert-document-buffer)
+
+  ;; set special font highlighting for natbib \cite* commands under biblatex
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              (font-lock-add-keywords nil  '(("\\(\\\\citep\\)\\s-*{" 1 font-lock-keyword-face t)))
+              (font-lock-add-keywords nil  '(("\\(\\\\citet\\)\\s-*{" 1 font-lock-keyword-face t)))
+              (font-latex-add-keywords '(("citep" "*[[{")) 'reference)
+              (font-latex-add-keywords '(("citet" "*[[{")) 'reference)
+              ))
 #+END_SRC
 * Ido Mode
 :PROPERTIES:
