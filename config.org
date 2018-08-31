@@ -77,7 +77,7 @@ Use org-mode from Melpa.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
-    :ensure t
+    :ensure org-plus-contrib
     :defer t
     ;;:init (setq initial-major-mode 'org-mode) ;; Set mode of *scratch* buffer
     :bind (("C-c l" . org-store-link)
@@ -88,6 +88,7 @@ Use org-mode from Melpa.
            ("C-c !" . org-time-stamp-inactive))
     :mode ("\\.org$" . org-mode))
 #+END_SRC
+
 ** Org ID
 :PROPERTIES:
 :ID:       c80598a5-9641-4eed-a672-0be871198a7c
@@ -130,6 +131,46 @@ Use org-mode from Melpa.
   (use-package org-pdfview
     :ensure t)
 #+END_SRC
+** Org Capture Templates
+:PROPERTIES:
+:ID:       2f4a11c1-80b8-4cbc-8838-ea58a63e2f69
+:END:
+#+BEGIN_SRC emacs-lisp
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                 (file+headline "~/Dropbox/org/inbox.org" "Tasks")
+                                 "* TODO %i%?")))
+#+END_SRC
+
+** Org Agenda Files
+:PROPERTIES:
+:ID:       1643a891-f4a6-47e1-9222-bd412bc6539a
+:END:
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-files '("~/Dropbox/org/inbox.org"
+                           "~/Dropbox/org/private.org"
+                           "~/Dropbox/org/work.org"
+                           "~/Dropbox/org/remind.org"))
+#+END_SRC
+
+** Org Refile Targets
+:PROPERTIES:
+:ID:       7c360ae8-eb4d-4e55-946b-8905c6fa8d15
+:END:
+#+BEGIN_SRC emacs-lisp
+  (setq org-refile-targets '(("~/Dropbox/org/work.org" :maxlevel . 4)
+                             ("~/Dropbox/org/private.org" :maxlevel . 3)
+                             ("~/Dropbox/org/someday.org" :level . 1)
+                             ("~/Dropbox/org/remind.org" :maxlevel . 2)))
+#+END_SRC
+
+** Org Keywords
+:PROPERTIES:
+:ID:       9fe6270b-e52e-44c0-81f1-ac7ea7648cca
+:END:
+#+BEGIN_SRC emacs-lisp
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+#+END_SRC
+
 * Interface
 ** Toolbar Deactivation
 :PROPERTIES:
@@ -266,6 +307,12 @@ Which keybindings appears when you press part of a hotkey and wait.
     (setq dashboard-items '((recents . 10)))
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
     (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME"))))
+#+END_SRC
+
+Add agenda to Dashboard
+#+BEGIN_SRC emacs-lisp
+  (setq show-week-agenda t)
+  (add-to-list 'dashboard-items '(agenda) t)
 #+END_SRC
 ** Spaceline
 *** Config

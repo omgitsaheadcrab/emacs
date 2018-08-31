@@ -7,7 +7,7 @@
  '(custom-enabled-themes (quote (tango-dark)))
  '(package-selected-packages
    (quote
-    (org-pdfview org-pdftools company-jedi irony-eldoc yasnippet-snippets yasnippet company-irony irony pretty-mode expand-region latex color-theme org-id swiper popup-kill-ring eterm-256color exec-path-from-shell spaceline-all-the-icons spaceline all-the-icons company dashboard sudo-edit ido-vertical-mode org org-bullets beacon which-key use-package magit hlinum pdf-tools ## auctex)))
+    (org-plus-contrib org-pdfview org-pdftools company-jedi irony-eldoc yasnippet-snippets yasnippet company-irony irony pretty-mode expand-region latex color-theme org-id swiper popup-kill-ring eterm-256color exec-path-from-shell spaceline-all-the-icons spaceline all-the-icons company dashboard sudo-edit ido-vertical-mode org org-bullets beacon which-key use-package magit hlinum pdf-tools ## auctex)))
  '(preview-gs-options
    (quote
     ("-q" "-dNOSAFER" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4")))
@@ -17,7 +17,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Hack" :foundry "SRC" :slant normal :weight normal :height 120 :width normal)))))
+ '(default ((t (:family "Hack" :foundry "SRC" :slant normal :weight normal :height 90 :width normal)))))
 
 ;; Emacs keeps warning about downcase-region, added this by itself.
 (put 'downcase-region 'disabled nil)
