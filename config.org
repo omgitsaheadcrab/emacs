@@ -304,16 +304,18 @@ Which keybindings appears when you press part of a hotkey and wait.
     :ensure t
     :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-items '((recents . 10)))
+    (setq show-week-agenda t)
+    (setq dashboard-items '((recents . 10)
+                            (bookmarks . 2)))
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
     (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME"))))
 #+END_SRC
 
-Add agenda to Dashboard
 #+BEGIN_SRC emacs-lisp
   (setq show-week-agenda t)
   (add-to-list 'dashboard-items '(agenda) t)
 #+END_SRC
+
 ** Spaceline
 *** Config
 :PROPERTIES:
