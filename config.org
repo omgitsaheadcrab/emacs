@@ -1,3 +1,7 @@
+#+STARTUP: overview
+#+TITLE: Emacs Config
+#+CREATOR: Tobias Backer Dirks
+
 * Terminal
 ** Default Shell
 :PROPERTIES:
@@ -300,15 +304,16 @@ Which keybindings appears when you press part of a hotkey and wait.
 :ID:       f3b10f7a-0cf2-49ea-a99e-aebd96c6cc39
 :END:
 #+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq show-week-agenda t)
-    (setq dashboard-items '((recents . 10)
-                            (bookmarks . 2)))
-    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-    (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME"))))
+    (use-package dashboard
+      :ensure t
+      :config
+      (dashboard-setup-startup-hook)
+      (setq show-week-agenda t)
+      (setq dashboard-items '((recents . 10)
+                              (bookmarks . 2)
+                              (projects . 4)))
+      (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+      (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME"))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -365,6 +370,19 @@ Advanced searching.
   (use-package swiper
     :ensure t
     :bind ("C-s" . swiper))
+#+END_SRC
+
+** Projectile
+:PROPERTIES:
+:ID:       841918d2-2cd0-4c4e-a119-8b4f71e6cc6b
+:END:
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-global-mode)
+    (setq projectile-completion-system 'ido)
+    (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map))
 #+END_SRC
 * Useful Tweaks
 ** Consistent Answers
@@ -767,12 +785,15 @@ Enable CUA mode + related settings.
 :ID:       2ef68f66-e742-437d-8363-b2d28785003f
 :END:
 #+BEGIN_SRC emacs-lisp
+  (use-package flx-ido
+    :ensure t)
   ;; ido mode
   (setq ido-enable-flex-matching nil)
   (setq ido-create-new-buffer 'always)
   (setq ido-everywhere 1)
   (setq ido-enable-prefix t)
   (ido-mode 1)
+  (flx-ido-mode 1)
 
   ;; ido vertical
   (use-package ido-vertical-mode
