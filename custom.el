@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
- '(custom-enabled-themes (quote (tango-dark)))
+ ;'(custom-enabled-themes (quote (tango-dark)))
  '(custom-safe-themes
    (quote
     ("7b37f10643dd2fb61b5e1d8c368ca92b022c62ae404e9d0963921518f1108cba" default)))
