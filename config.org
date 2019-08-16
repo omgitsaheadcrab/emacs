@@ -458,6 +458,9 @@ Apparently there is a warning bell/beep and light - not seen it though..
 #+END_SRC
 * Keybindings 
 ** HHKB Super-Meta Switch
+:PROPERTIES:
+:ID:       88bb3bce-61f6-4d4b-9411-bdacd2c61e0d
+:END:
 Check if HHKB connected by counting occurences in dmesg output. If exists swap super and meta keys.
 :PROPERTIES:
 :ID:       64d4cf5b-a82e-4949-abbc-c9f732536200
@@ -583,24 +586,15 @@ Enable CUA mode + related settings.
     :config 
     (global-pretty-mode 0))
 #+END_SRC
-** Colortheme
-:PROPERTIES:
-:ID:       03a33aa1-a740-4017-8fd8-2c92c4aa176b
-:END:
-#+BEGIN_SRC emacs-lisp
-  (use-package color-theme
-    :ensure t
-    :init 
-    (color-theme-initialize))
-#+END_SRC
-
 ** Set Theme
 :PROPERTIES:
 :ID:       dd134dbf-0592-43cb-ab2b-5bebb16a81e5
 :END:
 #+BEGIN_SRC emacs-lisp
-  (load-file "~/.emacs.d/color-theme-sunburst.el")
-  (color-theme-tm)
+  (add-to-list 'custom-theme-load-path
+               (file-name-as-directory "~/.emacs.d/themes/"))
+  (load-theme 'sunburst t t)
+  (enable-theme 'sunburst)
 #+END_SRC
 ** Line Number Colour
 :PROPERTIES:
