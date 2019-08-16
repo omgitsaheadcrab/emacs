@@ -593,17 +593,17 @@ Enable CUA mode + related settings.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory "~/.emacs.d/themes/"))
-  (load-theme 'sunburst t t)
-  (enable-theme 'sunburst)
+  (load-theme 'srcery t t)
+  (enable-theme 'srcery)
 #+END_SRC
 ** Line Number Colour
 :PROPERTIES:
 :ID:       30954de2-c9dd-44db-b8b9-132bb0f789ff
 :END:
 #+BEGIN_SRC emacs-lisp
-  (set-face-foreground 'linum "#444")
-  (set-face-foreground 'linum-highlight-face "#ffff00")
-  (set-face-background 'linum-highlight-face "#111")
+  (set-face-foreground 'linum "#333333")
+  (set-face-foreground 'linum-highlight-face "#FBB829")
+  (set-face-background 'linum-highlight-face "#1C1B19")
 #+END_SRC
 * Backups
 :PROPERTIES:

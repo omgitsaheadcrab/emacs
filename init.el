@@ -1,8 +1,11 @@
-;;; init.el
-; Tobias Backer Dirks
-; 15 August 2018
+;;; init.el --- Initialise emacs
+
+;;; Commentary:
+;; Tobias Backer Dirks
+;; 15 August 2018
 
 ;; Add useful package archives
+;;; Code:
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
@@ -11,7 +14,7 @@
 	     '("org" . "https://orgmode.org/elpa/") t)
 (package-initialize)
 
-;; Start use-package 
+;; Start use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -23,3 +26,5 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 (put 'upcase-region 'disabled nil)
+
+;;; init.el ends here
