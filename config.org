@@ -175,6 +175,14 @@ Use org-mode from Melpa.
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 #+END_SRC
 
+** Org template keywords
+:PROPERTIES:
+:ID:       fe8ef927-284f-40ee-9c15-14e24c284592
+:END:
+#+BEGIN_SRC emacs-lisp
+  (require 'org-tempo)
+#+END_SRC
+
 * Interface
 ** Toolbar Deactivation
 :PROPERTIES:
@@ -449,6 +457,26 @@ Apparently there is a warning bell/beep and light - not seen it though..
     :bind ("s-u" . sudo-edit))
 #+END_SRC
 * Keybindings 
+** HHKB Super-Meta Switch
+Check if HHKB connected by counting occurences in dmesg output. If exists swap super and meta keys.
+:PROPERTIES:
+:ID:       64d4cf5b-a82e-4949-abbc-c9f732536200
+:END:
+#+begin_src emacs-lisp
+  (defun count-occurences (regex string)
+    (recursive-count regex string 0))
+  (defun recursive-count (regex string start)
+    (if (string-match regex string start)
+        (+ 1 (recursive-count regex string (match-end 0)))
+      0))
+  (setq dmesg-out
+        (shell-command-to-string "/usr/bin/dmesg"))
+  (setq hhkb-times 
+        (count-occurences "HHKB" dmesg-out))
+  (if (> hhkb-times 0)
+      (setq  x-meta-keysym 'super
+             x-super-keysym 'meta))
+#+end_src
 ** Reload Config
 :PROPERTIES:
 :ID:       6a4940ee-ca5c-4ce3-b881-cf71108b7094
@@ -536,6 +564,13 @@ Enable CUA mode + related settings.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
+** GCC 
+:PROPERTIES:
+:ID:       2b6daa54-9a91-4fc4-aa45-6574a7a5bd8a
+:END:
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x c") 'compile)
+#+end_src
 * Appearance 
 ** Pretty Symbols
 :PROPERTIES:
@@ -546,7 +581,7 @@ Enable CUA mode + related settings.
   (use-package pretty-mode
     :ensure t
     :config 
-    (global-pretty-mode 1))
+    (global-pretty-mode 0))
 #+END_SRC
 ** Colortheme
 :PROPERTIES:
@@ -609,23 +644,23 @@ Enable CUA mode + related settings.
 :ID:       a7c07d3b-b7cd-4a38-9499-78180798539b
 :END:
 #+BEGIN_SRC emacs-lisp
-  ;; find aspell and hunspell automatically
-  (cond
-   ;; try hunspell at first
-   ;; if hunspell does NOT exist, use aspell
-   ((executable-find "hunspell")
-    (setq ispell-program-name "hunspell")
-    (setq ispell-local-dictionary "en_GB")
-    (setq ispell-local-dictionary-alist
-          ;; Please note the list `("-d" "en_US")` contains ACTUAL parameters passed to hunspell
-          ;; You could use `("-d" "en_US,en_US-med")` to check with multiple dictionaries
-          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_GB") nil utf-8)
-            )))
-
-   ((executable-find "aspell")
-    (setq ispell-program-name "aspell")
-    ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
-    (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
+    ;; find aspell and hunspell automatically
+    (cond
+     ;; try hunspell at first
+     ;; if hunspell does NOT exist, use aspell
+     ((executable-find "hunspell")
+      (setq ispell-program-name "hunspell")
+      (setq ispell-local-dictionary "en_GB")
+      (setq ispell-local-dictionary-alist
+            ;; Please note the list `("-d" "en_US")` contains ACTUAL parameters passed to hunspell
+            ;; You could use `("-d" "en_US,en_US-med")` to check with multiple dictionaries
+            '(("en_GB" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_GB") nil utf-8)
+              ))
+  )
+     ((executable-find "aspell")
+      (setq ispell-program-name "aspell")
+      ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
+      (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -633,7 +668,7 @@ Enable CUA mode + related settings.
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 #+END_SRC
-* Autocompletion
+* Auto-completion
 :PROPERTIES:
 :ID:       1ad0abd2-b839-4703-8b7f-31df04318300
 :END:
@@ -813,6 +848,16 @@ Enable CUA mode + related settings.
   ;; consider .h files as c++ rather than c by default
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 #+END_SRC
+** Markdown
+#+begin_src emacs-lisp
+(use-package markdown-mode
+:ensure t
+:commands (markdown-mode gfm-mode)
+:mode (("README\\.md\\'" . gfm-mode)
+("\\.md\\'" . markdown-mode)
+("\\.markdown\\'" . markdown-mode))
+:init (setq markdown-command "multimarkdown"))
+#+end_src>
 * Magit
 :PROPERTIES:
 :ID:       abd1e2b9-fc03-4cc7-a0e6-23f79edf2600
@@ -822,3 +867,13 @@ Install Magit
   (use-package magit
     :ensure t)
 #+END_SRC
+* Flycheck
+:PROPERTIES:
+:ID:       91f109fb-cbb0-4fb1-8d5c-4815948f09b3
+:END:
+#+begin_src emacs-lisp
+(use-package flycheck
+  :config
+  (progn
+    (global-flycheck-mode)))
+#+end_src

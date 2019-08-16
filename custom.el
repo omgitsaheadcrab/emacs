@@ -7,7 +7,7 @@
  '(custom-enabled-themes (quote (tango-dark)))
  '(package-selected-packages
    (quote
-    (flx-ido projectile org-plus-contrib org-pdfview org-pdftools company-jedi irony-eldoc yasnippet-snippets yasnippet company-irony irony pretty-mode expand-region latex color-theme org-id swiper popup-kill-ring eterm-256color exec-path-from-shell spaceline-all-the-icons spaceline all-the-icons company dashboard sudo-edit ido-vertical-mode org org-bullets beacon which-key use-package magit hlinum pdf-tools ## auctex)))
+    (flycheck markdown-mode org-pdfview flx-ido projectile org-plus-contrib org-pdftools company-jedi irony-eldoc yasnippet company-irony irony pretty-mode expand-region latex color-theme org-id swiper popup-kill-ring eterm-256color exec-path-from-shell spaceline-all-the-icons spaceline all-the-icons company dashboard sudo-edit ido-vertical-mode org org-bullets beacon which-key use-package magit hlinum ## auctex)))
  '(preview-gs-options
    (quote
     ("-q" "-dNOSAFER" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4")))
