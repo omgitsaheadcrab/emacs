@@ -1,0 +1,14 @@
+.persistent-scratch
+.python-environments
+amx-items
+backups
+elpa
+ido.last
+persp-confs
+places
+recentf
+transient
+var
+config.el
+custom.el
+projectile-bookmarks.eld
