@@ -49,29 +49,6 @@ Make sure Emacs shell sees correct system $PATH from .bash_profile
     :config
     (add-hook 'term-mode-hook #'eterm-256color-mode))
 #+END_SRC
-* PDF Tools
-:PROPERTIES:
-:ID:       66f963cc-4540-4388-8036-83794f162430
-:END:
-#+BEGIN_SRC emacs-lisp
-  (use-package pdf-tools
-    :pin manual ;; manually update
-    :config
-    ;; initialise
-    (pdf-tools-install)
-    ;; open pdfs scaled to fit page
-    (setq-default pdf-view-display-size 'fit-height)
-    ;; automatically annotate highlights
-    (setq pdf-annot-activate-created-annotations t)
-    ;; use normal isearch
-    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-    ;; more fine-grained zooming
-    (setq pdf-view-resize-factor 1.1)
-    ;; keyboard shortcuts
-    (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
-    (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
-    (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
-#+END_SRC
 * Org Mode
 ** Org 
 :PROPERTIES:
@@ -126,14 +103,6 @@ Use org-mode from Melpa.
   (setq org-src-window-setup 'current-window)
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
-#+END_SRC
-** Org PDF View
-:PROPERTIES:
-:ID:       655d916d-578b-4bde-a7da-5fd7f9dabb7f
-:END:
-#+BEGIN_SRC emacs-lisp
-  (use-package org-pdfview
-    :ensure t)
 #+END_SRC
 ** Org Capture Templates
 :PROPERTIES:
@@ -245,10 +214,10 @@ Buffers open with vertical split rather than horizontal split by default.
 :PROPERTIES:
 :ID:       0ee5a6d6-d2f9-484d-b63b-4d90e62056ce
 :END:
+** Visual Line Mode
 #+BEGIN_SRC emacs-lisp
   ;; visual line mode (except for pdf)
   (global-visual-line-mode 1)
-  (add-hook 'pdf-view-mode-hook (lambda() (visual-line-mode -1)))
 #+END_SRC
 ** Line Numbers
 :PROPERTIES:
@@ -257,9 +226,6 @@ Buffers open with vertical split rather than horizontal split by default.
 #+BEGIN_SRC emacs-lisp
   ;; line numbers (except for some)
   (global-linum-mode 1)
-  (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
-  (add-hook 'LaTeX-mode-hook (lambda() (linum-mode -1))) ; with Emacs latex mode
-  (add-hook 'latex-mode-hook (lambda() (linum-mode -1))) ; with AUCTeX LaTeX mode
   (use-package hlinum
     :ensure t
     :config
@@ -327,6 +293,7 @@ Which keybindings appears when you press part of a hotkey and wait.
 #+BEGIN_SRC emacs-lisp
   (setq show-week-agenda t)
   (add-to-list 'dashboard-items '(agenda) t)
+  (setq dashboard-center-content t)
 #+END_SRC
 
 ** Spaceline
@@ -656,12 +623,6 @@ Enable CUA mode + related settings.
       ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
       (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
 #+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  ;; enable flyspell-mode by default in org and LaTeX.
-  (add-hook 'org-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-#+END_SRC
 * Auto-completion
 :PROPERTIES:
 :ID:       1ad0abd2-b839-4703-8b7f-31df04318300
@@ -768,46 +729,6 @@ Enable CUA mode + related settings.
 :END:
 #+BEGIN_SRC emacs-lisp
   (add-hook 'bash-mode-hook 'yas-minor-mode)
-#+END_SRC
-* LaTeX 
-:PROPERTIES:
-:ID:       4c10c518-7261-4385-9342-ce0025efd1b9
-:END:
-#+BEGIN_SRC emacs-lisp
-  ;; latex stuff
-  ;;(use-package latex
-  ;;:ensure t)
-  (load "auctex.el" nil t t)
-  (load "preview-latex.el" nil t t)
-
-    ;;; AUCTeX config
-  (setq TeX-auto-save t
-        TeX-parse-self t)
-
-  ;; master file in latex reset - ask user if not specified
-  (setq-default TeX-master nil)
-
-  ;; enable RefTeX in AUCTeX (LaTeX-mode)
-  (setq reftex-plug-into-AUCTeX t)
-  (add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex) ; with AUCTeX LaTeX mode
-
-
-  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-        TeX-source-correlate-start-server t)
-
-  ;; Update PDF buffers after successful LaTeX runs
-  (add-hook 'TeX-after-compilation-finished-functions
-            #'TeX-revert-document-buffer)
-
-  ;; set special font highlighting for natbib \cite* commands under biblatex
-  (add-hook 'LaTeX-mode-hook
-            (lambda ()
-              (font-lock-add-keywords nil  '(("\\(\\\\citep\\)\\s-*{" 1 font-lock-keyword-face t)))
-              (font-lock-add-keywords nil  '(("\\(\\\\citet\\)\\s-*{" 1 font-lock-keyword-face t)))
-              (font-latex-add-keywords '(("citep" "*[[{")) 'reference)
-              (font-latex-add-keywords '(("citet" "*[[{")) 'reference)
-              ))
 #+END_SRC
 * Ido Mode
 :PROPERTIES:
