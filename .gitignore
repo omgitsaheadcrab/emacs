@@ -12,3 +12,5 @@ var
 config.el
 custom.el
 projectile-bookmarks.eld
+bookmarks
+recentf~

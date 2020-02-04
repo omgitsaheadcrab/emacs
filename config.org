@@ -444,8 +444,19 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
   (setq hhkb-times 
         (count-occurences "HHKB" dmesg-out))
   (if (> hhkb-times 0)
-      (setq  x-meta-keysym 'super
-             x-super-keysym 'meta))
+      (progn
+        (setq  x-meta-keysym 'super
+               x-super-keysym 'meta)
+        (message "HHKB connected on Linux.")))
+#+end_src
+** MacOS Super-Meta Bind
+Check if host system is running MacOS and bind super and meta if true.
+#+begin_src emacs-lisp
+  (if (string-equal system-type "darwin")
+      (progn
+        (setq mac-command-modifier 'meta
+              mac-option-modifier 'super)
+        (message "MacOS detected.")))
 #+end_src
 ** Reload Config
 :PROPERTIES:
