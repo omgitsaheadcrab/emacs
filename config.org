@@ -537,21 +537,9 @@ Enable CUA mode + related settings.
   (transient-mark-mode 1) ;; No region when it is not highlighted
   (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 #+END_SRC
-
-** Magit
-:PROPERTIES:
-:ID:       515145bf-fd94-4142-a3ed-cb1cbd5f4bdf
-:END:
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
-** GCC 
-:PROPERTIES:
-:ID:       2b6daa54-9a91-4fc4-aa45-6574a7a5bd8a
-:END:
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-x c") 'compile)
-#+end_src
+
 * Appearance 
 ** Pretty Symbols
 :PROPERTIES:
@@ -773,6 +761,7 @@ Enable CUA mode + related settings.
 #+BEGIN_SRC emacs-lisp
   ;; consider .h files as c++ rather than c by default
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  (global-set-key (kbd "C-x c") 'compile)
 #+END_SRC
 ** Markdown
 #+begin_src emacs-lisp
@@ -792,6 +781,7 @@ Install Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t)
+  (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
 * Flycheck
 :PROPERTIES:
