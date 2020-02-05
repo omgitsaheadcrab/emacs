@@ -630,68 +630,6 @@ Enable CUA mode + related settings.
       ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
       (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
 #+END_SRC
-* Auto-completion
-:PROPERTIES:
-:ID:       1ad0abd2-b839-4703-8b7f-31df04318300
-:END:
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :init
-    (add-hook 'after-init-hook 'global-company-mode)
-    :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package company-irony
-    :ensure t
-    :config
-    (require 'company)
-    (add-to-list 'company-backends 'company-irony))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package irony
-    :ensure t
-    :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
-    (add-hook 'c++-mode-hook 'company-mode)
-    (add-hook 'c-mode-hook 'company-mode))
-#+END_SRC
-  
-#+BEGIN_SRC emacs-lisp
-  (use-package irony-eldoc
-    :ensure t
-    :config
-    (add-hook 'irony-mode-hook #'irony-eldoc))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package company-jedi
-    :ensure t
-    :config
-    (add-hook 'python-mode-hook 'jedi:setup))
-#+END_SRC
- 
-#+BEGIN_SRC emacs-lisp
-  (defun my/python-mode-hook ()
-    (add-to-list 'company-backends 'company-jedi))
-  (add-hook 'python-mode-hook 'my/python-mode-hook)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (setq py-python-command "python3")
-  (setq python-shell-interpreter "python3")
-
-#+END_SRC
 * Snippets
 ** Enable Yasnippet
 :PROPERTIES:
@@ -792,13 +730,3 @@ Install Magit
     :ensure t)
   (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
-* Flycheck
-:PROPERTIES:
-:ID:       91f109fb-cbb0-4fb1-8d5c-4815948f09b3
-:END:
-#+begin_src emacs-lisp
-(use-package flycheck
-  :config
-  (progn
-    (global-flycheck-mode)))
-#+end_src
