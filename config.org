@@ -537,7 +537,15 @@ Enable CUA mode + related settings.
   (transient-mark-mode 1) ;; No region when it is not highlighted
   (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 #+END_SRC
+** Projectile Find File When In Project
 #+BEGIN_SRC emacs-lisp
+  (defun maybe-projectile-find-file ()
+    (interactive)
+    (call-interactively
+     (if (projectile-project-p)
+         #'projectile-find-file
+       #'ido-find-file)))
+  (global-set-key (kbd "C-x C-f") 'maybe-projectile-find-file) 
 #+END_SRC
 
 * Appearance 
@@ -743,6 +751,7 @@ Enable CUA mode + related settings.
   (setq ido-enable-prefix t)
   (ido-mode 1)
   (flx-ido-mode 1)
+  (setq ido-file-extensions-order '(".py" ".org" ".txt" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
 
   ;; ido vertical
   (use-package ido-vertical-mode
