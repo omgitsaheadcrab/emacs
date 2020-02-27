@@ -720,6 +720,34 @@ Enable CUA mode + related settings.
 ("\\.markdown\\'" . markdown-mode))
 :init (setq markdown-command "multimarkdown"))
 #+end_src>
+** Python
+#+begin_src emacs-lisp
+(use-package python
+  :ensure nil
+  :hook (inferior-python-mode . (lambda ()
+                                  (process-query-on-exit-flag
+                                   (get-process "Python"))))
+  :init
+  ;; Disable readline based native completion
+  (setq python-shell-completion-native-enable nil)
+  :config
+  ;; Default to Python 3. Prefer the versioned Python binaries since some
+  ;; systems stupidly make the unversioned one point at Python 2.
+  (when (and (executable-find "python2")
+             (string= python-shell-interpreter "python2"))
+    (setq python-shell-interpreter "python2"))
+
+  ;; Env vars
+  (with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-env "PYTHONPATH"))
+
+  ;; Live Coding in Python
+  (use-package live-py-mode)
+
+  (use-package python-black
+    :demand t
+    :after python))
+#+end_src>
 * Magit
 :PROPERTIES:
 :ID:       abd1e2b9-fc03-4cc7-a0e6-23f79edf2600
