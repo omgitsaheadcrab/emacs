@@ -16,3 +16,5 @@ bookmarks
 recentf~
 auto-save-list
 .org-id-locations
+.cache
+.lsp-session-v1
