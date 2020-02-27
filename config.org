@@ -822,3 +822,23 @@ Install Magit
                             (require 'lsp-python-ms)
                             (lsp-deferred))))
 #+end_src
+* Company
+#+begin_src emacs-lisp
+   (use-package company
+  :config
+  (setq company-idle-delay 0.3)
+
+  (global-company-mode 1)
+
+  (global-set-key (kbd "C-<tab>") 'company-complete))
+
+(use-package company-lsp
+  :requires company
+  :config
+  (push 'company-lsp company-backends)
+
+   ;; Disable client-side cache because the LSP server does a better job.
+  (setq company-transformers nil
+        company-lsp-async t
+        company-lsp-cache-candidates nil))
+#+end_src
