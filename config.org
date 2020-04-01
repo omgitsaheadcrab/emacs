@@ -2,7 +2,7 @@
 #+TITLE: Emacs Config
 #+CREATOR: Tobias Backer Dirks
 
-* Appearance 
+* Appearance
 ** Pretty Symbols
 :PROPERTIES:
 :ID:       054e44bc-f5da-4d6c-a629-fd4799aaafa1
@@ -617,23 +617,6 @@ Use org-mode from Melpa.
                                  "* TODO %i%?")))
 #+END_SRC
 
-** Org Ellipses
-Replace the content marker, “⋯”, with a nice unicode arrow.
-
-#+begin_src emacs-lisp
-(setq org-ellipsis " ⤵")
-#+end_src
-
-** Org ID
-:PROPERTIES:
-:ID:       c80598a5-9641-4eed-a672-0be871198a7c
-:END:
-#+BEGIN_SRC emacs-lisp
-  (use-package org-id
-    :config
-    (org-link-set-parameters "id" :store #'org-id-store-link))
-#+END_SRC
-
 ** Org Keywords
 :PROPERTIES:
 :ID:       9fe6270b-e52e-44c0-81f1-ac7ea7648cca
@@ -859,11 +842,17 @@ Setting yes and no to y and n for brevity and consistency.
 #+END_SRC
 
 ** Delete Selection Mode
+:PROPERTIES:
+:ID:       80bbc030-cb8e-4c99-a6a4-b17c79326f5e
+:END:
 #+begin_src emacs-lisp
 (delete-selection-mode 1)
 #+end_src
 
 ** Move Line
+:PROPERTIES:
+:ID:       194ebea4-defe-42f8-9225-9bf47355c135
+:END:
 #+begin_src emacs-lisp
 ;; M-↑,↓ moves line, or marked region; prefix is how many lines.
 (use-package move-text
