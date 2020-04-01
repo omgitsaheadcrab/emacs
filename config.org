@@ -105,6 +105,18 @@
         company-lsp-cache-candidates nil))
 #+end_src
 
+* Fun & Games
+** Typing Of Emacs
+#+begin_src emacs-lisp
+(use-package typing-of-emacs :defer t
+  :quelpa (typing :fetcher wiki :url "https://www.emacswiki.org/emacs/typing.el"))
+#+end_src>
+
+** Speed Type
+#+begin_src emacs-lisp
+(use-package speed-type :defer t)
+#+end_src>
+
 * Ido Mode
 :PROPERTIES:
 :ID:       2ef68f66-e742-437d-8363-b2d28785003f
