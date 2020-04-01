@@ -908,6 +908,15 @@ Setting yes and no to y and n for brevity and consistency.
   (electric-pair-mode t)
 #+END_SRC
 
+** Persistent Scratch
+#+begin_src emacs-lisp
+(use-package persistent-scratch
+  :defer t
+  ;; In this mode, the usual save key saves to the underlying persistent file.
+  :bind (:map persistent-scratch-mode-map
+              ("C-x C-s" . persistent-scratch-save)))
+#+end_src>
+
 ** Sudo Edit
 :PROPERTIES:
 :ID:       68be1506-4bcc-43f5-a389-b5e40577ee83
@@ -950,12 +959,3 @@ Apparently there is a warning bell/beep and light - not seen it though..
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
 #+END_SRC
-
-** Persistent Scratch
-#+begin_src emacs-lisp
-(use-package persistent-scratch
-  :defer t
-  ;; In this mode, the usual save key saves to the underlying persistent file.
-  :bind (:map persistent-scratch-mode-map
-              ("C-x C-s" . persistent-scratch-save)))
-#+end_src>
