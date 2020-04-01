@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: omgitsaheadcrab <omgitsaheadcrab@gmail.com>
+# name: Git Co-authors yReceipts
+# key: gitcoauth-yr
+# binding: C-g C-c C-a
+# --
+Co-authored-by: $1 <$2@yreceipts.com>

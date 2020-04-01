@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: omgitsaheadcrab <omgitsaheadcrab@gmail.com>
+# name: Git Co-authors
+# key: gitcoauth
+# --
+Co-authored-by: $1 <$2>
