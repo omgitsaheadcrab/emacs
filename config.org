@@ -617,6 +617,13 @@ Use org-mode from Melpa.
                                  "* TODO %i%?")))
 #+END_SRC
 
+** Org Ellipses
+Replace the content marker, “⋯”, with a nice unicode arrow.
+
+#+begin_src emacs-lisp
+(setq org-ellipsis " ⤵")
+#+end_src
+
 ** Org ID
 :PROPERTIES:
 :ID:       c80598a5-9641-4eed-a672-0be871198a7c
