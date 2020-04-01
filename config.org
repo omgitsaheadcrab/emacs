@@ -440,8 +440,8 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
         (count-occurences "HHKB" dmesg-out))
   (if (> hhkb-times 0)
       (progn
-        (setq  x-meta-keysym 'super
-               x-super-keysym 'meta)
+        ;; (setq  x-meta-keysym 'meta
+        ;;        x-super-keysym 'super)
         (message "HHKB connected on Linux.")))
 #+end_src
 
