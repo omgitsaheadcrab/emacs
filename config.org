@@ -858,6 +858,18 @@ Setting yes and no to y and n for brevity and consistency.
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
+** Delete Selection Mode
+#+begin_src emacs-lisp
+(delete-selection-mode 1)
+#+end_src
+
+** Move Line
+#+begin_src emacs-lisp
+;; M-↑,↓ moves line, or marked region; prefix is how many lines.
+(use-package move-text
+  :config (move-text-default-bindings))
+#+end_src
+
 ** Pair Completion
 :PROPERTIES:
 :ID:       6d7edb6d-17ae-4be8-ab78-c9d08f5a9b49
