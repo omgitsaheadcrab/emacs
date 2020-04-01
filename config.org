@@ -81,6 +81,36 @@
       (backup-buffer)))
 #+END_SRC
 
+* Button Lock
+Enable button lock mode
+#+begin_src emacs-lisp
+(use-package button-lock
+:ensure t
+:config (global-button-lock-mode 1))
+#+end_src
+
+
+#+begin_src emacs-lisp
+(defun test-link ()
+    (interactive)
+    (button-lock-set-button
+     "test\\?name=[a-zA-Z0-9_\\.]*"
+     (lambda ()
+       (interactive)
+       (browse-url (concat "http://localhost:8080/"
+                           (buffer-substring
+                            (previous-single-property-change (point) 'mouse-face)
+                            (next-single-property-change (point) 'mouse-face)))))
+     :face 'link
+     :face-policy 'prepend
+     :keyboard-binding "RET"))
+#+end_src
+
+#+begin_src emacs-lisp
+(add-hook 'python-mode-hook
+          (lambda ()  (test-link)))
+#+end_src
+
 * Company
 :PROPERTIES:
 :ID:       aa1642d2-2cd6-4204-8052-4de2162e56d9
@@ -853,6 +883,7 @@ Setting yes and no to y and n for brevity and consistency.
 #+begin_src emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+end_src
+
 ** Move Line
 :PROPERTIES:
 :ID:       194ebea4-defe-42f8-9225-9bf47355c135
