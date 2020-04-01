@@ -13,7 +13,7 @@
 #+BEGIN_SRC emacs-lisp
   (use-package pretty-mode
     :ensure t
-    :config 
+    :config
     (global-pretty-mode 0))
 #+END_SRC
 
@@ -32,13 +32,13 @@
 
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
-  
+
     ;; Enable custom neotree theme (all-the-icons must be installed!)
     (doom-themes-neotree-config)
     ;; or for treemacs users
     (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
     (doom-themes-treemacs-config)
-  
+
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
 #+END_SRC
@@ -364,7 +364,7 @@ Dim unused windows.
   :config (dimmer-mode))
 #+end_src>
 
-* Keybindings 
+* Keybindings
 ** Copy Whole Line
 :PROPERTIES:
 :ID:       36d8fcc9-bb3b-43bc-ba5f-4ed5530fab62
@@ -436,7 +436,7 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
       0))
   (setq dmesg-out
         (shell-command-to-string "/usr/bin/dmesg"))
-  (setq hhkb-times 
+  (setq hhkb-times
         (count-occurences "HHKB" dmesg-out))
   (if (> hhkb-times 0)
       (progn
@@ -561,7 +561,7 @@ Install Magit
 #+END_SRC
 
 * Org Mode
-** Org 
+** Org
 :PROPERTIES:
 :ID:       b8727327-3f58-4271-aab3-13c4c50a6fd5
 :END:
@@ -849,6 +849,10 @@ Setting yes and no to y and n for brevity and consistency.
 (delete-selection-mode 1)
 #+end_src
 
+** Delete Trailing Whitespace
+#+begin_src emacs-lisp
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
 ** Move Line
 :PROPERTIES:
 :ID:       194ebea4-defe-42f8-9225-9bf47355c135
@@ -924,4 +928,3 @@ Apparently there is a warning bell/beep and light - not seen it though..
   :bind (:map persistent-scratch-mode-map
               ("C-x C-s" . persistent-scratch-save)))
 #+end_src>
-
