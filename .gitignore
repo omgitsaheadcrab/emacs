@@ -18,3 +18,6 @@ auto-save-list
 .org-id-locations
 .cache
 .lsp-session-v1
+/eshell/
+/irony/
+/tramp
