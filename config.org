@@ -3,36 +3,46 @@
 #+CREATOR: Tobias Backer Dirks
 
 * Appearance 
-** Line Number Colour
-:PROPERTIES:
-:ID:       30954de2-c9dd-44db-b8b9-132bb0f789ff
-:END:
-#+BEGIN_SRC emacs-lisp
-  (set-face-foreground 'linum "#333333")
-  (set-face-foreground 'linum-highlight-face "#FBB829")
-  (set-face-background 'linum-highlight-face "#1C1B19")
-#+END_SRC
 ** Pretty Symbols
 :PROPERTIES:
-:ID:       2eba590b-acdd-40de-83fd-3cc140ce777f
+:ID:       054e44bc-f5da-4d6c-a629-fd4799aaafa1
 :END:
-
+:PROPERTIES:
+:ID:       2eba590b-acdd-40de-83fd-3cc140ce777f
+:END
 #+BEGIN_SRC emacs-lisp
   (use-package pretty-mode
     :ensure t
     :config 
     (global-pretty-mode 0))
 #+END_SRC
+
 ** Set Theme
 :PROPERTIES:
 :ID:       dd134dbf-0592-43cb-ab2b-5bebb16a81e5
 :END:
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'custom-theme-load-path
-               (file-name-as-directory "~/.emacs.d/themes/"))
-  (load-theme 'srcery t t)
-  (enable-theme 'srcery)
+  (use-package doom-themes
+    :ensure t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-tomorrow-night t)
+
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+  
+    ;; Enable custom neotree theme (all-the-icons must be installed!)
+    (doom-themes-neotree-config)
+    ;; or for treemacs users
+    (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+    (doom-themes-treemacs-config)
+  
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
 #+END_SRC
+
 * Backups
 :PROPERTIES:
 :ID:       1e20764b-eb6e-47da-94da-29d58674fe9a
@@ -61,6 +71,7 @@
     (let ((buffer-backed-up nil))
       (backup-buffer)))
 #+END_SRC
+
 * Company
 :PROPERTIES:
 :ID:       aa1642d2-2cd6-4204-8052-4de2162e56d9
@@ -84,6 +95,7 @@
         company-lsp-async t
         company-lsp-cache-candidates nil))
 #+end_src
+
 * Ido Mode
 :PROPERTIES:
 :ID:       2ef68f66-e742-437d-8363-b2d28785003f
@@ -109,6 +121,7 @@
   ;; ido switch buffer
   (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 #+END_SRC
+
 * Interface
 ** Beacon
 :PROPERTIES:
@@ -122,6 +135,7 @@ Highlight current cursor position with fancy fade.
     :init
     (beacon-mode 1))
 #+END_SRC
+
 ** Buffers
 :PROPERTIES:
 :ID:       15b2fba8-29d8-4d50-8326-98afdf59d431
@@ -133,6 +147,7 @@ Highlight current cursor position with fancy fade.
   ;; ibuffer expert mode (delete without asking)
   (setq ibuffer-expert t)
 #+END_SRC
+
 ** Column Numbers
 :PROPERTIES:
 :ID:       3af55133-ad30-47b0-9b60-c8cf569b517e
@@ -140,6 +155,7 @@ Highlight current cursor position with fancy fade.
 #+BEGIN_SRC emacs-lisp
   (column-number-mode 1)
 #+END_SRC
+
 ** Conservative Scrolling
 :PROPERTIES:
 :ID:       94138b24-ecad-46af-916d-db3f8781a66c
@@ -193,6 +209,7 @@ Reducing scroll distance so it's actually useful.
     :config
     (hlinum-activate))
 #+END_SRC
+
 ** Menubar Deactivation
 :PROPERTIES:
 :ID:       03488665-43ac-46ac-bae1-d7b171059c11
@@ -223,6 +240,7 @@ Reducing scroll distance so it's actually useful.
     (setq projectile-completion-system 'ido)
     (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map))
 #+END_SRC
+
 ** Scrollbar Deactivation
 :PROPERTIES:
 :ID:       ff5d758e-d6ba-4676-844a-95d17565f516
@@ -245,6 +263,7 @@ Buffers open with vertical split rather than horizontal split by default.
         (set-window-buffer (split-window-horizontally) (cadr buffers)))))
   (add-hook 'emacs-startup-hook '2-windows-vertical-to-horizontal)
 #+END_SRC
+
 ** Spaceline
 *** Config
 :PROPERTIES:
@@ -260,6 +279,7 @@ Buffers open with vertical split rather than horizontal split by default.
     (spaceline-helm-mode 1)
     (spaceline-emacs-theme))
 #+END_SRC
+
 *** Theme
 :PROPERTIES:
 :ID:       ef8aa0aa-ca90-4922-bf3f-ddd7dcf792fd
@@ -275,6 +295,7 @@ Buffers open with vertical split rather than horizontal split by default.
     (setq-default spaceline-all-the-icons-separator-type 'arrow)
     (setq spaceline-all-the-icons-hide-long-buffer-path t))
 #+END_SRC
+
 ** Swiper
 :PROPERTIES:
 :ID:       804cc97a-954e-4e7d-b5bc-07f92103f72f
@@ -302,6 +323,7 @@ Advanced searching.
   ;; visual line mode (except for pdf)
   (global-visual-line-mode 1)
 #+END_SRC
+
 ** Which Key
 :PROPERTIES:
 :ID:       f7cd90ae-4cd5-4564-afbd-be6f4d680f2d
@@ -314,6 +336,7 @@ Which keybindings appears when you press part of a hotkey and wait.
     :init
     (which-key-mode))
 #+END_SRC
+
 * Keybindings 
 ** Copy Whole Line
 :PROPERTIES:
@@ -329,6 +352,7 @@ Which keybindings appears when you press part of a hotkey and wait.
         (point-at-eol)))))
   (global-set-key (kbd "C-c w l") 'copy-whole-line)
 #+END_SRC
+
 ** Expand Region
 :PROPERTIES:
 :ID:       bc4c16bd-7f4e-4fc6-a9bc-a4e05d9a55e6
@@ -338,6 +362,7 @@ Which keybindings appears when you press part of a hotkey and wait.
     :ensure t
     :bind ("C-q" . er/expand-region))
 #+End_SRC
+
 ** F5 Refresh
 :PROPERTIES:
 :ID:       bf88588e-444c-4ee7-a6fd-915ecac5e177
@@ -386,6 +411,7 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
                x-super-keysym 'meta)
         (message "HHKB connected on Linux.")))
 #+end_src
+
 ** Kill All Buffers
 :PROPERTIES:
 :ID:       326c4224-9bd6-4369-b02e-6f064fc4adc7
@@ -396,6 +422,7 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
     (mapc 'kill-buffer (buffer-list)))
   (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
 #+END_SRC
+
 ** MacOS Super-Meta Bind
 :PROPERTIES:
 :ID:       ca1cb7ed-b65c-4b4f-b3ed-b7d058d06e07
@@ -408,6 +435,7 @@ Check if host system is running MacOS and bind super and meta if true.
               mac-option-modifier 'super)
         (message "MacOS detected.")))
 #+end_src
+
 ** Projectile Find File When In Project
 :PROPERTIES:
 :ID:       ad3732c2-d55d-48e1-a66a-346a9fe2062b
@@ -433,6 +461,7 @@ Check if host system is running MacOS and bind super and meta if true.
 
   (global-set-key (kbd "C-s-M-u") 'reload-init-file)
 #+END_SRC
+
 * LSP
 :PROPERTIES:
 :ID:       140061e3-3985-423b-b578-841b25f67bff
@@ -500,6 +529,7 @@ Check if host system is running MacOS and bind super and meta if true.
                             (require 'lsp-python-ms)
                             (lsp-deferred))))
 #+end_src
+
 * Magit
 :PROPERTIES:
 :ID:       abd1e2b9-fc03-4cc7-a0e6-23f79edf2600
@@ -510,6 +540,7 @@ Install Magit
     :ensure t)
   (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
+
 * Org Mode
 ** Org 
 :PROPERTIES:
@@ -576,6 +607,7 @@ Use org-mode from Melpa.
     :config
     (org-link-set-parameters "id" :store #'org-id-store-link))
 #+END_SRC
+
 ** Org Keywords
 :PROPERTIES:
 :ID:       9fe6270b-e52e-44c0-81f1-ac7ea7648cca
@@ -595,7 +627,8 @@ Use org-mode from Melpa.
                              ("~/Dropbox/org/remind.org" :maxlevel . 2)))
 #+END_SRC
 
-** Org Settings
+** Org Sett
+ings
 :PROPERTIES:
 :ID:       9b3acb45-4ef9-4c95-8d17-82549e282738
 :END:
@@ -605,6 +638,7 @@ Use org-mode from Melpa.
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
 #+END_SRC
+
 ** Org template keywords
 :PROPERTIES:
 :ID:       fe8ef927-284f-40ee-9c15-14e24c284592
@@ -623,6 +657,7 @@ Use org-mode from Melpa.
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   (global-set-key (kbd "C-x c") 'compile)
 #+END_SRC
+
 ** Markdown
 #+begin_src emacs-lisp
 (use-package markdown-mode
@@ -633,6 +668,7 @@ Use org-mode from Melpa.
 ("\\.markdown\\'" . markdown-mode))
 :init (setq markdown-command "multimarkdown"))
 #+end_src>
+
 ** Python
 #+begin_src emacs-lisp
 (use-package python
@@ -661,6 +697,7 @@ Use org-mode from Melpa.
     :demand t
     :after python))
 #+end_src>
+
 * Snippets
 ** Enable Yasnippet
 :PROPERTIES:
@@ -674,6 +711,7 @@ Use org-mode from Melpa.
       :ensure t)
     (yas-reload-all))
 #+END_SRC
+
 ** Individual Mode Hooks
 *** C++
 :PROPERTIES:
@@ -706,6 +744,7 @@ Use org-mode from Melpa.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'bash-mode-hook 'yas-minor-mode)
 #+END_SRC
+
 * Spellchecking
 :PROPERTIES:
 :ID:       a7c07d3b-b7cd-4a38-9499-78180798539b
@@ -729,8 +768,11 @@ Use org-mode from Melpa.
       ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
       (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_GB"))))
 #+END_SRC
+
 * Terminal
 ** Colour
+Enable more terminal colours.
+
 :PROPERTIES:
 :ID:       fe131591-ba56-4ede-82d1-5faee46a4708
 :END:
@@ -740,6 +782,7 @@ Use org-mode from Melpa.
     :config
     (add-hook 'term-mode-hook #'eterm-256color-mode))
 #+END_SRC
+
 ** Default Shell
 :PROPERTIES:
 :ID:       a1ca5ac0-f458-4b82-afd0-492106f3435d
@@ -800,6 +843,7 @@ Setting yes and no to y and n for brevity and consistency.
                               (?\' . ?\')))
   (electric-pair-mode t)
 #+END_SRC
+
 ** Sudo Edit
 :PROPERTIES:
 :ID:       68be1506-4bcc-43f5-a389-b5e40577ee83
@@ -809,6 +853,7 @@ Setting yes and no to y and n for brevity and consistency.
     :ensure t
     :bind ("s-u" . sudo-edit))
 #+END_SRC
+
 ** UTF-8
 *** UTF-8 Uppercase Declaration
 :PROPERTIES:
@@ -817,6 +862,7 @@ Setting yes and no to y and n for brevity and consistency.
 #+BEGIN_SRC emacs-lisp
   (define-coding-system-alias 'UTF-8 'utf-8)
 #+END_SRC
+
 *** UFT-8 Everywhere
 :PROPERTIES:
 :ID:       35e57af2-28d4-49fb-bb3d-a3818f5bcabb
@@ -830,6 +876,7 @@ Setting yes and no to y and n for brevity and consistency.
   (when (display-graphic-p)
     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 #+END_SRC
+
 ** Warning Bell Deactivation
 :PROPERTIES:
 :ID:       6bae70ba-ddce-4da4-82d5-04f6150c2e8d
