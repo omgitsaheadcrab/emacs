@@ -653,8 +653,7 @@ Replace the content marker, “⋯”, with a nice unicode arrow.
                              ("~/Dropbox/org/remind.org" :maxlevel . 2)))
 #+END_SRC
 
-** Org Sett
-ings
+** Org Settings
 :PROPERTIES:
 :ID:       9b3acb45-4ef9-4c95-8d17-82549e282738
 :END:
@@ -665,7 +664,7 @@ ings
   (setq org-src-tab-acts-natively t)
 #+END_SRC
 
-** Org template keywords
+** Org Template Keywords
 :PROPERTIES:
 :ID:       fe8ef927-284f-40ee-9c15-14e24c284592
 :END:
@@ -797,6 +796,9 @@ ings
 
 * Terminal
 ** Colour
+:PROPERTIES:
+:ID:       22ca5483-0ba7-48a9-a414-3aab8c245022
+:END:
 Enable more terminal colours.
 
 :PROPERTIES:
