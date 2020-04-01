@@ -436,20 +436,6 @@ Check if host system is running MacOS and bind super and meta if true.
         (message "MacOS detected.")))
 #+end_src
 
-** Projectile Find File When In Project
-:PROPERTIES:
-:ID:       ad3732c2-d55d-48e1-a66a-346a9fe2062b
-:END:
-#+BEGIN_SRC emacs-lisp
-  ;; (defun maybe-projectile-find-file ()
-  ;;   (interactive)
-  ;;   (call-interactively
-  ;;    (if (projectile-project-p)
-  ;;        #'projectile-find-file
-  ;;      #'ido-find-file)))
-  ;; (bind-key (kbd "C-x C-f C-f") 'maybe-projectile-find-file) 
-#+END_SRC
-
 ** Reload Config
 :PROPERTIES:
 :ID:       6a4940ee-ca5c-4ce3-b881-cf71108b7094
