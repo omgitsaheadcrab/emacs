@@ -927,3 +927,12 @@ Apparently there is a warning bell/beep and light - not seen it though..
   (setq ring-bell-function 'ignore)
 #+END_SRC
 
+** Persistent Scratch
+#+begin_src emacs-lisp
+(use-package persistent-scratch
+  :defer t
+  ;; In this mode, the usual save key saves to the underlying persistent file.
+  :bind (:map persistent-scratch-mode-map
+              ("C-x C-s" . persistent-scratch-save)))
+#+end_src>
+
