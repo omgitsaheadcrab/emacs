@@ -403,6 +403,12 @@ Setting buffer refresh to F5 as usual in other programs.
                      (revert-buffer t (not (buffer-modified-p)) t)))
 #+END_SRC
 
+** Font Size
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+#+end_src>
+
 ** Goto-line
 :PROPERTIES:
 :ID:       2faf3100-352b-47c7-9a21-8a847b32c115
