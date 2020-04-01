@@ -7,17 +7,33 @@
 ;; Add useful package archives
 ;;; Code:
 (require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/") t)
+
+;; Internet repositories for new packages.
+(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
+                         ("gnu"       . "http://elpa.gnu.org/packages/")
+                         ("melpa"     . "http://melpa.org/packages/")))
+
+;; Actually get “package” to work.
 (package-initialize)
+(package-refresh-contents)
 
 ;; Start use-package
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
   (package-install 'use-package))
+(require 'use-package)
+;; Always install packages automatically if not already installed
+(setq use-package-always-ensure t)
+
+;; Auto update packages on start
+(use-package auto-package-update
+  :defer 10
+  :config
+  ;; Delete residual old versions
+  (setq auto-package-update-delete-old-versions t)
+  ;; Do not bother me when updates have taken place.
+  (setq auto-package-update-hide-results t)
+  ;; Update installed packages at startup if there is an update pending.
+  (auto-package-update-maybe))
 
 ;; Load remainder of config from config.org
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
