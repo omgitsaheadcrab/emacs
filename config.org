@@ -52,6 +52,12 @@
     (doom-themes-org-config))
 #+END_SRC
 
+#+begin_src emacs-lisp
+(use-package poet-theme
+  :ensure t)
+;; (load-theme 'poet t)
+#+end_src
+
 * Backups
 :PROPERTIES:
 :ID:       1e20764b-eb6e-47da-94da-29d58674fe9a
