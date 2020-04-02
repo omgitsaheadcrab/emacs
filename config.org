@@ -191,13 +191,24 @@ Highlight current cursor position with fancy fade.
 :PROPERTIES:
 :ID:       15b2fba8-29d8-4d50-8326-98afdf59d431
 :END:
+Better buffers with ibuffer
 #+BEGIN_SRC emacs-lisp
-  ;; better buffers with ibuffer
   (global-set-key (kbd "C-x b") 'ibuffer)
 
   ;; ibuffer expert mode (delete without asking)
   (setq ibuffer-expert t)
 #+END_SRC
+
+Group buffers by version control project
+#+begin_src emacs-lisp
+  (use-package ibuffer-vc
+      :ensure t)
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (ibuffer-vc-set-filter-groups-by-vc-root)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic))))
+#+end_src
 
 ** Column Numbers
 :PROPERTIES:
