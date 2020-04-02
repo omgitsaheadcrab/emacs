@@ -3,6 +3,15 @@
 #+CREATOR: Tobias Backer Dirks
 
 * Appearance
+** All The Icons
+#+begin_src emacs-lisp
+(use-package all-the-icons
+:ensure t)
+;; While we're at it: Make dired, ‘dir’ectory ‘ed’itor, look pretty
+(use-package all-the-icons-dired
+:hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
 ** Pretty Symbols
 :PROPERTIES:
 :ID:       054e44bc-f5da-4d6c-a629-fd4799aaafa1
@@ -42,15 +51,6 @@
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
 #+END_SRC
-
-** All The Icons
-#+begin_src emacs-lisp
-(use-package all-the-icons
-:ensure t)
-;; While we're at it: Make dired, ‘dir’ectory ‘ed’itor, look pretty
-(use-package all-the-icons-dired
-:hook (dired-mode . all-the-icons-dired-mode))
-#+end_src
 
 * Backups
 :PROPERTIES:
@@ -136,15 +136,16 @@ Enable button lock mode
 #+end_src
 
 * Fun & Games
-** Typing Of Emacs
-#+begin_src emacs-lisp
-(use-package typing-of-emacs :defer t
-  :quelpa (typing :fetcher wiki :url "https://www.emacswiki.org/emacs/typing.el"))
-#+end_src
-
 ** Speed Type
 #+begin_src emacs-lisp
 (use-package speed-type :defer t)
+#+end_src
+
+** Typing Of Emacs
+#+begin_src emacs-lisp
+(use-package typing
+  :defer t
+  :quelpa (typing :fetcher wiki :url "https://www.emacswiki.org/emacs/typing.el"))
 #+end_src
 
 * Ido Mode
@@ -774,20 +775,20 @@ Automagically resolve imports (requires importmagic and epc)
 #+END_SRC
 
 ** Individual Mode Hooks
+*** Bash
+:PROPERTIES:
+:ID:       5d6a92f4-f6d2-40e3-ae07-c57cc5732cb6
+:END:
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'bash-mode-hook 'yas-minor-mode)
+#+END_SRC
+
 *** C++
 :PROPERTIES:
 :ID:       b2d384da-ba21-41ba-87cf-abd66f4cd0a8
 :END:
 #+BEGIN_SRC emacs-lisp
   (add-hook 'c++-mode-hook 'yas-minor-mode)
-#+END_SRC
-
-*** Python
-:PROPERTIES:
-:ID:       e456a968-a82e-43dc-b8e3-a6a28f228287
-:END:
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'python-mode-hook 'yas-minor-mode)
 #+END_SRC
 
 *** Emacs Lisp
@@ -798,12 +799,12 @@ Automagically resolve imports (requires importmagic and epc)
   (add-hook 'emacs-lisp-mode-hook 'yas-minor-mode)
 #+END_SRC
 
-*** Bash
+*** Python
 :PROPERTIES:
-:ID:       5d6a92f4-f6d2-40e3-ae07-c57cc5732cb6
+:ID:       e456a968-a82e-43dc-b8e3-a6a28f228287
 :END:
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'bash-mode-hook 'yas-minor-mode)
+  (add-hook 'python-mode-hook 'yas-minor-mode)
 #+END_SRC
 
 * Spellchecking
@@ -951,14 +952,6 @@ Setting yes and no to y and n for brevity and consistency.
 #+END_SRC
 
 ** UTF-8
-*** UTF-8 Uppercase Declaration
-:PROPERTIES:
-:ID:       8cef681a-e6b7-4150-b031-c5fb3f39de32
-:END:
-#+BEGIN_SRC emacs-lisp
-  (define-coding-system-alias 'UTF-8 'utf-8)
-#+END_SRC
-
 *** UFT-8 Everywhere
 :PROPERTIES:
 :ID:       35e57af2-28d4-49fb-bb3d-a3818f5bcabb
@@ -971,6 +964,14 @@ Setting yes and no to y and n for brevity and consistency.
   (prefer-coding-system 'utf-8)
   (when (display-graphic-p)
     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+#+END_SRC
+
+*** UTF-8 Uppercase Declaration
+:PROPERTIES:
+:ID:       8cef681a-e6b7-4150-b031-c5fb3f39de32
+:END:
+#+BEGIN_SRC emacs-lisp
+  (define-coding-system-alias 'UTF-8 'utf-8)
 #+END_SRC
 
 ** Warning Bell Deactivation
