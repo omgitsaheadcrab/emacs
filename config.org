@@ -739,6 +739,13 @@ Use org-mode from Melpa.
     :after python))
 #+end_src
 
+Automagically resolve imports (requires importmagic and epc)
+#+begin_src emacs-lisp
+(use-package importmagic
+    :ensure t
+    :config
+    (add-hook 'python-mode-hook 'importmagic-mode))
+#+end_src
 
 * Snippets
 ** Enable Yasnippet
