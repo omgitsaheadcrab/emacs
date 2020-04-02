@@ -680,6 +680,18 @@ Use org-mode from Melpa.
   (setq org-src-tab-acts-natively t)
 #+END_SRC
 
+** Org Sort Recursively
+Function to sort all entires in the current buffer, recursively.
+#+begin_src emacs-lisp
+(defun org-sort-buffer ()
+  "Sort all entries in the current buffer, recursively."
+  (interactive)
+  (org-map-entries (lambda ()
+                     (condition-case x
+                         (org-sort-entries nil ?a)
+                       (user-error)))))
+#+end_src
+
 ** Org Template Keywords
 :PROPERTIES:
 :ID:       fe8ef927-284f-40ee-9c15-14e24c284592
