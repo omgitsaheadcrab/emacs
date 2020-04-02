@@ -44,13 +44,13 @@
 #+END_SRC
 
 ** All The Icons
-#+begin_src EMACS-LISP
+#+begin_src emacs-lisp
 (use-package all-the-icons
 :ensure t)
 ;; While we're at it: Make dired, ‘dir’ectory ‘ed’itor, look pretty
 (use-package all-the-icons-dired
 :hook (dired-mode . all-the-icons-dired-mode))
-#+end_src>
+#+end_src
 
 * Backups
 :PROPERTIES:
@@ -140,12 +140,12 @@ Enable button lock mode
 #+begin_src emacs-lisp
 (use-package typing-of-emacs :defer t
   :quelpa (typing :fetcher wiki :url "https://www.emacswiki.org/emacs/typing.el"))
-#+end_src>
+#+end_src
 
 ** Speed Type
 #+begin_src emacs-lisp
 (use-package speed-type :defer t)
-#+end_src>
+#+end_src
 
 * Ido Mode
 :PROPERTIES:
@@ -448,7 +448,7 @@ Setting buffer refresh to F5 as usual in other programs.
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
-#+end_src>
+#+end_src
 
 ** Goto-line
 :PROPERTIES:
@@ -716,7 +716,7 @@ Use org-mode from Melpa.
 ("\\.md\\'" . markdown-mode)
 ("\\.markdown\\'" . markdown-mode))
 :init (setq markdown-command "multimarkdown"))
-#+end_src>
+#+end_src
 
 ** Python
 #+begin_src emacs-lisp
@@ -745,7 +745,8 @@ Use org-mode from Melpa.
   (use-package python-black
     :demand t
     :after python))
-#+end_src>
+#+end_src
+
 
 * Snippets
 ** Enable Yasnippet
@@ -926,7 +927,7 @@ Setting yes and no to y and n for brevity and consistency.
   ;; In this mode, the usual save key saves to the underlying persistent file.
   :bind (:map persistent-scratch-mode-map
               ("C-x C-s" . persistent-scratch-save)))
-#+end_src>
+#+end_src
 
 ** Sudo Edit
 :PROPERTIES:
