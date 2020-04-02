@@ -397,14 +397,6 @@ Which keybindings appears when you press part of a hotkey and wait.
     (which-key-mode))
 #+END_SRC
 
-** Dimmer
-Dim unused windows.
-
-#+begin_src emacs-lisp
-(use-package dimmer
-  :config (dimmer-mode))
-#+end_src>
-
 * Keybindings
 ** Copy Whole Line
 :PROPERTIES:
