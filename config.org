@@ -30,6 +30,13 @@
 :PROPERTIES:
 :ID:       dd134dbf-0592-43cb-ab2b-5bebb16a81e5
 :END:
+Disable other themes before loading new one
+#+begin_src emacs-lisp
+(defadvice load-theme (before theme-dont-propagate activate)
+  "Disable theme before loading new one."
+  (mapcar #'disable-theme custom-enabled-themes))
+#+end_src
+
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
     :ensure t
