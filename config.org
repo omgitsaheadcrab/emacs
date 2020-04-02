@@ -184,7 +184,7 @@ Enable button lock mode
     (ido-vertical-mode 1))
 
   ;; ido switch buffer
-  (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+  (global-set-key (kbd "C-x b") 'ido-switch-buffer)
 #+END_SRC
 
 * Interface
@@ -207,7 +207,7 @@ Highlight current cursor position with fancy fade.
 :END:
 Better buffers with ibuffer
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x b") 'ibuffer)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
 
   ;; ibuffer expert mode (delete without asking)
   (setq ibuffer-expert t)
