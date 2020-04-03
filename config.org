@@ -7,7 +7,7 @@
 #+begin_src emacs-lisp
 (use-package all-the-icons
   :if (display-graphic-p)
-  :init (all-the-icons-install-fonts t)
+  ;; :init (all-the-icons-install-fonts t)
   :config
   (add-to-list 'all-the-icons-mode-icon-alist
                '(vterm-mode all-the-icons-octicon "terminal" :v-adjust 0.2))
@@ -475,7 +475,6 @@ Counsel and Swiper.
 Smex for M-x recently used commands.
 #+begin_src emacs-lisp
   (use-package smex
-    :defer t
     :init (setq-default smex-history-length 32))
 #+end_src
 
