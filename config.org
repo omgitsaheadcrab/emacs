@@ -428,6 +428,12 @@ Counsel and Swiper
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package smex
+    :defer t
+    :init (setq-default smex-history-length 32))
+#+end_src
+
 * Keybindings
 ** Copy Whole Line
 :PROPERTIES:
