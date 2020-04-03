@@ -714,8 +714,9 @@ Use org-mode from Melpa.
 Function to sort all entires in the current buffer, recursively.
 #+begin_src emacs-lisp
 (defun org-sort-buffer ()
-  "Sort all entries in the current buffer, recursively."
+  "Sort all entries in the current buffer, recursively. Including top level"
   (interactive)
+  (org-sort-entries nil ?a)
   (org-map-entries (lambda ()
                      (condition-case x
                          (org-sort-entries nil ?a)
