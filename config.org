@@ -266,6 +266,12 @@ Group buffers by version control project
                 (ibuffer-do-sort-by-alphabetic))))
 #+end_src
 
+Add all the icons
+#+begin_src emacs-lisp
+(use-package all-the-icons-ibuffer
+  :ensure t
+  :init (all-the-icons-ibuffer-mode 1))
+#+end_src
 ** Column Numbers
 :PROPERTIES:
 :ID:       3af55133-ad30-47b0-9b60-c8cf569b517e
