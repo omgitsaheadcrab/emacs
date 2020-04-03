@@ -34,7 +34,7 @@ Disable other themes before loading new one
 #+begin_src emacs-lisp
 (defadvice load-theme (before theme-dont-propagate activate)
   "Disable theme before loading new one."
-  (mapcar #'disable-theme custom-enabled-themes))
+  (mapc #'disable-theme custom-enabled-themes))
 #+end_src
 
 #+BEGIN_SRC emacs-lisp
