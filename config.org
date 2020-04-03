@@ -1359,12 +1359,23 @@ Setting yes and no to y and n for brevity and consistency.
 #+END_SRC
 
 ** Persistent Scratch
+Persistent the scratch buffer
 #+begin_src emacs-lisp
-(use-package persistent-scratch
-  :defer t
-  ;; In this mode, the usual save key saves to the underlying persistent file.
-  :bind (:map persistent-scratch-mode-map
-              ("C-x C-s" . persistent-scratch-save)))
+  (use-package persistent-scratch
+    :preface
+    (defun my-save-buffer ()
+      "Save scratch and other buffer."
+      (interactive)
+      (let ((scratch-name "*scratch*"))
+        (if (string-equal (buffer-name) scratch-name)
+            (progn
+              (message "Saving %s..." scratch-name)
+              (persistent-scratch-save)
+              (message "Wrote %s" scratch-name))
+          (save-buffer))))
+    :hook (after-init . persistent-scratch-setup-default)
+    :bind (:map lisp-interaction-mode-map
+           ("C-x C-s" . my-save-buffer)))
 #+end_src
 
 ** Sudo Edit
