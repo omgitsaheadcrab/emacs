@@ -1110,6 +1110,11 @@ Persistent the scratch buffer
            ("C-x C-s" . my-save-buffer)))
 #+end_src
 
+** Show Parens
+#+begin_src emacs-lisp
+(show-paren-mode 1)
+#+end_src
+
 ** Sudo Edit
 :PROPERTIES:
 :ID:       68be1506-4bcc-43f5-a389-b5e40577ee83
