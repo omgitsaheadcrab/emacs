@@ -272,6 +272,7 @@ Add all the icons
   :ensure t
   :init (all-the-icons-ibuffer-mode 1))
 #+end_src
+
 ** Column Numbers
 :PROPERTIES:
 :ID:       3af55133-ad30-47b0-9b60-c8cf569b517e
@@ -837,6 +838,26 @@ Function to sort all entires in the current buffer, recursively.
 #+BEGIN_SRC emacs-lisp
   (require 'org-tempo)
 #+END_SRC
+
+* PDF Tools
+#+begin_src emacs-lisp
+(use-package pdf-view
+    :ensure pdf-tools
+    :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
+    :magic ("%PDF" . pdf-view-mode)
+    :bind (:map pdf-view-mode-map
+           ("C-s" . isearch-forward))
+    :init
+    (setq pdf-annot-activate-created-annotations t)
+    :config
+    ;; WORKAROUND: Fix compilation errors on macOS.
+    ;; @see https://github.com/politza/pdf-tools/issues/480
+    (when (string-equal system-type "darwin")
+      (setenv "PKG_CONFIG_PATH"
+              "/usr/local/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig"))
+    (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
+    (pdf-tools-install t nil t t))
+#+end_src
 
 * Programming Modes
 ** C++
