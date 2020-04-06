@@ -170,25 +170,37 @@ Enable button lock mode
 :PROPERTIES:
 :ID:       aa1642d2-2cd6-4204-8052-4de2162e56d9
 :END:
-#+begin_src emacs-lisp
-   (use-package company
-  :config
-  (setq company-idle-delay 0.3)
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :config
+    (setq company-idle-delay 0.3)
+    (global-company-mode 1)
+    (global-set-key (kbd "C-;") 'company-complete))
 
-  (global-company-mode 1)
+  (use-package company-lsp
+    :requires company
+    :config
+    (push 'company-lsp company-backends)
 
-  (global-set-key (kbd "C-<tab>") 'company-complete))
+    ;; Disable client-side cache because the LSP server does a better job.
+    (setq company-transformers nil
+          company-lsp-async t
+          company-lsp-cache-candidates nil))
+#+END_SRC
 
-(use-package company-lsp
-  :requires company
-  :config
-  (push 'company-lsp company-backends)
+Add yasnippet support for all company backends
+#+BEGIN_SRC emacs-lisp
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
 
-   ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
-#+end_src
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapc #'company-mode/backend-with-yas company-backends))
+#+END_SRC
 
 * Deft
 Deft is an Emacs mode for quickly browsing, filtering, and editing directories of plain text notes.
@@ -968,6 +980,17 @@ Automagically resolve imports (requires importmagic and epc)
 :END:
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook 'yas-minor-mode)
+#+END_SRC
+
+*** Org Mode
+#+BEGIN_SRC emacs-lisp
+  (defun yas-org-very-safe-expand ()
+  (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
+  (add-hook 'org-mode-hook
+      (lambda ()
+        (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
+        (define-key yas-keymap [tab] 'yas-next-field)))
+  (add-hook 'org-mode-hook 'yas-minor-mode)
 #+END_SRC
 
 *** Python
