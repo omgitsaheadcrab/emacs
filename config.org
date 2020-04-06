@@ -4,7 +4,7 @@
 
 * Appearance
 ** All The Icons
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package all-the-icons
   :if (display-graphic-p)
   ;; :init (all-the-icons-install-fonts t)
@@ -52,7 +52,7 @@
 ;; While we're at it: Make dired, ‘dir’ectory ‘ed’itor, look pretty
 (use-package all-the-icons-dired
 :hook (dired-mode . all-the-icons-dired-mode))
-#+end_src
+#+END_SRC
 
 ** Pretty Symbols
 :PROPERTIES:
@@ -73,11 +73,11 @@
 :ID:       dd134dbf-0592-43cb-ab2b-5bebb16a81e5
 :END:
 Disable other themes before loading new one
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (defadvice load-theme (before theme-dont-propagate activate)
   "Disable theme before loading new one."
   (mapc #'disable-theme custom-enabled-themes))
-#+end_src
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
@@ -101,11 +101,11 @@ Disable other themes before loading new one
     (doom-themes-org-config))
 #+END_SRC
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package poet-theme
   :ensure t)
 ;; (load-theme 'poet t)
-#+end_src
+#+END_SRC
 
 * Backups
 :PROPERTIES:
@@ -138,14 +138,14 @@ Disable other themes before loading new one
 
 * Button Lock
 Enable button lock mode
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package button-lock
 :ensure t
 :config (global-button-lock-mode 1))
-#+end_src
+#+END_SRC
 
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (defun test-link ()
     (interactive)
     (button-lock-set-button
@@ -159,12 +159,12 @@ Enable button lock mode
      :face 'link
      :face-policy 'prepend
      :keyboard-binding "RET"))
-#+end_src
+#+END_SRC
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (add-hook 'python-mode-hook
           (lambda ()  (test-link)))
-#+end_src
+#+END_SRC
 
 * Company
 :PROPERTIES:
@@ -193,28 +193,28 @@ Enable button lock mode
 * Deft
 Deft is an Emacs mode for quickly browsing, filtering, and editing directories of plain text notes.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package deft
     :bind ("<f8>" . deft)
     :init (setq deft-directory "~/Dropbox/org/notes/"
                 deft-extensions '("org" "md" "txt")
-                deft-default-extension "org")
+                deft-default-extension "org"
                 deft-recursive t
-                deft-auto-save-interval nil)
-#+end_src
+                deft-auto-save-interval nil))
+#+END_SRC
 
 * Fun & Games
 ** Speed Type
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package speed-type :defer t)
-#+end_src
+#+END_SRC
 
 ** Typing Of Emacs
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package typing
   :defer t
   :quelpa (typing :fetcher wiki :url "https://www.emacswiki.org/emacs/typing.el"))
-#+end_src
+#+END_SRC
 
 * Ido Mode
 :PROPERTIES:
@@ -269,7 +269,7 @@ Better buffers with ibuffer
 #+END_SRC
 
 Group buffers by version control project
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package ibuffer-vc
       :ensure t)
   (add-hook 'ibuffer-hook
@@ -277,14 +277,14 @@ Group buffers by version control project
               (ibuffer-vc-set-filter-groups-by-vc-root)
               (unless (eq ibuffer-sorting-mode 'alphabetic)
                 (ibuffer-do-sort-by-alphabetic))))
-#+end_src
+#+END_SRC
 
 Add all the icons
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package all-the-icons-ibuffer
   :ensure t
   :init (all-the-icons-ibuffer-mode 1))
-#+end_src
+#+END_SRC
 
 ** Column Numbers
 :PROPERTIES:
@@ -466,7 +466,7 @@ Which keybindings appears when you press part of a hotkey and wait.
 
 * Ivy
 Counsel and Swiper.
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package counsel
     :ensure t)
   (ivy-mode 1)
@@ -490,16 +490,16 @@ Counsel and Swiper.
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-#+end_src
+#+END_SRC
 
 Smex for M-x recently used commands.
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package smex
     :init (setq-default smex-history-length 32))
-#+end_src
+#+END_SRC
 
 Ivy integration with various modes.
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   ;; Integration with `projectile'
   (with-eval-after-load 'projectile
     (setq projectile-completion-system 'ivy))
@@ -535,10 +535,10 @@ Ivy integration with various modes.
   (use-package counsel-tramp
     :bind (:map counsel-mode-map
                 ("C-c c v" . counsel-tramp)))
-#+end_src
+#+END_SRC
 
 Add all the icons to ivy!
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-ivy-rich
     :ensure t
     :init (all-the-icons-ivy-rich-mode 1))
@@ -546,7 +546,7 @@ Add all the icons to ivy!
   (use-package ivy-rich
     :ensure t
     :init (ivy-rich-mode 1))
-#+end_src
+#+END_SRC
 
 * Keybindings
 ** Copy Whole Line
@@ -572,7 +572,7 @@ Add all the icons to ivy!
   (use-package expand-region
     :ensure t
     :bind ("C-q" . er/expand-region))
-#+End_SRC
+#+END_SRC
 
 ** F5 Refresh
 :PROPERTIES:
@@ -588,10 +588,10 @@ Setting buffer refresh to F5 as usual in other programs.
 #+END_SRC
 
 ** Font Size
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
-#+end_src
+#+END_SRC
 
 ** Goto-line
 :PROPERTIES:
@@ -611,7 +611,7 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
 :PROPERTIES:
 :ID:       64d4cf5b-a82e-4949-abbc-c9f732536200
 :END:
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (defun count-occurences (regex string)
     (recursive-count regex string 0))
   (defun recursive-count (regex string start)
@@ -627,7 +627,7 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
         ;; (setq  x-meta-keysym 'meta
         ;;        x-super-keysym 'super)
         (message "HHKB connected on Linux.")))
-#+end_src
+#+END_SRC
 
 ** Kill All Buffers
 :PROPERTIES:
@@ -645,13 +645,13 @@ Check if HHKB connected by counting occurences in dmesg output. If exists swap s
 :ID:       ca1cb7ed-b65c-4b4f-b3ed-b7d058d06e07
 :END:
 Check if host system is running MacOS and bind super and meta if true.
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (if (string-equal system-type "darwin")
       (progn
         (setq mac-command-modifier 'meta
               mac-option-modifier 'super)
         (message "MacOS detected.")))
-#+end_src
+#+END_SRC
 
 ** Reload Config
 :PROPERTIES:
@@ -669,7 +669,7 @@ Check if host system is running MacOS and bind super and meta if true.
 :PROPERTIES:
 :ID:       140061e3-3985-423b-b578-841b25f67bff
 :END:
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
      :diminish lsp-mode
      :hook (prog-mode . lsp-deferred)
@@ -731,7 +731,7 @@ Check if host system is running MacOS and bind super and meta if true.
      :hook (python-mode . (lambda ()
                             (require 'lsp-python-ms)
                             (lsp-deferred))))
-#+end_src
+#+END_SRC
 
 * Magit
 :PROPERTIES:
@@ -826,14 +826,14 @@ Use org-mode from Melpa.
 :END:
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook 'org-indent-mode)
-  (setq org-src-window-setup 'current-window)
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
+  (setq org-SRC-window-setup 'current-window)
+  (setq org-SRC-fontify-natively t)
+  (setq org-SRC-tab-acts-natively t)
 #+END_SRC
 
 ** Org Sort Recursively
 Function to sort all entires in the current buffer, recursively.
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (defun org-sort-buffer ()
   "Sort all entries in the current buffer, recursively. Including top level"
   (interactive)
@@ -842,7 +842,7 @@ Function to sort all entires in the current buffer, recursively.
                      (condition-case x
                          (org-sort-entries nil ?a)
                        (user-error)))))
-#+end_src
+#+END_SRC
 
 ** Org Template Keywords
 :PROPERTIES:
@@ -853,7 +853,7 @@ Function to sort all entires in the current buffer, recursively.
 #+END_SRC
 
 * PDF Tools
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package pdf-view
     :ensure pdf-tools
     :mode ("\\.[pP][dD][fF]\\'" . pdf-view-mode)
@@ -870,7 +870,7 @@ Function to sort all entires in the current buffer, recursively.
               "/usr/local/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig"))
     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
     (pdf-tools-install t nil t t))
-#+end_src
+#+END_SRC
 
 * Programming Modes
 ** C++
@@ -884,7 +884,7 @@ Function to sort all entires in the current buffer, recursively.
 #+END_SRC
 
 ** Markdown
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
 :ensure t
 :commands (markdown-mode gfm-mode)
@@ -892,10 +892,10 @@ Function to sort all entires in the current buffer, recursively.
 ("\\.md\\'" . markdown-mode)
 ("\\.markdown\\'" . markdown-mode))
 :init (setq markdown-command "multimarkdown"))
-#+end_src
+#+END_SRC
 
 ** Python
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package python
   :ensure nil
   :hook (inferior-python-mode . (lambda ()
@@ -921,15 +921,15 @@ Function to sort all entires in the current buffer, recursively.
   (use-package python-black
     :demand t
     :after python))
-#+end_src
+#+END_SRC
 
 Automagically resolve imports (requires importmagic and epc)
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package importmagic
     :ensure t
     :config
     (add-hook 'python-mode-hook 'importmagic-mode))
-#+end_src
+#+END_SRC
 
 * Snippets
 ** Enable Yasnippet
@@ -1070,24 +1070,24 @@ Setting yes and no to y and n for brevity and consistency.
 :PROPERTIES:
 :ID:       80bbc030-cb8e-4c99-a6a4-b17c79326f5e
 :END:
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (delete-selection-mode 1)
-#+end_src
+#+END_SRC
 
 ** Delete Trailing Whitespace
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-#+end_src
+#+END_SRC
 
 ** Move Line
 :PROPERTIES:
 :ID:       194ebea4-defe-42f8-9225-9bf47355c135
 :END:
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 ;; M-↑,↓ moves line, or marked region; prefix is how many lines.
 (use-package move-text
   :config (move-text-default-bindings))
-#+end_src
+#+END_SRC
 
 ** Pair Completion
 :PROPERTIES:
@@ -1105,7 +1105,7 @@ Setting yes and no to y and n for brevity and consistency.
 
 ** Persistent Scratch
 Persistent the scratch buffer
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package persistent-scratch
     :preface
     (defun my-save-buffer ()
@@ -1121,12 +1121,12 @@ Persistent the scratch buffer
     :hook (after-init . persistent-scratch-setup-default)
     :bind (:map lisp-interaction-mode-map
            ("C-x C-s" . my-save-buffer)))
-#+end_src
+#+END_SRC
 
 ** Show Parens
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (show-paren-mode 1)
-#+end_src
+#+END_SRC
 
 ** Sudo Edit
 :PROPERTIES:
@@ -1174,13 +1174,13 @@ Apparently there is a warning bell/beep and light - not seen it though..
 * Zetteldeft
 Extend the deft package and turn it into a (very very) basic Zettelkasten note-taking system. Requires Avy for text movement.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package avy
     :ensure t)
-#+end_src
+#+END_SRC
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package zetteldeft
     :ensure t)
   (zetteldeft-set-classic-keybindings)
-#+end_src
+#+END_SRC
