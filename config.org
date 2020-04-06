@@ -190,6 +190,19 @@ Enable button lock mode
         company-lsp-cache-candidates nil))
 #+end_src
 
+* Deft
+Deft is an Emacs mode for quickly browsing, filtering, and editing directories of plain text notes.
+
+#+begin_src emacs-lisp
+  (use-package deft
+    :bind ("<f8>" . deft)
+    :init (setq deft-directory "~/Dropbox/org/notes/"
+                deft-extensions '("org" "md" "txt")
+                deft-default-extension "org")
+                deft-recursive t
+                deft-auto-save-interval nil)
+#+end_src
+
 * Fun & Games
 ** Speed Type
 #+begin_src emacs-lisp
@@ -1157,3 +1170,17 @@ Apparently there is a warning bell/beep and light - not seen it though..
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
 #+END_SRC
+
+* Zetteldeft
+Extend the deft package and turn it into a (very very) basic Zettelkasten note-taking system. Requires Avy for text movement.
+
+#+begin_src emacs-lisp
+  (use-package avy
+    :ensure t)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package zetteldeft
+    :ensure t)
+  (zetteldeft-set-classic-keybindings)
+#+end_src
