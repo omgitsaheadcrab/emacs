@@ -175,7 +175,7 @@ Enable button lock mode
     :config
     (setq company-idle-delay 0.3)
     (global-company-mode 1)
-    (global-set-key (kbd "C-;") 'company-complete))
+    (global-set-key (kbd "C-<tab>") 'company-complete))
 
   (use-package company-lsp
     :requires company
@@ -1101,6 +1101,12 @@ Setting yes and no to y and n for brevity and consistency.
 ** Delete Trailing Whitespace
 #+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
+
+** IEdit
+#+BEGIN_SRC emacs-lisp
+(use-package iedit
+  :ensure t)
 #+END_SRC
 
 ** Move Line
