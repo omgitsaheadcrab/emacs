@@ -212,7 +212,7 @@ Deft is an Emacs mode for quickly browsing, filtering, and editing directories o
                 deft-extensions '("org" "md" "txt")
                 deft-default-extension "org"
                 deft-recursive t
-                deft-auto-save-interval nil))
+                deft-auto-save-interval 0))
 #+END_SRC
 
 * Fun & Games
