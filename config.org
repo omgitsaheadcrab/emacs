@@ -173,7 +173,8 @@ Enable button lock mode
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :config
-    (setq company-idle-delay 0.3)
+    (setq company-idle-delay 0.3
+          company-dabbrev-downcase nil)
     (global-company-mode 1)
     (global-set-key (kbd "C-<tab>") 'company-complete))
 
