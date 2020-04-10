@@ -356,11 +356,13 @@ Reducing scroll distance so it's actually useful.
 :END:
 #+BEGIN_SRC emacs-lisp
   ;; line numbers (except for some)
-  (global-linum-mode 1)
   (use-package hlinum
     :ensure t
     :config
-    (hlinum-activate))
+    (hlinum-activate)
+    (add-hook 'prog-mode-hook 'linum-mode)
+    (add-hook 'text-mode-hook 'linum-mode)
+    (add-hook 'org-mode-hook 'linum-mode))
 #+END_SRC
 
 ** Menubar Deactivation
@@ -874,15 +876,12 @@ Function to sort all entires in the current buffer, recursively.
     :magic ("%PDF" . pdf-view-mode)
     :bind (:map pdf-view-mode-map
            ("C-s" . isearch-forward))
-    :init
-    (setq pdf-annot-activate-created-annotations t)
     :config
     ;; WORKAROUND: Fix compilation errors on macOS.
     ;; @see https://github.com/politza/pdf-tools/issues/480
     (when (string-equal system-type "darwin")
       (setenv "PKG_CONFIG_PATH"
               "/usr/local/lib/pkgconfig:/usr/local/opt/libffi/lib/pkgconfig"))
-    (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
     (pdf-tools-install t nil t t))
 #+END_SRC
 
