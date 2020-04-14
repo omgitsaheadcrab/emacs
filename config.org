@@ -106,6 +106,15 @@ Disable other themes before loading new one
   :config
   (load-theme 'poet t))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package zenburn-theme
+  :ensure t
+  :config
+  (setq zenburn-use-variable-pitch t)
+  (setq zenburn-scale-org-headlines t)
+  (setq zenburn-scale-outline-headlines t)
+  (load-theme 'zenburn t))
 #+END_SRC
 
 * Backups
