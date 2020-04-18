@@ -403,7 +403,16 @@ Reducing scroll distance so it's actually useful.
     :config
     (projectile-global-mode)
     (setq projectile-completion-system 'ido)
-    (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map))
+    (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+    (defadvice projectile-on (around exlude-tramp activate)
+      "This should disable projectile when visiting a remote file"
+      (unless  (--any? (and it (file-remote-p it))
+                       (list
+                        (buffer-file-name)
+                        list-buffers-directory
+                        default-directory
+                        dired-directory))
+        ad-do-it)))
 #+END_SRC
 
 ** Scrollbar Deactivation
