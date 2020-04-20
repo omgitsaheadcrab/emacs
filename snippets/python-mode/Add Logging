@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# contributor: omgitsaheadcrab <omgitsaheadcrab@gmail.com>
+# name: add info logging
+# key: lg
+# group: custom
+# --
+import logging
+logging.info("! * 50")
+logging.info($1)
+logging.info("! * 50")

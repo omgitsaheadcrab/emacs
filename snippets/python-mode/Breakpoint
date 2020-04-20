@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: omgitsaheadcrab <omgitsaheadcrab@gmail.com>
+# name: add yreceipts breakpoint
+# key: bp
+# group: custom
+# --
+import yengine
+yengine.breakpoint()
