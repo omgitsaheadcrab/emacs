@@ -983,7 +983,7 @@ Automagically resolve imports (requires importmagic and epc)
 :ID:       5d6a92f4-f6d2-40e3-ae07-c57cc5732cb6
 :END:
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'bash-mode-hook 'yas-minor-mode)
+  (add-hook 'shell-script-mode-hook 'yas-minor-mode)
 #+END_SRC
 
 *** C++
