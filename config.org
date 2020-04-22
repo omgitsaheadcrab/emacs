@@ -1099,6 +1099,13 @@ Setting hotkey for ansi-term in emacs - Super+T.
 #+END_SRC
 
 * Useful Tweaks
+** Better Commenting
+#+BEGIN_SRC emacs-lisp
+(use-package comment-dwim-2
+  :ensure t
+  :bind ("M-;" . 'comment-dwim-2))
+#+END_SRC
+
 ** Consistent Answers
 :PROPERTIES:
 :ID:       5f184a63-b8d2-48ae-960e-d4ec85db3b4e
