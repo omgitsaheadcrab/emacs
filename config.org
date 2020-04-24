@@ -501,7 +501,7 @@ Which keybindings appears when you press part of a hotkey and wait.
 * Ivy
 Counsel and Swiper.
 #+BEGIN_SRC emacs-lisp
-  (use-package counsel
+  (use-package ivy
     :ensure t)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
