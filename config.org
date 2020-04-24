@@ -1002,6 +1002,10 @@ Automagically resolve imports (requires importmagic and epc)
   (add-hook 'emacs-lisp-mode-hook 'yas-minor-mode)
 #+END_SRC
 
+*** HTML
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'html-mode-hook 'yas-minor-mode)
+#+END_SRC
 *** Org Mode
 #+BEGIN_SRC emacs-lisp
   (defun yas-org-very-safe-expand ()
