@@ -5,6 +5,6 @@
 # group: custom
 # --
 import logging
-logging.info("! * 50")
+logging.info("!" * 50)
 logging.info($1)
-logging.info("! * 50")
+logging.info("!" * 50)
