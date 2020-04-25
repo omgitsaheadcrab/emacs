@@ -914,6 +914,38 @@ Function to sort all entires in the current buffer, recursively.
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   (global-set-key (kbd "C-x c") 'compile)
 #+END_SRC
+** LISP
+*** Common Lisp
+For arch install the sbcl and quicklisp packages.
+#+BEGIN_SRC bash tangle: no
+sudo pacman -S sbcl
+yay -S quicklisp
+echo '(load "/usr/lib/quicklisp/setup")' > ~/.sbclrc
+#+END_SRC
+
+Then within sbcl install SLIME
+#+BEGIN_SRC tangle :no
+(quicklisp-quickstart:install)
+(ql:quickload "quicklisp-slime-helper")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (load (expand-file-name "/usr/lib/quicklisp/slime-helper.el"))
+  ;; Replace "sbcl" with the path to your implementation
+  (setq inferior-lisp-program "sbcl")
+#+END_SRC
+*** Scheme
+For arch install the guile package.
+#+BEGIN_SRC bash tangle: no
+sudo pacman -S guile
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package geiser
+    :ensure t
+    :config
+    (setq geiser-active-implementations '(guile)))
+#+END_SRC
 
 ** Markdown
 #+BEGIN_SRC emacs-lisp
