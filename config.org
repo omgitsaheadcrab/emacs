@@ -1186,13 +1186,13 @@ Setting yes and no to y and n for brevity and consistency.
 :ID:       6d7edb6d-17ae-4be8-ab78-c9d08f5a9b49
 :END:
 #+BEGIN_SRC emacs-lisp
-  (setq electric-pair-pairs '(
-                              (?\( . ?\))
-                              (?\[ . ?\])
-                              (?\{ . ?\})
-                              (?\" . ?\")
-                              (?\' . ?\')))
-  (electric-pair-mode t)
+  (use-package smartparens
+    :ensure t
+    :config
+    (setq sp-show-pair-from-inside nil)
+    (require 'smartparens-config)
+    (smartparens-global-mode t)
+    :diminish smartparens-mode)
 #+END_SRC
 
 ** Persistent Scratch
