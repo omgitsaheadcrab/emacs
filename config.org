@@ -931,7 +931,10 @@ Then within sbcl install SLIME
 
 #+BEGIN_SRC emacs-lisp
     (if (string-equal system-type "darwin")
-        (load (expand-file-name "~/.roswell/helper.el"))
+      (progn
+        (print "FIXME: CommonLisp (ros) on MacOS"))
+        ;(add-to-list 'exec-path "/usr/local/bin/")
+        ;(load (expand-file-name "~/.roswell/helper.el")))
       (progn
         (load (expand-file-name "/usr/lib/quicklisp/slime-helper.el"))
         ;; Replace "sbcl" with the path to your implementation
