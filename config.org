@@ -940,6 +940,7 @@ Then within sbcl install SLIME
         ;; Replace "sbcl" with the path to your implementation
         (setq inferior-lisp-program "sbcl")))
 #+END_SRC
+
 *** Scheme
 For arch install the guile package.
 #+BEGIN_SRC bash tangle: no
@@ -1024,6 +1025,10 @@ Automagically resolve imports (requires importmagic and epc)
   (add-hook 'shell-script-mode-hook 'yas-minor-mode)
 #+END_SRC
 
+*** C
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c-mode-hook 'yas-minor-mode)
+#+END_SRC
 *** C++
 :PROPERTIES:
 :ID:       b2d384da-ba21-41ba-87cf-abd66f4cd0a8
@@ -1043,6 +1048,15 @@ Automagically resolve imports (requires importmagic and epc)
 *** HTML
 #+BEGIN_SRC emacs-lisp
   (add-hook 'html-mode-hook 'yas-minor-mode)
+#+END_SRC
+*** Lisp
+**** Common Lisp
+#+BEGIN_SRC emacs-lisp
+(add-hook 'lisp-mode-hook 'yas-minor-mode)
+#+END_SRC
+**** Scheme
+#+BEGIN_SRC emacs-lisp
+(add-hook 'scheme-mode-hook 'yas-minor-mode)
 #+END_SRC
 *** Org Mode
 #+BEGIN_SRC emacs-lisp
