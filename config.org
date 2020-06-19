@@ -506,6 +506,7 @@ Counsel and Swiper.
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
+  (setq ivy-extra-directories '())
   ;; enable this if you want `swiper' to use it
   ;; (setq search-default-mode #'char-fold-to-regexp)
   (global-set-key "\C-s" 'swiper)
@@ -524,7 +525,7 @@ Counsel and Swiper.
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-  (setq counsel-find-file-ignore-regexp "\\.pyc\\'")
+  (setq counsel-find-file-ignore-regexp (regexp-opt '("__pycache__" ".pyc")))
 #+END_SRC
 
 Smex for M-x recently used commands.
