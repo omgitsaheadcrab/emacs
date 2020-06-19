@@ -525,7 +525,7 @@ Counsel and Swiper.
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-  (setq counsel-find-file-ignore-regexp (regexp-opt '("__pycache__" ".pyc")))
+  (setq counsel-find-file-ignore-regexp (regexp-opt '("__pycache__" ".pyc" ".pytest_cache")))
 #+END_SRC
 
 Smex for M-x recently used commands.
