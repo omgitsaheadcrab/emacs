@@ -212,6 +212,39 @@ Add yasnippet support for all company backends
 
 (setq company-backends (mapc #'company-mode/backend-with-yas company-backends))
 #+END_SRC
+** Company c-headers
+Auto completion for c/c++ headers
+#+begin_src emacs-lisp
+  (use-package company-c-headers
+    :ensure t)
+
+  (add-to-list 'company-backends 'company-c-headers)
+#+end_src
+** Company Arduino
+Configuration to use auto completion in arudino-mode.
+#+begin_src emacs-lisp
+  (use-package company-arduino
+    :ensure t)
+
+  ;; Configuration for irony.el
+  ;; Add arduino's include options to irony-mode's variable.
+  (add-hook 'irony-mode-hook 'company-arduino-turn-on)
+
+  ;; Configuration for company-c-headers.el
+  ;; The `company-arduino-append-include-dirs' function appends
+  ;; Arduino's include directories to the default directories
+  ;; if `default-directory' is inside `company-arduino-home'. Otherwise
+  ;; just returns the default directories.
+  ;; Please change the default include directories accordingly.
+  (defun my-company-c-headers-get-system-path ()
+    "Return the system include path for the current buffer."
+    (let ((default '("/usr/include/" "/usr/local/include/")))
+      (company-arduino-append-include-dirs default t)))
+  (setq company-c-headers-path-system 'my-company-c-headers-get-system-path)
+
+  ;; Activate irony-mode on arduino-mode
+  (add-hook 'arduino-mode-hook 'irony-mode)
+#+end_src
 
 * Deft
 Deft is an Emacs mode for quickly browsing, filtering, and editing directories of plain text notes.
@@ -906,6 +939,11 @@ Function to sort all entires in the current buffer, recursively.
 #+END_SRC
 
 * Programming Modes
+** Arduino
+#+begin_src emacs-lisp
+(use-package arduino-mode
+    :ensure t)
+#+end_src
 ** C++
 :PROPERTIES:
 :ID:       116979f7-cfb4-4e98-93f3-7db3565c6ad7
