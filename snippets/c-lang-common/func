@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# contributor: omgitsaheadcrab <omgitsaheadcrab@gmail.com>
+# name: func
+# key: f
+# group: custom
+# --
+${1:void} ${2:function_name}(${3:})
+{
+    $4
+    return${5: };
+}

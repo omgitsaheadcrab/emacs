@@ -2,7 +2,7 @@
 # contributor: Tobias Backer Dirks <omgitsaheadcrab@gmail.com>
 # name: Function Doxygen Doc
 # key: doxfile
-# group: doxygen
+# group: custom
 # --
 /**
  * @file	${1:`(file-name-nondirectory(buffer-file-name))`}

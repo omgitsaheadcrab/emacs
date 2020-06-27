@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# contributor: Tobias Backer Dirks <omgitsaheadcrab@gmail.com>
+# name: Pragma once
+# key: po
+# group: custom
+# --
+
+#pragma once
+$0

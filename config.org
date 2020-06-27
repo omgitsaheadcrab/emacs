@@ -199,19 +199,6 @@ Enable button lock mode
           company-lsp-cache-candidates nil))
 #+END_SRC
 
-Add yasnippet support for all company backends
-#+BEGIN_SRC emacs-lisp
-(defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
-
-(defun company-mode/backend-with-yas (backend)
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
-
-(setq company-backends (mapc #'company-mode/backend-with-yas company-backends))
-#+END_SRC
 ** Company c-headers
 Auto completion for c/c++ headers
 #+begin_src emacs-lisp
@@ -246,6 +233,20 @@ Configuration to use auto completion in arudino-mode.
   (add-hook 'arduino-mode-hook 'irony-mode)
 #+end_src
 
+** Yasnippet in all company backends
+Add yasnippet support for all company backends
+#+BEGIN_SRC emacs-lisp
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapc #'company-mode/backend-with-yas company-backends))
+#+END_SRC
 * Deft
 Deft is an Emacs mode for quickly browsing, filtering, and editing directories of plain text notes.
 
@@ -1056,6 +1057,11 @@ Automagically resolve imports (requires importmagic and epc)
 #+END_SRC
 
 ** Individual Mode Hooks
+*** Arduino
+#+BEGIN_SRC emacs-lisp
+(add-hook 'ardunio-mode-hook 'yas-minor-mode)
+#+END_SRC
+
 *** Bash
 :PROPERTIES:
 :ID:       5d6a92f4-f6d2-40e3-ae07-c57cc5732cb6
