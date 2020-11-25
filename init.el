@@ -47,10 +47,10 @@
   (require 'quelpa-use-package))
 
 ;; Load remainder of config from config.org
-(org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+(org-babel-load-file (expand-file-name "~/.config/emacs/config.org"))
 
 ;; Customization commands moved to standalone file
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file "~/.config/emacs/custom.el")
 (load custom-file 'noerror)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)

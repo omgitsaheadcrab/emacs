@@ -130,13 +130,13 @@ Disable other themes before loading new one
         backup-by-copying t)  ;; Copy all files, don't rename them.
   (setq vc-make-backup-files t)
   ;; Default and per-save backups go here:
-  (setq backup-directory-alist '(("" . "~/.emacs.d/backups/per-save")))
+  (setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
   (defun force-backup-of-buffer ()
     ;; Make a special "per session" backup at the first save of each
     ;; emacs session.
     (when (not buffer-backed-up)
       ;; Override the default parameters for per-session backups.
-      (let ((backup-directory-alist '(("" . "~/.emacs.d/backups/per-session")))
+      (let ((backup-directory-alist '(("" . "~/.config/emacs/backups/per-session")))
             (kept-new-versions 3))
         (backup-buffer)))
     ;; Make a "per save" backup on each save.  The first save results in
@@ -377,7 +377,7 @@ Reducing scroll distance so it's actually useful.
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
     (setq dashboard-set-file-icons t)
     (setq dashboard-set-heading-icons t)
-    (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME"))))
+    (add-to-list 'recentf-exclude (format "%s/\\.config/emacs/elpa/.*" (getenv "HOME"))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -730,7 +730,7 @@ Check if host system is running MacOS and bind super and meta if true.
 #+BEGIN_SRC emacs-lisp
   (defun reload-init-file ()
     (interactive)
-    (load-file "~/.emacs.d/init.el"))
+    (load-file "~/.config/emacs/init.el"))
 
   (global-set-key (kbd "C-s-M-u") 'reload-init-file)
 #+END_SRC
