@@ -256,13 +256,6 @@ Deft is an Emacs mode for quickly browsing, filtering, and editing directories o
 (use-package speed-type :defer t)
 #+END_SRC
 
-** Typing Of Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package typing
-  :defer t
-  :quelpa (typing :fetcher wiki :url "https://www.emacswiki.org/emacs/typing.el"))
-#+END_SRC
-
 * Ido Mode
 :PROPERTIES:
 :ID:       2ef68f66-e742-437d-8363-b2d28785003f

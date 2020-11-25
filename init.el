@@ -35,17 +35,6 @@
   ;; Update installed packages at startup if there is an update pending.
   (auto-package-update-maybe))
 
-;; Allow package installs from source
-(use-package quelpa
-  :custom (quelpa-upgrade-p t "Always try to update packages")
-  :config
-  ;; Get ‘quelpa-use-package’ via ‘quelpa’
-  (quelpa
-   '(quelpa-use-package
-     :fetcher git
-     :url "https://github.com/quelpa/quelpa-use-package.git"))
-  (require 'quelpa-use-package))
-
 ;; Load remainder of config from config.org
 (org-babel-load-file (expand-file-name "~/.config/emacs/config.org"))
 
