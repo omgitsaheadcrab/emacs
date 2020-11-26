@@ -128,9 +128,8 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package lsp-mode
-    :hook ((c-mode c++-mode dart-mode java-mode json-mode python-mode typescript-mode xml-mode) . lsp)
+    :hook ((c-mode c++-mode java-mode json-mode python-mode xml-mode) . lsp)
     :custom
-    (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
     (lsp-enable-folding nil)
     (lsp-enable-links nil)
     (lsp-enable-snippet nil)
