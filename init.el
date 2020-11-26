@@ -6,42 +6,17 @@
 
 ;; Add useful package archives
 ;;; Code:
+
+(setq gc-cons-threshold (* 50 1000 1000))
+
 (require 'package)
-
-;; Internet repositories for new packages.
-(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("melpa"     . "http://melpa.org/packages/")))
-
-;; Actually get “package” to work.
 (package-initialize)
-(package-refresh-contents)
 
-;; Start use-package
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
-;; Always install packages automatically if not already installed
-(setq use-package-always-ensure t)
+(if (file-exists-p (expand-file-name "config.el" user-emacs-directory))
+    (load-file (expand-file-name "config.el" user-emacs-directory))
+  (org-babel-load-file (expand-file-name "config.org" user-emacs-directory)))
 
-;; Auto update packages on start
-(use-package auto-package-update
-  :defer 10
-  :config
-  ;; Delete residual old versions
-  (setq auto-package-update-delete-old-versions t)
-  ;; Do not bother me when updates have taken place.
-  (setq auto-package-update-hide-results t)
-  ;; Update installed packages at startup if there is an update pending.
-  (auto-package-update-maybe))
-
-;; Load remainder of config from config.org
-(org-babel-load-file (expand-file-name "~/.config/emacs/config.org"))
-
-;; Customization commands moved to standalone file
-(setq custom-file "~/.config/emacs/custom.el")
-(load custom-file 'noerror)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
+;; Make gc pauses faster by decreasing the threshold.
+(setq gc-cons-threshold (* 10 1000 1000))
 
 ;;; init.el ends here
