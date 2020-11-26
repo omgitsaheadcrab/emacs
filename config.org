@@ -151,7 +151,7 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
 
 *** All The Icons
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
 (use-package all-the-icons
   :if (display-graphic-p)
   ;; :init (all-the-icons-install-fonts t)
@@ -203,17 +203,15 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
 
 *** Pretty Symbols
 
-#+begin_src emacs-lisp
-  (use-package pretty-mode
-    :ensure t
-    :config
-    (global-pretty-mode 0))
+#+begin_src emacs-lisp :tangle yes
+      (use-package pretty-mode
+        :config
+        (global-pretty-mode 0))
 #+end_src
 
 *** Theme
 
-I'm a big fan of [[https://github.com/arcticicestudio/nord-emacs][nord-theme]] and combined with [[https://github.com/seagle0128/doom-modeline][doom-modeline]], it's just
-happiness.
+Use [[https://github.com/arcticicestudio/nord-emacs][nord-theme]] with [[https://github.com/seagle0128/doom-modeline][doom-modeline]].
 
 *NOTE:* to be able to see icons in the =doom-modeline=, you will need to install
 [[#Icons][all-the-icons]].
@@ -319,8 +317,7 @@ Enable button lock mode
 
 Auto completion for c/c++ headers
 #+begin_src emacs-lisp :tangle yes
-  (use-package company-c-headers
-    :ensure t)
+  (use-package company-c-headers)
 
   (add-to-list 'company-backends 'company-c-headers)
 #+end_src
@@ -329,8 +326,7 @@ Auto completion for c/c++ headers
 
 Configuration to use auto completion in arudino-mode.
 #+begin_src emacs-lisp :tangle yes
-  (use-package company-arduino
-    :ensure t)
+  (use-package company-arduino)
 
   ;; Configuration for irony.el
   ;; Add arduino's include options to irony-mode's variable.
@@ -393,8 +389,7 @@ Deft is an Emacs mode for quickly browsing, filtering, and editing directories o
 * Ido Mode
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package flx-ido
-    :ensure t)
+  (use-package flx-ido)
   ;; ido mode
   (setq ido-enable-flex-matching nil)
   (setq ido-create-new-buffer 'always)
@@ -406,7 +401,6 @@ Deft is an Emacs mode for quickly browsing, filtering, and editing directories o
 
   ;; ido vertical
   (use-package ido-vertical-mode
-    :ensure t
     :init
     (ido-vertical-mode 1))
 
@@ -421,7 +415,6 @@ Highlight current cursor position with fancy fade.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package beacon
-    :ensure t
     :init
     (beacon-mode 1))
 #+end_src
@@ -472,7 +465,6 @@ Reducing scroll distance so it's actually useful.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package dashboard
-    :ensure t
     :config
     (dashboard-setup-startup-hook)
     (setq show-week-agenda t)
@@ -502,7 +494,6 @@ Reducing scroll distance so it's actually useful.
 #+begin_src emacs-lisp :tangle yes
   ;; line numbers (except for some)
   (use-package hlinum
-    :ensure t
     :config
     (hlinum-activate)
     (add-hook 'prog-mode-hook 'linum-mode)
@@ -520,7 +511,6 @@ Reducing scroll distance so it's actually useful.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package popup-kill-ring
-    :ensure t
     :bind ("C-s-v" . popup-kill-ring))
 #+end_src
 
@@ -528,7 +518,6 @@ Reducing scroll distance so it's actually useful.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package projectile
-    :ensure t
     :config
     (projectile-global-mode)
     (setq projectile-completion-system 'ido)
@@ -568,8 +557,7 @@ Buffers open with vertical split rather than horizontal split by default.
 *** Config
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package spaceline
-    :ensure t)
+  (use-package spaceline)
 
   (use-package spaceline-config
     :ensure spaceline
@@ -582,7 +570,6 @@ Buffers open with vertical split rather than horizontal split by default.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package spaceline-all-the-icons
-    :ensure t
     :after spaceline
     :config
     (spaceline-all-the-icons-theme)
@@ -609,7 +596,6 @@ Which keybindings appears when you press part of a hotkey and wait.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package which-key
-    :ensure t
     :init
     (which-key-mode))
 #+end_src
@@ -618,8 +604,7 @@ Which keybindings appears when you press part of a hotkey and wait.
 
 Counsel and Swiper.
 #+begin_src emacs-lisp :tangle yes
-  (use-package ivy
-    :ensure t)
+  (use-package ivy)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
@@ -693,11 +678,9 @@ Ivy integration with various modes.
 Add all the icons to ivy!
 #+begin_src emacs-lisp :tangle yes
   (use-package all-the-icons-ivy-rich
-    :ensure t
     :init (all-the-icons-ivy-rich-mode 1))
 
   (use-package ivy-rich
-    :ensure t
     :init (ivy-rich-mode 1))
 #+end_src
 
@@ -719,7 +702,6 @@ Add all the icons to ivy!
 
 #+begin_src emacs-lisp :tangle yes
   (use-package expand-region
-    :ensure t
     :bind ("C-q" . er/expand-region))
 #+end_src
 
@@ -805,8 +787,7 @@ Check if host system is running MacOS and bind super and meta if true.
 
 Install Magit
 #+begin_src emacs-lisp :tangle yes
-  (use-package magit
-    :ensure t)
+  (use-package magit)
   (global-set-key (kbd "C-x g") 'magit-status)
 #+end_src
 
@@ -842,7 +823,6 @@ Use org-mode from Melpa.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package org-bullets
-    :ensure t
     :config
     (add-hook 'org-mode-hook (lambda ()  (org-bullets-mode))))
 #+end_src
@@ -921,8 +901,7 @@ Function to sort all entires in the current buffer, recursively.
 ** Arduino
 
 #+begin_src emacs-lisp :tangle yes
-(use-package arduino-mode
-    :ensure t)
+(use-package arduino-mode)
 #+end_src
 
 ** C++
@@ -971,7 +950,6 @@ sudo pacman -S guile
 
 #+begin_src emacs-lisp :tangle yes
   (use-package geiser
-    :ensure t
     :config
     (setq geiser-active-implementations '(guile)))
 #+end_src
@@ -1021,7 +999,6 @@ sudo pacman -S guile
 Automagically resolve imports (requires importmagic and epc)
 #+begin_src emacs-lisp :tangle yes
 (use-package importmagic
-    :ensure t
     :config
     (add-hook 'python-mode-hook 'importmagic-mode))
 #+end_src
@@ -1031,7 +1008,6 @@ Automagically resolve imports (requires importmagic and epc)
 
 #+begin_src emacs-lisp :tangle yes
   (use-package yasnippet
-    :ensure t
     :config
     (use-package yasnippet-snippets
       :ensure t)
@@ -1132,7 +1108,6 @@ Enable more terminal colours.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package eterm-256color
-    :ensure t
     :config
     (add-hook 'term-mode-hook #'eterm-256color-mode))
 #+end_src
@@ -1154,7 +1129,6 @@ Make sure Emacs shell sees correct system $PATH from .bash_profile
 
 #+begin_src emacs-lisp :tangle yes
   (use-package exec-path-from-shell
-    :ensure t
     :init
     (exec-path-from-shell-initialize))
 #+end_src
@@ -1216,7 +1190,6 @@ Setting yes and no to y and n for brevity and consistency.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package smartparens
-    :ensure t
     :config
     (setq sp-show-pair-from-inside nil)
     (require 'smartparens-config)
@@ -1343,7 +1316,6 @@ Persistent the scratch buffer
 
 #+begin_src emacs-lisp :tangle yes
   (use-package sudo-edit
-    :ensure t
     :bind ("s-u" . sudo-edit))
 #+end_src
 
@@ -1380,12 +1352,10 @@ Apparently there is a warning bell/beep and light - not seen it though..
 Extend the deft package and turn it into a (very very) basic Zettelkasten note-taking system. Requires Avy for text movement.
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package avy
-    :ensure t)
+  (use-package avy)
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package zetteldeft
-    :ensure t)
+  (use-package zetteldeft)
   (zetteldeft-set-classic-keybindings)
 #+end_src
