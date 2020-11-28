@@ -468,6 +468,7 @@ Let's define the LSP client to use the LSP server:
     :hook (java-mode . lsp)
     :custom (lsp-java-server-install-dir
              (expand-file-name (format "%s/eclipse.jdt.ls/server" xdg-lib))))
+  (require 'dap-java)
 #+end_src
 
 *** Gradle
@@ -821,6 +822,7 @@ Let's take a look to my Python configuration:
   (use-package importmagic
     :config
     (add-hook 'python-mode-hook 'importmagic-mode))
+  (require 'dap-python)
 #+end_src
 
 ** Shell-script
