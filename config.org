@@ -34,6 +34,7 @@
   - [[#python][Python]]
   - [[#shell-script][Shell-script]]
   - [[#sql][SQL]]
+  - [[#typescript][TypeScript]]
   - [[#xml][XML]]
   - [[#yaml][YAML]]
 - [[#advanced-configuration][Advanced Configuration]]
@@ -225,8 +226,9 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package lsp-mode
-    :hook ((c-mode c++-mode java-mode json-mode python-mode xml-mode) . lsp)
+    :hook ((c-mode c++-mode java-mode json-mode python-mode typescript-mode xml-mode) . lsp)
     :custom
+    (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
     (lsp-enable-folding nil)
     (lsp-enable-links nil)
     (lsp-enable-snippet nil)
@@ -936,6 +938,21 @@ save a shell script file that begins with a =#!= shebang:
     :delight sql-mode "Σ ")
 #+end_src
 
+** TypeScript
+
+If you use GNU Emacs 27+, I recommend to use [[https://github.com/ananthakumaran/tide][typescript-language-server]] as LSP
+server. After installed it with your package manager, you need to use
+=typescript-mode= to get the syntax color:
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package typescript-mode
+    :mode ("\\.ts\\'" "\\.tsx\\'")
+    :hook (typescript-mode . prettier-js-mode)
+    :custom
+    (add-hook 'typescript-mode-hook #'(lambda ()
+                                 (enable-minor-mode
+                                  '("\\.tsx?\\'" . prettier-js-mode)))))
+#+end_src
 ** XML
 
 Unfortunately, XML is still used, especially for creating web services in SOAP.
@@ -1981,6 +1998,30 @@ Group Tool commands.
       ("i" ipinfo "ip info"))))
 #+end_src
 
+*** Hydra / TypeScript
+
+Group TypeScript commands.
+
+#+begin_src emacs-lisp :tangle yes
+  (defhydra hydra-typescript (:color blue)
+    "
+    ^
+    ^TypeScript^          ^Do^
+    ^──────────^──────────^──^───────────
+    _q_ quit             _b_ back
+    ^^                   _e_ errors
+    ^^                   _j_ jump
+    ^^                   _r_ references
+    ^^                   _R_ restart
+    ^^                   ^^
+    "
+    ("q" nil)
+    ("b" tide-jump-back)
+    ("e" tide-project-errors)
+    ("j" tide-jump-to-definition)
+    ("r" tide-references)
+    ("R" tide-restart-server))
+#+end_src
 *** Hydra / Upload
 
 Group upload commands.
@@ -2183,154 +2224,158 @@ smaller, simpler, and smoother to use yet highly customizable.
 #+END_QUOTE
 
 #+begin_src emacs-lisp :tangle yes
-    (use-package counsel
-      :after ivy
-      :delight
-      :bind (("C-x C-d" . counsel-dired-jump)
-             ("C-x C-h" . counsel-minibuffer-history)
-             ("C-x C-l" . counsel-find-library)
-             ("C-x C-r" . counsel-recentf)
-             ("C-x C-u" . counsel-unicode-char)
-             ("C-x C-v" . counsel-set-variable))
-      :config (counsel-mode)
-      :custom (counsel-rg-base-command "rg -S -M 150 --no-heading --line-number --color never %s"))
+  (use-package counsel
+    :after ivy
+    :delight
+    :bind (("C-x C-d" . counsel-dired-jump)
+           ("C-x C-h" . counsel-minibuffer-history)
+           ("C-x C-l" . counsel-find-library)
+           ("C-x C-r" . counsel-recentf)
+           ("C-x C-u" . counsel-unicode-char)
+           ("C-x C-v" . counsel-set-variable))
+    :config (counsel-mode)
+    :custom
+    (counsel-rg-base-command "rg -S -M 150 --no-heading --line-number --color never %s"))
 
-    (use-package ivy
-      :delight
-      :after ivy-rich
-      :bind (("C-x b" . ivy-switch-buffer)
-             ("C-x B" . ivy-switch-buffer-other-window)
-             ("M-H"   . ivy-resume)
-             :map ivy-minibuffer-map
-             ("<tab>" . ivy-alt-done)
-             ("C-i" . ivy-partial-or-done)
-             ("S-SPC" . nil)
-             :map ivy-switch-buffer-map
-             ("C-k" . ivy-switch-buffer-kill))
-      :custom
-      (ivy-case-fold-search-default t)
-      (ivy-count-format "(%d/%d) ")
-      (ivy-re-builders-alist '((t . ivy--regex-plus)))
-      (ivy-use-virtual-buffers t)
-      :config (ivy-mode))
+  (use-package ivy
+    :delight
+    :after ivy-rich
+    :bind (("C-x b" . ivy-switch-buffer)
+           ("C-x B" . ivy-switch-buffer-other-window)
+           ("M-H"   . ivy-resume)
+           :map ivy-minibuffer-map
+           ("<tab>" . ivy-alt-done)
+           ("C-i" . ivy-partial-or-done)
+           ("S-SPC" . nil)
+           :map ivy-switch-buffer-map
+           ("C-k" . ivy-switch-buffer-kill))
+    :custom
+    (ivy-case-fold-search-default t)
+    (ivy-count-format "(%d/%d) ")
+    (ivy-re-builders-alist '((t . ivy--regex-plus)))
+    (ivy-use-virtual-buffers t)
+    :config (ivy-mode))
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (setq counsel-find-file-ignore-regexp (regexp-opt '("__pycache__" ".pyc" ".pytest_cache")))
 
-    (use-package ivy-pass
-      :after ivy
-      :commands ivy-pass)
 
-    (use-package ivy-rich
-      :defer 0.1
-      :preface
-      (defun ivy-rich-branch-candidate (candidate)
-        "Displays the branch candidate of the candidate for ivy-rich."
-        (let ((candidate (expand-file-name candidate ivy--directory)))
-          (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
-              ""
-            (format "%s%s"
-                    (propertize
-                     (replace-regexp-in-string abbreviated-home-dir "~/"
-                                               (file-name-directory
-                                                (directory-file-name candidate)))
-                     'face 'font-lock-doc-face)
-                    (propertize
-                     (file-name-nondirectory
-                      (directory-file-name candidate))
-                     'face 'success)))))
+  (use-package ivy-pass
+    :after ivy
+    :commands ivy-pass)
 
-      (defun ivy-rich-compiling (candidate)
-        "Displays compiling buffers of the candidate for ivy-rich."
-        (let* ((candidate (expand-file-name candidate ivy--directory)))
-          (if (or (not (file-exists-p candidate)) (file-remote-p candidate)
-                  (not (magit-git-repo-p candidate)))
-              ""
-            (if (my/projectile-compilation-buffers candidate)
-                "compiling"
-              ""))))
+  (use-package ivy-rich
+    :defer 0.1
+    :preface
+    (defun ivy-rich-branch-candidate (candidate)
+      "Displays the branch candidate of the candidate for ivy-rich."
+      (let ((candidate (expand-file-name candidate ivy--directory)))
+        (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
+            ""
+          (format "%s%s"
+                  (propertize
+                   (replace-regexp-in-string abbreviated-home-dir "~/"
+                                             (file-name-directory
+                                              (directory-file-name candidate)))
+                   'face 'font-lock-doc-face)
+                  (propertize
+                   (file-name-nondirectory
+                    (directory-file-name candidate))
+                   'face 'success)))))
 
-      (defun ivy-rich-file-group (candidate)
-        "Displays the file group of the candidate for ivy-rich"
-        (let ((candidate (expand-file-name candidate ivy--directory)))
-          (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
-              ""
-            (let* ((group-id (file-attribute-group-id (file-attributes candidate)))
-                   (group-function (if (fboundp #'group-name) #'group-name #'identity))
-                   (group-name (funcall group-function group-id)))
-              (format "%s" group-name)))))
+    (defun ivy-rich-compiling (candidate)
+      "Displays compiling buffers of the candidate for ivy-rich."
+      (let* ((candidate (expand-file-name candidate ivy--directory)))
+        (if (or (not (file-exists-p candidate)) (file-remote-p candidate)
+                (not (magit-git-repo-p candidate)))
+            ""
+          (if (my/projectile-compilation-buffers candidate)
+              "compiling"
+            ""))))
 
-      (defun ivy-rich-file-modes (candidate)
-        "Displays the file mode of the candidate for ivy-rich."
-        (let ((candidate (expand-file-name candidate ivy--directory)))
-          (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
-              ""
-            (format "%s" (file-attribute-modes (file-attributes candidate))))))
+    (defun ivy-rich-file-group (candidate)
+      "Displays the file group of the candidate for ivy-rich"
+      (let ((candidate (expand-file-name candidate ivy--directory)))
+        (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
+            ""
+          (let* ((group-id (file-attribute-group-id (file-attributes candidate)))
+                 (group-function (if (fboundp #'group-name) #'group-name #'identity))
+                 (group-name (funcall group-function group-id)))
+            (format "%s" group-name)))))
 
-      (defun ivy-rich-file-size (candidate)
-        "Displays the file size of the candidate for ivy-rich."
-        (let ((candidate (expand-file-name candidate ivy--directory)))
-          (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
-              ""
-            (let ((size (file-attribute-size (file-attributes candidate))))
-              (cond
-               ((> size 1000000) (format "%.1fM " (/ size 1000000.0)))
-               ((> size 1000) (format "%.1fk " (/ size 1000.0)))
-               (t (format "%d " size)))))))
+    (defun ivy-rich-file-modes (candidate)
+      "Displays the file mode of the candidate for ivy-rich."
+      (let ((candidate (expand-file-name candidate ivy--directory)))
+        (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
+            ""
+          (format "%s" (file-attribute-modes (file-attributes candidate))))))
 
-      (defun ivy-rich-file-user (candidate)
-        "Displays the file user of the candidate for ivy-rich."
-        (let ((candidate (expand-file-name candidate ivy--directory)))
-          (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
-              ""
-            (let* ((user-id (file-attribute-user-id (file-attributes candidate)))
-                   (user-name (user-login-name user-id)))
-              (format "%s" user-name)))))
+    (defun ivy-rich-file-size (candidate)
+      "Displays the file size of the candidate for ivy-rich."
+      (let ((candidate (expand-file-name candidate ivy--directory)))
+        (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
+            ""
+          (let ((size (file-attribute-size (file-attributes candidate))))
+            (cond
+             ((> size 1000000) (format "%.1fM " (/ size 1000000.0)))
+             ((> size 1000) (format "%.1fk " (/ size 1000.0)))
+             (t (format "%d " size)))))))
 
-      (defun ivy-rich-switch-buffer-icon (candidate)
-        "Returns an icon for the candidate out of `all-the-icons'."
-        (with-current-buffer
-            (get-buffer candidate)
-          (let ((icon (all-the-icons-icon-for-mode major-mode :height 0.9)))
-            (if (symbolp icon)
-                (all-the-icons-icon-for-mode 'fundamental-mode :height 0.9)
-              icon))))
-      :config
-      (plist-put ivy-rich-display-transformers-list
-                 'counsel-find-file
-                 '(:columns
-                   ((ivy-rich-candidate               (:width 73))
-                    (ivy-rich-file-user               (:width 8 :face font-lock-doc-face))
-                    (ivy-rich-file-group              (:width 4 :face font-lock-doc-face))
-                    (ivy-rich-file-modes              (:width 11 :face font-lock-doc-face))
-                    (ivy-rich-file-size               (:width 7 :face font-lock-doc-face))
-                    (ivy-rich-file-last-modified-time (:width 30 :face font-lock-doc-face)))))
-      (plist-put ivy-rich-display-transformers-list
-                 'counsel-projectile-switch-project
-                 '(:columns
-                   ((ivy-rich-branch-candidate        (:width 80))
-                    (ivy-rich-compiling))))
-      (plist-put ivy-rich-display-transformers-list
-                 'ivy-switch-buffer
-                 '(:columns
-                   ((ivy-rich-switch-buffer-icon       (:width 2))
-                    (ivy-rich-candidate                (:width 40))
-                    (ivy-rich-switch-buffer-size       (:width 7))
-                    (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
-                    (ivy-rich-switch-buffer-major-mode (:width 20 :face warning)))
-                   :predicate (lambda (cand) (get-buffer cand))))
-      (ivy-rich-mode 1))
+    (defun ivy-rich-file-user (candidate)
+      "Displays the file user of the candidate for ivy-rich."
+      (let ((candidate (expand-file-name candidate ivy--directory)))
+        (if (or (not (file-exists-p candidate)) (file-remote-p candidate))
+            ""
+          (let* ((user-id (file-attribute-user-id (file-attributes candidate)))
+                 (user-name (user-login-name user-id)))
+            (format "%s" user-name)))))
 
-    (use-package all-the-icons-ivy
-      :after (all-the-icons ivy)
-      :custom (all-the-icons-ivy-buffer-commands '(ivy-switch-buffer-other-window))
-      :config
-      (add-to-list 'all-the-icons-ivy-file-commands 'counsel-dired-jump)
-      (add-to-list 'all-the-icons-ivy-file-commands 'counsel-find-library)
-      (all-the-icons-ivy-setup))
+    (defun ivy-rich-switch-buffer-icon (candidate)
+      "Returns an icon for the candidate out of `all-the-icons'."
+      (with-current-buffer
+          (get-buffer candidate)
+        (let ((icon (all-the-icons-icon-for-mode major-mode :height 0.9)))
+          (if (symbolp icon)
+              (all-the-icons-icon-for-mode 'fundamental-mode :height 0.9)
+            icon))))
+    :config
+    (plist-put ivy-rich-display-transformers-list
+               'counsel-find-file
+               '(:columns
+                 ((ivy-rich-candidate               (:width 73))
+                  (ivy-rich-file-user               (:width 8 :face font-lock-doc-face))
+                  (ivy-rich-file-group              (:width 4 :face font-lock-doc-face))
+                  (ivy-rich-file-modes              (:width 11 :face font-lock-doc-face))
+                  (ivy-rich-file-size               (:width 7 :face font-lock-doc-face))
+                  (ivy-rich-file-last-modified-time (:width 30 :face font-lock-doc-face)))))
+    (plist-put ivy-rich-display-transformers-list
+               'counsel-projectile-switch-project
+               '(:columns
+                 ((ivy-rich-branch-candidate        (:width 80))
+                  (ivy-rich-compiling))))
+    (plist-put ivy-rich-display-transformers-list
+               'ivy-switch-buffer
+               '(:columns
+                 ((ivy-rich-switch-buffer-icon       (:width 2))
+                  (ivy-rich-candidate                (:width 40))
+                  (ivy-rich-switch-buffer-size       (:width 7))
+                  (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
+                  (ivy-rich-switch-buffer-major-mode (:width 20 :face warning)))
+                 :predicate (lambda (cand) (get-buffer cand))))
+    (ivy-rich-mode 1))
 
-    (use-package swiper
-      :after ivy
-      :bind (("C-s" . swiper)
-             :map swiper-map
-             ("M-%" . swiper-query-replace)))
+  (use-package all-the-icons-ivy
+    :after (all-the-icons ivy)
+    :custom (all-the-icons-ivy-buffer-commands '(ivy-switch-buffer-other-window))
+    :config
+    (add-to-list 'all-the-icons-ivy-file-commands 'counsel-dired-jump)
+    (add-to-list 'all-the-icons-ivy-file-commands 'counsel-find-library)
+    (all-the-icons-ivy-setup))
+
+  (use-package swiper
+    :after ivy
+    :bind (("C-s" . swiper)
+           :map swiper-map
+           ("M-%" . swiper-query-replace)))
 #+end_src
 
 ** Keybindings
