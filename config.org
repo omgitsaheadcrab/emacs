@@ -16,7 +16,6 @@
   - [[#theming][Theming]]
   - [[#disable-graphical-ui-elements][Disable graphical UI elements.]]
 - [[#languages][Languages]]
-  - [[#arduino][Arduino]]
   - [[#c][C++]]
   - [[#cmake][CMake]]
   - [[#css--less--scss][CSS – LESS – SCSS]]
@@ -343,14 +342,6 @@ Use [[https://github.com/arcticicestudio/nord-emacs][nord-theme]] with [[https:/
 #+end_src
 
 * Languages
-
-** Arduino
-
-Major mode for editing Arduino sketches.
-
-#+begin_src emacs-lisp :tangle yes
-(use-package arduino-mode)
-#+end_src
 
 ** C++
 
