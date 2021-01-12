@@ -2616,8 +2616,8 @@ the structure of the current major mode.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package expand-region
-    :bind (("C-+" . er/contract-region)
-           ("C-=" . er/expand-region)))
+    :bind (("C->" . er/contract-region)
+           ("C-." . er/expand-region)))
 #+end_src
 
 I find it useful to delete a line and a region with only =C-w=.
