@@ -484,7 +484,7 @@ Then within sbcl install SLIME
 (ql:quickload "quicklisp-slime-helper")
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
     (if (string-equal system-type "darwin")
       (progn
         (print "FIXME: CommonLisp (ros) on MacOS"))
