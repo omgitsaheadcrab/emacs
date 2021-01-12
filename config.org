@@ -363,9 +363,9 @@ of your operating system.
              projectile-project-root-files-top-down-recurring))
     :config (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
 
-  (use-package google-c-style
-    :hook ((c-mode c++-mode) . google-set-c-style)
-    (c-mode-common . google-make-newline-indent))
+  ;; (use-package google-c-style
+  ;;   :hook ((c-mode c++-mode) . google-set-c-style)
+  ;;   (c-mode-common . google-make-newline-indent))
 
   (setq c-basic-offset 4)
 #+end_src
