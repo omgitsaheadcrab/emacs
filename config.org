@@ -2248,7 +2248,7 @@ smaller, simpler, and smoother to use yet highly customizable.
     (ivy-re-builders-alist '((t . ivy--regex-plus)))
     (ivy-use-virtual-buffers t)
     :config (ivy-mode))
-  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-x j") 'counsel-git-grep)
   (setq counsel-find-file-ignore-regexp (regexp-opt '("__pycache__" ".pyc" ".pytest_cache")))
 
 
