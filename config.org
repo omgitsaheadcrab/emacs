@@ -363,10 +363,6 @@ of your operating system.
              projectile-project-root-files-top-down-recurring))
     :config (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
 
-  ;; (use-package google-c-style
-  ;;   :hook ((c-mode c++-mode) . google-set-c-style)
-  ;;   (c-mode-common . google-make-newline-indent))
-
   (setq c-basic-offset 4)
 #+end_src
 
@@ -1385,42 +1381,6 @@ The code below, executes =org-babel-tangle= asynchronously when
 #+end_src
 
 ** General
-
-*** =aggressive-indent=
-
-Auto-indent code as you write.
-
-#+BEGIN_QUOTE
-=electric-indent-mode= is enough to keep your code nicely aligned when all you
-do is type. However, once you start shifting blocks around, transposing lines,
-or slurping and barfing sexps, indentation is bound to go wrong.
-
-=aggressive-indent-mode= is a minor mode that keeps your code *always* indented.
-It reindents after every change, making it more reliable than
-electric-indent-mode.
-
-[[https://github.com/Malabarba/aggressive-indent-mode][Artur Malabarba]]
-#+END_QUOTE
-
-#+begin_src emacs-lisp :tangle yes
-  (use-package aggressive-indent
-    :hook ((css-mode . aggressive-indent-mode)
-           (emacs-lisp-mode . aggressive-indent-mode)
-           (js-mode . aggressive-indent-mode)
-           (lisp-mode . aggressive-indent-mode))
-    :custom (aggressive-indent-comments-too))
-#+end_src
-
-*** =electric-operator=
-
-=electric-operator= is an emacs minor-mode to automatically add spacing around
-operators.
-
-#+begin_src emacs-lisp :tangle yes
-  (use-package electric-operator
-    :delight
-    :hook (python-mode . electric-operator-mode))
-#+end_src
 
 *** =gnuplot=
 
@@ -2553,9 +2513,13 @@ parenthesis. Anyway, if you don't like it, you can try taking a look at
 #+begin_src emacs-lisp :tangle yes
   (use-package smartparens
     :defer 1
+    :ensure t
     :delight
-    :custom (sp-escape-quotes-after-insert nil)
-    :config (smartparens-global-mode 1))
+    :config
+    (setq sp-show-pair-from-inside nil)
+    (require 'smartparens-config)
+    (smartparens-global-mode t)
+    :diminish smartparens-mode)
 #+end_src
 
 ** Paste
