@@ -1011,6 +1011,7 @@ completion candidates.
     (company-minimum-prefix-length 2)
     (company-show-numbers t)
     (company-tooltip-align-annotations 't)
+    (company-dabbrev-downcase nil)
     (global-company-mode t))
 #+end_src
 
