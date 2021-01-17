@@ -364,6 +364,11 @@ of your operating system.
     :config (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
 
   (setq c-basic-offset 4)
+(eval-after-load "cc-mode"
+  (progn
+    (require 'cc-mode)
+    (put 'c-electric-paren 'delete-selection nil)
+    (put 'c-electric-brace 'delete-selection nil)))
 #+end_src
 
 To allow =ccls= to know the dependencies of your =.cpp= files with your =.h=
