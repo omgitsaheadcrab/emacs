@@ -2861,8 +2861,9 @@ locally, download the desktop version and change the paths indicated below.
 *** IEdit
 
  #+begin_src emacs-lisp :tangle yes
- (use-package iedit
-   :ensure t)
+   (use-package iedit
+     :ensure t
+     :bind ("C-:" . iedit-mode))
  #+end_src
 
 *** Move Line
