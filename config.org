@@ -385,6 +385,11 @@ to do:
   ln -s Debug/compile_commands.json
 #+end_src
 
+Code formatting with clang-format
+#+begin_src emacs-lisp :tangle yes
+  (use-package clang-format
+    :after ccls)
+#+end_src
 ** CMake
 
 CMake is a cross-platform build system generator.
