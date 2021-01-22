@@ -2852,7 +2852,7 @@ locally, download the desktop version and change the paths indicated below.
    (use-package vterm-toggle
      :custom
      (vterm-toggle-fullscreen-p nil "Open a vterm in another window.")
-     (vterm-toggle-scope 'projectile)
+     (vterm-toggle-scope 'project)
      :bind ("s-t" . #'vterm-toggle))
  #+end_src
 
