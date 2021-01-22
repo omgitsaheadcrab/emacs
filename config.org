@@ -2824,16 +2824,15 @@ locally, download the desktop version and change the paths indicated below.
    (add-hook 'term-mode-hook #'eterm-256color-mode))
  #+end_src
 
-*** Default Shell
-
- Setting default shell to bash within ansi-term.
-
- #+begin_src emacs-lisp :tangle yes
- (defvar my-term-shell "/bin/bash")
- (defadvice ansi-term  (before force-bash)
-   (interactive (list my-term-shell)))
- (ad-activate 'ansi-term)
- #+end_src
+*** Use vterm
+#+begin_src emacs-lisp :tangle yes
+(use-package vterm
+  :config
+  (defun turn-off-chrome ()
+    (hl-line-mode -1)
+    (display-line-numbers-mode -1))
+  :hook (vterm-mode . turn-off-chrome))
+#+end_src
 
 *** Emacs Shell $PATH
 
@@ -2847,10 +2846,14 @@ locally, download the desktop version and change the paths indicated below.
 
 *** Hotkey
 
- Setting hotkey for ansi-term in emacs - Super+T.
+ Setting hotkey for vterm in emacs - Super+T.
 
  #+begin_src emacs-lisp :tangle yes
- (global-set-key (kbd "s-t") 'ansi-term)
+   (use-package vterm-toggle
+     :custom
+     (vterm-toggle-fullscreen-p nil "Open a vterm in another window.")
+     (vterm-toggle-scope 'projectile)
+     :bind ("s-t" . #'vterm-toggle))
  #+end_src
 
 ** Useful Tweaks
