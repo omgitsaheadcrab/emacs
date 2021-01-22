@@ -151,6 +151,7 @@ The following values are set for a better default user experience.
    use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
    user-full-name "Tobias Backer Dirks"             ; Set the full name of the current user
    user-mail-address "omgitsaheadcrab@gmail.com"    ; Set the email address of the current user
+   display-line-numbers t                           ; Display line numbers on the left
    vc-follow-symlinks t                             ; Always follow the symlinks
    view-read-only t)                                ; Always open read-only buffers in view-mode
   (cd "~/")                                         ; Move to the user directory
@@ -160,6 +161,9 @@ The following values are set for a better default user experience.
   (global-hl-line-mode)                             ; Hightlight current line
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
   (show-paren-mode 1)                               ; Show the parent
+  (put 'narrow-to-region 'disabled nil)             ; Enable region narrowing/widening
+  (put 'upcase-region 'disabled nil)                ; Enable region upcasing
+  (put 'downcase-region 'disabled nil)              ; Enable region downcasing
 #+end_src
 
 ** Better file management with XDG
@@ -390,6 +394,7 @@ Code formatting with clang-format
   (use-package clang-format
     :after ccls)
 #+end_src
+
 ** CMake
 
 CMake is a cross-platform build system generator.
@@ -952,6 +957,7 @@ server. After installed it with your package manager, you need to use
                                  (enable-minor-mode
                                   '("\\.tsx?\\'" . prettier-js-mode)))))
 #+end_src
+
 ** XML
 
 Unfortunately, XML is still used, especially for creating web services in SOAP.
