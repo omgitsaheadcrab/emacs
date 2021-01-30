@@ -235,6 +235,7 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
     (lsp-enable-folding nil)
     (lsp-enable-links nil)
     (lsp-enable-snippet nil)
+    (lsp-enable-on-type-formatting nil)
     (lsp-prefer-flymake nil)
     (lsp-session-file (expand-file-name (format "%s/emacs/lsp-session-v1" xdg-data)))
     (lsp-restart 'auto-restart))
@@ -1263,26 +1264,27 @@ different in your country, therefore, adapt the configuration below accordingly.
 Always good to have a dashboard.
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package dashboard
-    :if (< (length command-line-args) 2)
-    :preface
-    (defun dashboard-load-packages (list-size)
-      (insert (make-string (ceiling (max 0 (- dashboard-banner-length 38)) 5) ? )
-              (format "%d packages loaded in %s" (length package-activated-list) (emacs-init-time))))
-    :custom
-    (dashboard-center-content t)
-    (dashboard-items '((recents . 10)
-                       (bookmarks . 2)
-                       (projects . 4)))
-    (dashboard-set-file-icons t)
-    (dashboard-set-heading-icons t)
-    (dashboard-set-init-info nil)
-    (dashboard-set-navigator t)
-    (dashboard-startup-banner 'logo)
-    :config
-    (add-to-list 'dashboard-item-generators '(packages . dashboard-load-packages))
-    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-    (dashboard-setup-startup-hook))
+    (use-package dashboard
+      :if (< (length command-line-args) 2)
+      :preface
+      (defun dashboard-load-packages (list-size)
+        (insert (make-string (ceiling (max 0 (- dashboard-banner-length 38)) 5) ? )
+                (format "%d packages loaded in %s" (length package-activated-list) (emacs-init-time))))
+      :custom
+      (dashboard-center-content t)
+      (dashboard-items '((recents . 10)
+                         (bookmarks . 2)
+                         (projects . 4)
+                         (agenda . 5)))
+      (dashboard-set-file-icons t)
+      (dashboard-set-heading-icons t)
+      (dashboard-set-init-info nil)
+      (dashboard-set-navigator t)
+      (dashboard-startup-banner 'logo)
+      :config
+      (add-to-list 'dashboard-item-generators '(packages . dashboard-load-packages))
+      (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+      (dashboard-setup-startup-hook))
 #+end_src
 
 ** Deft
@@ -1292,7 +1294,7 @@ Always good to have a dashboard.
  #+begin_src emacs-lisp :tangle yes
  (use-package deft
    :bind ("<f8>" . deft)
-   :init (setq deft-directory "~/Dropbox/org/notes/"
+   :init (setq deft-directory "~/.personal/notes/"
                deft-extensions '("org" "md" "txt")
                deft-default-extension "org"
                deft-recursive t
@@ -3341,10 +3343,7 @@ authoring documents with a fast and effective plain-text system.
                                    "STARTED(s)"
                                    "WAITING(w@/!)"
                                    "SOMEDAY(.)" "|" "DONE(x!)" "CANCELLED(c@)")
-                         (sequence "TOBUY"
-                                   "TOSHRINK"
-                                   "TOCUT"
-                                   "TOSEW" "|" "DONE(x)")))
+                         (sequence "DONE(x)")))
     (org-use-effective-time t)
     (org-use-speed-commands 'my/org-use-speed-commands-for-headings-and-lists)
     (org-yank-adjusted-subtrees t)
