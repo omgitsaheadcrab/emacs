@@ -2845,9 +2845,16 @@ locally, download the desktop version and change the paths indicated below.
              (message "Wrote %s" scratch-name))
          (save-buffer))))
    :hook (after-init . persistent-scratch-setup-default)
-   :bind (:map lisp-interaction-mode-map
+   :bind (:map org-mode-map
                ("C-x C-s" . my-save-buffer)))
  #+end_src
+
+ Set persistent scratch as an org-mode buffer
+#+begin_src emacs-lisp :tangle yes
+  (setq initial-major-mode (lambda ()
+                             (persistent-scratch-mode)
+                             (org-mode)))
+#+end_src
 
 *** Quote Lines
 
