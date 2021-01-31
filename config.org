@@ -1235,7 +1235,7 @@ Always good to have a dashboard.
  #+begin_src emacs-lisp :tangle yes
  (use-package deft
    :bind ("<f8>" . deft)
-   :init (setq deft-directory "~/.personal/notes/"
+   :init (setq deft-directory "~/Documents/org/notes/"
                deft-extensions '("org" "md" "txt")
                deft-default-extension "org"
                deft-recursive t
@@ -1715,11 +1715,11 @@ Group jump-to-files commands.
   (pretty-hydra-define hydra-go-to-file
     (:hint nil :color teal :quit-key "q" :title (with-faicon "file-text-o" "Go To" 1 -0.05))
     ("Agenda"
-     (("ac" (find-file "~/.personal/agenda/contacts.org") "contacts")
-      ("ao" (find-file "~/.personal/agenda/organizer.org") "organizer")
-      ("ap" (find-file "~/.personal/agenda/people.org") "people")
-      ("ar" (find-file "~/.personal/agenda/routine.org") "routine")
-      ("aw" (find-file "~/.personal/agenda/work.org") "work"))
+     (("ac" (find-file "~/Documents/org/agenda/contacts.org") "contacts")
+      ("ao" (find-file "~/Documents/org/agenda/organizer.org") "organizer")
+      ("ap" (find-file "~/Documents/org/agenda/people.org") "people")
+      ("ar" (find-file "~/Documents/org/agenda/routine.org") "routine")
+      ("aw" (find-file "~/Documents/org/agenda/work.org") "work"))
      "Config"
      (("ca" (find-file (format "%s/alacritty/alacritty.yml" xdg-config)) "alacritty")
       ("cA" (find-file (format "%s/sh/aliases" xdg-config)) "aliases")
@@ -1734,11 +1734,11 @@ Group jump-to-files commands.
       ("cr" (find-file (format "%s/rofi/config.rasi" xdg-config)) "rofi")
       ("cx" (find-file (format "%s/sh/xdg" xdg-config)) "xdg"))
      "Other"
-     (("ob" (find-file "~/.personal/other/books.org") "book")
-      ("ol" (find-file "~/.personal/other/learning.org") "learning")
-      ("om" (find-file "~/.personal/other/movies.org"))
-      ("op" (find-file "~/.personal/other/purchases.org") "purchase")
-      ("ou" (find-file "~/.personal/other/usb.org") "usb"))))
+     (("ob" (find-file "~/Documents/org/other/books.org") "book")
+      ("ol" (find-file "~/Documents/org/other/learning.org") "learning")
+      ("om" (find-file "~/Documents/org/other/movies.org"))
+      ("op" (find-file "~/Documents/org/other/purchases.org") "purchase")
+      ("ou" (find-file "~/Documents/org/other/usb.org") "usb"))))
 #+end_src
 
 *** Hydra / Image
@@ -3242,7 +3242,7 @@ authoring documents with a fast and effective plain-text system.
            ;;(auto-save . org-save-all-org-buffers)
            (org-mode . org-indent-mode))
     :custom
-    (org-archive-location "~/.personal/archives/%s::")
+    (org-archive-location "~/Documents/org/archives/%s::")
     (org-blank-before-new-entry '((heading . t)
                                   (plain-list-item . t)))
     (org-cycle-include-plain-lists 'integrate)
@@ -3280,8 +3280,8 @@ authoring documents with a fast and effective plain-text system.
     (org-todo-keywords '((sequence "TODO(t)"
                                    "STARTED(s)"
                                    "WAITING(w@/!)"
-                                   "SOMEDAY(.)" "|" "DONE(x!)" "CANCELLED(c@)")
-                         (sequence "DONE(x)")))
+                                   "SOMEDAY(.)" "|" "DONE(d!)" "CANCELLED(c@)")
+                         (sequence "DONE(d)")))
     (org-use-effective-time t)
     (org-use-speed-commands 'my/org-use-speed-commands-for-headings-and-lists)
     (org-yank-adjusted-subtrees t)
@@ -3354,7 +3354,7 @@ update it from several computers and smartphones.
       (org-capture 0 "t"))
     :custom
     (org-agenda-dim-blocked-tasks t)
-    (org-agenda-files '("~/.personal/agenda"))
+    (org-agenda-files '("~/Documents/org/agenda"))
     (org-agenda-inhibit-startup t)
     (org-agenda-show-log t)
     (org-agenda-skip-deadline-if-done t)
@@ -3367,8 +3367,8 @@ update it from several computers and smartphones.
     (org-agenda-time-grid '((daily today require-timed)))
     (org-agenda-use-tag-inheritance t)
     (org-columns-default-format "%14SCHEDULED %Effort{:} %1PRIORITY %TODO %50ITEM %TAGS")
-    (org-default-notes-file "~/.personal/agenda/organizer.org")
-    (org-directory "~/.personal")
+    (org-default-notes-file "~/Documents/org/agenda/organizer.org")
+    (org-directory "~/Documents/org")
     (org-enforce-todo-dependencies t)
     (org-habit-completed-glyph ?✓)
     (org-habit-graph-column 80)
@@ -3415,35 +3415,35 @@ information.
 
     :custom
     (org-capture-templates
-     `(("B" "Book" checkitem (file+headline "~/.personal/other/books.org" "Books")
+     `(("B" "Book" checkitem (file+headline "~/Documents/org/other/books.org" "Books")
         "- [ ] %^{Book}"
         :immediate-finish t)
 
-       ("L" "Learning" checkitem (file+headline "~/.personal/other/learning.org" "Things")
+       ("L" "Learning" checkitem (file+headline "~/Documents/org/other/learning.org" "Things")
         "- [ ] %^{Thing}"
         :immediate-finish t)
 
-       ("M" "Movie" checkitem (file+headline "~/.personal/other/movies.org" "Movies")
+       ("M" "Movie" checkitem (file+headline "~/Documents/org/other/movies.org" "Movies")
         "- [ ] %^{Movie}"
         :immediate-finish t)
 
-       ("P" "Purchase" checkitem (file+headline "~/.personal/other/purchases.org" "Purchases")
+       ("P" "Purchase" checkitem (file+headline "~/Documents/org/other/purchases.org" "Purchases")
         "- [ ] %^{Item}"
         :immediate-finish t)
 
-       ("c" "Contact" entry (file+headline "~/.personal/agenda/contacts.org" "Friends"),
+       ("c" "Contact" entry (file+headline "~/Documents/org/agenda/contacts.org" "Friends"),
         my/org-contacts-template
         :empty-lines 1)
 
-       ("p" "People" entry (file+headline "~/.personal/agenda/people.org" "Tasks"),
+       ("p" "People" entry (file+headline "~/Documents/org/agenda/people.org" "Tasks"),
         my/org-basic-task-template
         :empty-lines 1)
 
-       ("s" "Work" entry (file+headline "~/.personal/agenda/work.org" "Tasks"),
+       ("s" "Work" entry (file+headline "~/Documents/org/agenda/work.org" "Tasks"),
         my/org-basic-task-template
         :empty-lines 1)
 
-       ("t" "Task" entry (file+headline "~/.personal/agenda/organizer.org" "Tasks"),
+       ("t" "Task" entry (file+headline "~/Documents/org/agenda/organizer.org" "Tasks"),
         my/org-basic-task-template
         :empty-lines 1))))
 #+end_src
@@ -3522,7 +3522,7 @@ that to install it, this one is available with =org-plus-contrib=.
   (use-package org-contacts
     :ensure nil
     :after org
-    :custom (org-contacts-files '("~/.personal/agenda/contacts.org")))
+    :custom (org-contacts-files '("~/Documents/org/agenda/contacts.org")))
 #+end_src
 
 ** Customization
@@ -3585,7 +3585,7 @@ growth.
       (find-file (get-journal-file-yesterday)))
     :custom
     (org-journal-date-format "%e %b %Y (%A)")
-    (org-journal-dir (format "~/.personal/journal/" (format-time-string "%Y")))
+    (org-journal-dir (format "~/Documents/org/journal/" (format-time-string "%Y")))
     (org-journal-enable-encryption t)
     (org-journal-file-format "%Y%m%d")
     (org-journal-time-format ""))
