@@ -3245,7 +3245,7 @@ authoring documents with a fast and effective plain-text system.
       `(lambda (&rest _rest)
          (funcall ,fnc)))
     :hook ((after-save . my/config-tangle)
-           ;;(auto-save . org-save-all-org-buffers)
+           (auto-save . org-save-all-org-buffers)
            (org-mode . org-indent-mode))
     :custom
     (org-archive-location "~/Documents/org/archives/%s::")
