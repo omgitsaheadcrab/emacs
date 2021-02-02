@@ -1944,6 +1944,7 @@ Group TypeScript commands.
     ("r" tide-references)
     ("R" tide-restart-server))
 #+end_src
+
 *** Hydra / Upload
 
 Group upload commands.
@@ -3301,10 +3302,10 @@ authoring documents with a fast and effective plain-text system.
     (add-to-list 'org-speed-commands-user '("s" call-interactively 'org-schedule))
     (add-to-list 'org-speed-commands-user '("x" org-todo "DONE"))
     (add-to-list 'org-speed-commands-user '("y" org-todo-yesterday "DONE"))
-    ;(advice-add 'org-deadline :after (ignore-args #'org-save-all-org-buffers))
-    ;(advice-add 'org-schedule :after (ignore-args #'org-save-all-org-buffers))
-    ;(advice-add 'org-store-log-note :after (ignore-args #'org-save-all-org-buffers))
-    ;(advice-add 'org-todo :after (ignore-args #'org-save-all-org-buffers))
+    (advice-add 'org-deadline :after (ignore-args #'org-save-all-org-buffers))
+    (advice-add 'org-schedule :after (ignore-args #'org-save-all-org-buffers))
+    (advice-add 'org-store-log-note :after (ignore-args #'org-save-all-org-buffers))
+    (advice-add 'org-todo :after (ignore-args #'org-save-all-org-buffers))
     (org-clock-persistence-insinuate)
     (org-load-modules-maybe t))
 #+end_src
@@ -3445,7 +3446,7 @@ information.
         my/org-basic-task-template
         :empty-lines 1)
 
-       ("s" "Work" entry (file+headline "~/Documents/org/agenda/work.org" "Tasks"),
+       ("w" "Work" entry (file+headline "~/Documents/org/agenda/work.org" "Tasks"),
         my/org-basic-task-template
         :empty-lines 1)
 
