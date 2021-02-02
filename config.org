@@ -7,6 +7,7 @@
 - [[#initialize-emacs][Initialize Emacs]]
   - [[#packages-sources][Packages Sources]]
   - [[#use-package][use-package]]
+  - [[#set-environment-variables-from-path][Set environment variables from path]]
 - [[#start-up][Start Up]]
   - [[#better-defaults][Better defaults]]
   - [[#better-file-management-with-xdg][Better file management with XDG]]
@@ -123,6 +124,15 @@ installed if it isn't already.
   (use-package delight :ensure t)
   (use-package use-package-ensure-system-package :ensure t)
 #+end_src
+
+** Set environment variables from path
+Make sure Emacs uses all the correct environment variables
+
+ #+begin_src emacs-lisp :tangle yes
+ (use-package exec-path-from-shell
+   :init
+   (exec-path-from-shell-initialize))
+ #+end_src
 
 * Start Up
 
@@ -2774,16 +2784,6 @@ locally, download the desktop version and change the paths indicated below.
   :hook (vterm-mode . turn-off-chrome))
 #+end_src
 
-*** Emacs Shell $PATH
-
- Make sure Emacs shell sees correct system $PATH from .bash_profile
-
- #+begin_src emacs-lisp :tangle yes
- (use-package exec-path-from-shell
-   :init
-   (exec-path-from-shell-initialize))
- #+end_src
-
 *** Hotkey
 
  Setting hotkey for vterm in emacs - Super+T.
@@ -3245,7 +3245,7 @@ authoring documents with a fast and effective plain-text system.
       `(lambda (&rest _rest)
          (funcall ,fnc)))
     :hook ((after-save . my/config-tangle)
-           (auto-save . org-save-all-org-buffers)
+           ;(auto-save . org-save-all-org-buffers)
            (org-mode . org-indent-mode))
     :custom
     (org-archive-location "~/Documents/org/archives/%s::")
