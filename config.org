@@ -69,6 +69,7 @@
   - [[#projectile][Projectile]]
   - [[#recent-files][Recent Files]]
   - [[#requests][Requests]]
+  - [[#smart-mx][Smart Mx]]
   - [[#spelling][Spelling]]
   - [[#terminal][Terminal]]
   - [[#useful-tweaks][Useful Tweaks]]
@@ -2644,6 +2645,14 @@ files, in order to make =~/.emacs.d= a cleaner place.
     :ensure nil
     :custom
     (url-cookie-file (expand-file-name (format "%s/emacs/url/cookies/" xdg-data))))
+#+end_src
+
+** Smart Mx
+
+Smart M-x for recent and most used command history.
+#+begin_src emacs-lisp :tangle yes
+  (use-package smex
+    :init (setq-default smex-history-length 10))
 #+end_src
 
 ** Spelling
