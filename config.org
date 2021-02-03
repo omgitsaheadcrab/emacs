@@ -74,7 +74,8 @@
   - [[#terminal][Terminal]]
   - [[#useful-tweaks][Useful Tweaks]]
   - [[#version-control][Version Control]]
-  - [[#whitespaces][Whitespaces]]
+  - [[#weblorg][Weblorg]]
+  - [[#whitespace][Whitespace]]
   - [[#windows][Windows]]
   - [[#word-wrap][Word Wrap]]
   - [[#yasnippet][YASnippet]]
@@ -3044,7 +3045,16 @@ made by previous commits.
     :delight)
 #+end_src
 
-** Whitespaces
+** Weblorg
+
+A Static HTML Generator for Emacs and Org-Mode.
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package weblorg
+    :delight)
+#+end_src
+
+** Whitespace
 
 It is often annoying to see unnecessary blank spaces at the end of a line or
 file. Let's get ride of them:
