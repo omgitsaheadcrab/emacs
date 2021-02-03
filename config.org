@@ -3457,12 +3457,16 @@ information.
         my/org-basic-task-template
         :empty-lines 1)
 
+       ("i" "Inbox" entry (file+headline "~/Documents/org/inbox.org" "Inbox"),
+        my/org-basic-task-template
+        :empty-lines 1)
+
        ("p" "Protocol" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
-        "* %^{Title}\nSource: [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n%? %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
+        "* TODO %^{Title}\nSource: [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n%? %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
         :empty-lines 1)
 
        ("L" "Protocol Link" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
-        "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
+        "* TODO %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
         :empty-lines 1)
        )))
 #+end_src
