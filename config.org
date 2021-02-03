@@ -3230,7 +3230,13 @@ authoring documents with a fast and effective plain-text system.
                   (/ (* 1.0 (org-hh:mm-string-to-minutes clocked))
                      (org-hh:mm-string-to-minutes estimated)))
         ""))
-
+    (defvar my/delete-frame-after-capture 0 "Whether to delete the last frame after the current capture")
+    (defun my/delete-frame-if-neccessary (&rest r)
+      (cond
+       ((= my/delete-frame-after-capture 0) nil)
+       (t
+        (setq my/delete-frame-after-capture 0)
+        (delete-frame))))
     (defun my/org-archive-done-tasks ()
       "Archives finished or cancelled tasks."
       (interactive)
@@ -3315,6 +3321,9 @@ authoring documents with a fast and effective plain-text system.
     (advice-add 'org-schedule :after (ignore-args #'org-save-all-org-buffers))
     (advice-add 'org-store-log-note :after (ignore-args #'org-save-all-org-buffers))
     (advice-add 'org-todo :after (ignore-args #'org-save-all-org-buffers))
+    (advice-add 'org-capture-finalize :after 'my/delete-frame-if-neccessary)
+    (advice-add 'org-capture-kill :after 'my/delete-frame-if-neccessary)
+    (advice-add 'org-capture-refile :after 'my/delete-frame-if-neccessary)
     (org-clock-persistence-insinuate)
     (org-load-modules-maybe t))
 #+end_src
@@ -3449,9 +3458,12 @@ information.
         :empty-lines 1)
 
        ("p" "Protocol" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
-        "* %^{Title}\nSource: [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+        "* %^{Title}\nSource: [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n%? %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
+        :empty-lines 1)
+
        ("L" "Protocol Link" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
-        "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
+        "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
+        :empty-lines 1)
        )))
 #+end_src
 
