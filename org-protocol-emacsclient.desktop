@@ -1,3 +1,4 @@
+# This file lives in /usr/share/applications
 [Desktop Entry]
 Name=EmacsClient as org-protocol handler
 Exec=emacsclient -c %u
