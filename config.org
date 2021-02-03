@@ -2845,7 +2845,7 @@ locally, download the desktop version and change the paths indicated below.
              (persistent-scratch-save)
              (message "Wrote %s" scratch-name))
          (save-buffer))))
-   :hook (after-init . persistent-scratch-setup-default)
+   :hook (persistent-scratch-setup-default)
    :bind (:map org-mode-map
                ("C-x C-s" . my-save-buffer)))
  #+end_src
