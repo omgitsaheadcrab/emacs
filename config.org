@@ -3429,31 +3429,16 @@ information.
   :NOTE: %^{NOTE}
   :END:" "Template for org-contacts.")
 
+    (defun transform-square-brackets-to-round-ones(string-to-transform)
+      "Transforms [ into ( and ] into ), other chars left unchanged."
+      (concat
+       (mapcar (lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform))
+      )
     :custom
     (org-capture-templates
      `(("B" "Book" checkitem (file+headline "~/Documents/org/other/books.org" "Books")
         "- [ ] %^{Book}"
         :immediate-finish t)
-
-       ("L" "Learning" checkitem (file+headline "~/Documents/org/other/learning.org" "Things")
-        "- [ ] %^{Thing}"
-        :immediate-finish t)
-
-       ("M" "Movie" checkitem (file+headline "~/Documents/org/other/movies.org" "Movies")
-        "- [ ] %^{Movie}"
-        :immediate-finish t)
-
-       ("P" "Purchase" checkitem (file+headline "~/Documents/org/other/purchases.org" "Purchases")
-        "- [ ] %^{Item}"
-        :immediate-finish t)
-
-       ("c" "Contact" entry (file+headline "~/Documents/org/agenda/contacts.org" "Friends"),
-        my/org-contacts-template
-        :empty-lines 1)
-
-       ("p" "People" entry (file+headline "~/Documents/org/agenda/people.org" "Tasks"),
-        my/org-basic-task-template
-        :empty-lines 1)
 
        ("w" "Work" entry (file+headline "~/Documents/org/agenda/work.org" "Tasks"),
         my/org-basic-task-template
@@ -3461,7 +3446,13 @@ information.
 
        ("t" "Task" entry (file+headline "~/Documents/org/agenda/organizer.org" "Tasks"),
         my/org-basic-task-template
-        :empty-lines 1))))
+        :empty-lines 1)
+
+       ("p" "Protocol" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+        "* %^{Title}\nSource: [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+       ("L" "Protocol Link" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+        "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n")
+       )))
 #+end_src
 
 ** Clock
