@@ -3451,6 +3451,11 @@ information.
   :NOTE: %^{NOTE}
   :END:" "Template for org-contacts.")
 
+    (defvar my/org-blog-post-template "* TODO %^{Post Title}
+  ,#+DATE: <%<%Y-%m-%d>>
+  ,#+OPTIONS: toc:nil num:nil
+  ,#+FILETAGS: %^{:blogging:}" "Template for org-blog-posts.")
+
     (defun transform-square-brackets-to-round-ones(string-to-transform)
       "Transforms [ into ( and ] into ), other chars left unchanged."
       (concat
@@ -3474,11 +3479,15 @@ information.
         my/org-basic-task-template
         :empty-lines 1)
 
-       ("p" "Protocol" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+       ("p" "Post" entry (file+headline "~/Documents/org/inbox.org" "Inbox"),
+        my/org-blog-post-template
+        :empty-lines 1)
+
+       ("q" "Protocol Quote" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
         "* TODO %^{Title}\nSource: [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n%? %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
         :empty-lines 1)
 
-       ("L" "Protocol Link" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
+       ("l" "Protocol Link" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
         "* TODO %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] %(progn (setq my/delete-frame-after-capture 1) \"\")\nCaptured On: %U"
         :empty-lines 1)
        )))
