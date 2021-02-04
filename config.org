@@ -90,6 +90,7 @@
   - [[#encryption--decryption][Encryption / Decryption]]
   - [[#journal][Journal]]
   - [[#languages-1][Languages]]
+  - [[#refile-to-file][Refile to File]]
 
 * About
 
@@ -1829,6 +1830,7 @@ Group Org commands.
       ("j" my/org-jump "jump-task")
       ("k" org-cut-subtree "cut-subtree")
       ("o" org-open-at-point-global "open-link")
+      ("p" my/org-refile-to-blog-post-dir "blog-post")
       ("r" org-refile "refile")
       ("s" org-store-link "store-link")
       ("t" org-show-todo-tree "todo-tree"))))
@@ -3233,6 +3235,7 @@ authoring documents with a fast and effective plain-text system.
     :delight "Θ "
     :bind ("C-c i" . org-insert-structure-template)
     :preface
+    (defvar my/org-default-blog-posts-dir "~/Documents/org/site/posts" "Default directory for blog posts")
     (defun my/org-compare-times (clocked estimated)
       "Gets the ratio between the timed time and the estimated time."
       (if (and (> (length clocked) 0) estimated)
@@ -3656,4 +3659,176 @@ With that, I can compile many languages with =org-mode=.
   (use-package ob-ruby :ensure nil :after org)
   (use-package ob-shell :ensure nil :after org)
   (use-package ob-sql :ensure nil :after org)
+#+end_src
+
+** Refile to File
+
+Add ability to refile org subtrees to a new file.
+
+*** Functions
+
+Custom functions to enable refiling org subtrees to a new file.
+
+*FROM:* http://www.howardism.org/Technical/Emacs/getting-even-more-boxes-done.html
+
+#+begin_src emacs-lisp :tangle yes
+  (defun my/org-subtree-metadata ()
+    "Return a list of key aspects of an org-subtree. Includes the
+           following: header text, body contents, list of tags, region list
+           of the start and end of the subtree."
+    (save-excursion
+      ;; Jump to the parent header if not already on a header
+      (when (not (org-at-heading-p))
+        (org-previous-visible-heading 1))
+
+      (let* ((context (org-element-context))
+             (attrs   (second context))
+             (props   (org-entry-properties)))
+
+        (list :region     (list (plist-get attrs :begin) (plist-get attrs :end))
+              :header     (plist-get attrs :title)
+              :tags       (my/org-get-subtree-tags props)
+              :properties (my/org-get-subtree-properties attrs)
+              :body       (my/org-get-subtree-content attrs)))))
+
+  (defun my/org-get-subtree-tags (&optional props)
+    "Given the properties, PROPS, from a call to
+           `org-entry-properties', return a list of tags."
+    (unless props
+      (setq props (org-entry-properties)))
+    (let ((tag-label (if my/org-get-subtree-tags-inherited "ALLTAGS" "TAGS")))
+      (-some->> props
+        (assoc tag-label)
+        cdr
+        substring-no-properties
+        (s-split ":")
+        (--filter (not (equalp "" it))))))
+
+  (defvar my/org-get-subtree-tags-inherited t
+    "Returns a subtree's tags, and all tags inherited (from tags
+             specified in parents headlines or on the file itself). Defaults
+             to true.")
+
+  (defun my/org-get-subtree-properties (attributes)
+    "Return a list of tuples of a subtrees properties where the keys are strings."
+
+    (defun my/symbol-upcase? (sym)
+      (let ((case-fold-search nil))
+        (string-match-p "^:[A-Z]+$" (symbol-name sym))))
+
+    (defun my/convert-tuple (tup)
+      (let ((key (first tup))
+            (val (second tup)))
+        (list (substring (symbol-name key) 1) val)))
+
+    (->> attributes
+         (-partition 2)                         ; Convert plist to list of tuples
+         (--filter (my/symbol-upcase? (first it))) ; Remove lowercase tuples
+         (-map 'my/convert-tuple)))
+
+  (defun my/org-get-subtree-content (attributes)
+    "Return the contents of the current subtree as a string."
+    (let ((header-components '(clock diary-sexp drawer headline inlinetask
+                                     node-property planning property-drawer section)))
+
+      (goto-char (plist-get attributes :contents-begin))
+
+      ;; Walk down past the properties, etc.
+      (while
+          (let* ((cntx (org-element-context))
+                 (elem (first cntx))
+                 (props (second cntx)))
+            (when (member elem header-components)
+              (goto-char (plist-get props :end)))))
+
+      ;; At this point, we are at the beginning of what we consider
+      ;; the contents of the subtree, so we can return part of the buffer:
+      (buffer-substring-no-properties (point) (org-end-of-subtree))))
+
+  (defun my/org-refile-subtree-to-file (dir)
+    "Archive the org-mode subtree and create an entry in the
+     directory folder specified by DIR. It attempts to move as many of
+     the subtree's properties and other features to the new file."
+    (interactive "DDestination: ")
+    (let* ((props      (my/org-subtree-metadata))
+           (head       (plist-get props :header))
+           (body       (plist-get props :body))
+           (tags       (plist-get props :tags))
+           (properties (plist-get props :properties))
+           (area       (plist-get props :region))
+           (filename   (my/org-filename-from-title head))
+           (filepath   (format "%s/%s.org" dir filename)))
+      (apply #'delete-region area)
+      (my/org-create-org-file filepath head body tags properties)))
+
+
+  (defun my/org-create-org-file (filepath header body tags properties)
+    "Create a new Org file by FILEPATH. The contents of the file is
+      pre-populated with the HEADER, BODY and any associated TAGS."
+    (find-file-other-window filepath)
+    (my/org-set-file-property "TITLE" header t)
+    (when tags
+      (my/org-set-file-property "FILETAGS" (s-join " " tags)))
+
+    ;; Insert any drawer properties as #+PROPERTY entries:
+    (when properties
+      (goto-char (point-min))
+      (or (re-search-forward "^\s*$" nil t) (point-max))
+      (--map (insert (format "#+PROPERTY: %s %s" (first it) (second it))) properties))
+
+    ;; My auto-insert often adds an initial headline for a subtree, and in this
+    ;; case, I don't want that... Yeah, this isn't really globally applicable,
+    ;; but it shouldn't cause a problem for others.
+    (when (re-search-forward "^\\* [0-9]$" nil t)
+      (replace-match ""))
+
+    (delete-blank-lines)
+    (goto-char (point-max))
+    (insert "\n")
+    (insert body))
+
+  (defun my/org-filename-from-title (title)
+    "Creates a useful filename based on a header string, TITLE.
+    For instance, given the string:    What's all this then?
+         This function will return:    whats-all-this-then"
+    (let* ((no-letters (rx (one-or-more (not alphanumeric))))
+           (init-try (->> title
+                          downcase
+                          (replace-regexp-in-string "'" "")
+                          (replace-regexp-in-string no-letters "-"))))
+      (string-trim init-try "-+" "-+")))
+
+
+  (defun my/org-set-file-property (key value &optional spot)
+    "Make sure file contains a top-level, file-wide property.
+   KEY is something like `TITLE' or `FILETAGS'. This function makes
+   sure that the property contains the contents of VALUE, and if the
+   file doesn't have the property, it is inserted at either SPOT, or
+   if nil,the top of the file."
+    (save-excursion
+      (goto-char (point-min))
+      (let ((case-fold-search t))
+        (if (re-search-forward (format "^#\\+%s:\s*\\(.*\\)" key) nil t)
+            (replace-match value nil nil nil 1)
+
+          (cond
+           ;; if SPOT is a number, go to it:
+           ((numberp spot) (goto-char spot))
+           ;; If SPOT is not given, jump to first blank line:
+           ((null spot) (progn (goto-char (point-min))
+                               (re-search-forward "^\s*$" nil t)))
+           (t (goto-char (point-min))))
+
+          (insert (format "#+%s: %s\n" (upcase key) value))))))
+#+end_src
+
+*** Destinations
+
+**** Add blog post.
+
+#+begin_src emacs-lisp :tangle yes
+  (defun my/org-refile-to-blog-post-dir ()
+      "Move the current subtree to a file in the blog `posts' directory."
+      (interactive)
+      (my/org-refile-subtree-to-file my/org-default-blog-posts-dir))
 #+end_src
