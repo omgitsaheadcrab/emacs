@@ -3392,7 +3392,7 @@ update it from several computers and smartphones.
       (org-capture 0 "t"))
     :custom
     (org-agenda-dim-blocked-tasks t)
-    (org-agenda-files '("~/Documents/org/agenda"))
+    (org-agenda-files (directory-files-recursively "~/Documents/org/" "\\.org$"))
     (org-agenda-inhibit-startup t)
     (org-agenda-show-log t)
     (org-agenda-skip-deadline-if-done t)
