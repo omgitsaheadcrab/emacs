@@ -3405,7 +3405,7 @@ update it from several computers and smartphones.
     (org-agenda-time-grid '((daily today require-timed)))
     (org-agenda-use-tag-inheritance t)
     (org-columns-default-format "%14SCHEDULED %Effort{:} %1PRIORITY %TODO %50ITEM %TAGS")
-    (org-default-notes-file "~/Documents/org/agenda/organizer.org")
+    (org-default-notes-file "~/Documents/org/inbox.org")
     (org-directory "~/Documents/org")
     (org-enforce-todo-dependencies t)
     (org-habit-completed-glyph ?✓)
