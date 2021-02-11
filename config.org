@@ -844,15 +844,22 @@ operating system.
 
 ** Python
 
-In order to have a fast and stable environment, I recommend to use [[https://github.com/andrew-christianson/lsp-python-ms][lsp-python-ms]]
-as LSP client and [[https://github.com/Microsoft/python-language-server][mspyls]] as LSP server as =mspyls= is faster than =pyls=.
-I use [[https://github.com/psf/black][black]] to reformat my Python buffer. Before use it, don't forget to
+I use [[https://github.com/palantir/python-language-server][pyls]] as my LSP client. I use [[https://github.com/psf/black][black]] to reformat my Python buffer. Before use it, don't forget to
 install =python-black= in your system.
+
+Also, you'll need =python-language-server[all]=, =pyls-black=, =pyls-isort=, =pyls-mypy=, =mypy=,
+=flake8=.
 
 To sort my Python imports, [[https://github.com/paetzke/py-isort.el][py-isort]] does a good job. Also, don't forget to
 install =python-isort= in your system.
 
 Automagically resolve imports (requires =importmagic= and =epc=)
+
+#+begin_src bash
+    pip install python-language-server[all]
+    pip install pyls-black pyls-isort pyls-mypy
+    pip install black isort mypy flake8 eps importmagic
+#+end_src
 
 Let's take a look to my Python configuration:
 
