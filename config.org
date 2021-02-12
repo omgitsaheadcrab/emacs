@@ -856,9 +856,10 @@ install =python-isort= in your system.
 Automagically resolve imports (requires =importmagic= and =epc=)
 
 #+begin_src bash
-    pip install python-language-server[all]
-    pip install pyls-black pyls-isort pyls-mypy
-    pip install black isort mypy flake8 eps importmagic
+  pip install python-language-server[all]
+  pip install pyls-black pyls-isort pyls-mypy
+  pip install black black-macchiato isort mypy future
+  pip install flake8 eps importmagic
 #+end_src
 
 Let's take a look to my Python configuration:
@@ -889,7 +890,7 @@ Let's take a look to my Python configuration:
     :after python
     :hook ((python-mode . pyenv-mode)
            (projectile-switch-project . projectile-pyenv-mode-set))
-    :custom (pyenv-mode-set "3.8.5")
+    :custom (pyenv-mode-set "3.9.0")
     :preface
     (defun projectile-pyenv-mode-set ()
       "Set pyenv version matching project name."
