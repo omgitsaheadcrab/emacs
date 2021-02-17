@@ -241,6 +241,10 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package lsp-mode
+    :config
+    (lsp-register-custom-settings
+     '(("pyls.plugins.pyls_mypy.enabled" t t)
+       ("pyls.plugins.pyls_mypy.live_mode" nil t)))
     :hook ((c-mode c++-mode java-mode json-mode python-mode typescript-mode xml-mode) . lsp)
     :custom
     (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
