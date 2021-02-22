@@ -868,7 +868,7 @@ Automagically resolve imports (requires =importmagic= and =epc=)
   pip install python-language-server[all]
   pip install pyls-black pyls-isort pyls-mypy
   pip install black black-macchiato isort mypy future
-  pip install flake8 epc importmagic
+  pip install flake8 epc importmagic debugpy
 #+end_src
 
 Let's take a look to my Python configuration:
@@ -947,6 +947,7 @@ Let's take a look to my Python configuration:
     :config
     (add-hook 'python-mode-hook 'importmagic-mode))
   (require 'dap-python)
+  (setq dap-python-debugger 'debugpy)
 #+end_src
 
 ** Shell-script
