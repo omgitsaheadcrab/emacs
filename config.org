@@ -946,8 +946,18 @@ Let's take a look to my Python configuration:
   (use-package importmagic
     :config
     (add-hook 'python-mode-hook 'importmagic-mode))
+
   (require 'dap-python)
   (setq dap-python-debugger 'debugpy)
+
+  (use-package python-pytest
+    :after python
+    :custom
+    (python-pytest-arguments
+     '("--color"          ;; colored output in the buffer
+       "--failed-first"   ;; run the previous failed tests first
+       "--maxfail=5"))    ;; exit in 5 continuous failures in a run
+    )
 #+end_src
 
 ** Shell-script
@@ -1637,7 +1647,8 @@ seamless, it's like a minor mode that disables itself auto-magically.
            ("C-c p" . hydra-projectile/body)
            ("C-c q" . hydra-query/body)
            ("C-c s" . hydra-spelling/body)
-           ("C-c t" . hydra-tex/body)
+           ("C-c t" . hydra-pytest/body)
+           ("C-c T" . hydra-tex/body)
            ("C-c u" . hydra-upload/body)
            ("C-c w" . hydra-windows/body)))
 
@@ -1915,6 +1926,20 @@ Group spelling commands.
      (("<" flyspell-correct-previous "previous" :color pink)
       (">" flyspell-correct-next "next" :color pink)
       ("f" langtool-check "find"))))
+#+end_src
+
+*** Hydra / (py)test
+
+Group python-pytest commands.
+
+#+begin_src emacs-lisp :tangle yes
+  (pretty-hydra-define hydra-pytest
+    (:hint nil :color teal :quit-key "q" :title (with-alltheicon "python" "Pytest" 1 -0.05))
+    ("Action"
+     (("f" python-pytest-function-dwim "test function")
+      ("a" python-pytest-file-dwim "test file")
+      ("p" python-pytest "test project")
+      ("m" python-pytest-dispatch "show menu"))))
 #+end_src
 
 *** Hydra / TeX
