@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: omgitsaheadcrab <omgitsaheadcrab@gmail.com>
+# name: User Story
+# key: us
+# --
+As a: $1
+I want: $2
+So that: $3
