@@ -890,7 +890,7 @@ Let's take a look to my Python configuration:
   (use-package python-black
     :demand t
     :after python
-    :config (setq python-black-extra-args '("--line-length 79")))
+    :config (setq python-black-extra-args '("-l 79")))
 
   (use-package py-isort
     :after python
