@@ -1116,7 +1116,15 @@ like being able to find my way easily.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package ibuffer
-    :bind ("C-x C-b" . ibuffer))
+    :bind ("C-x C-b" . ibuffer)
+    :config
+    (setq ibuffer-saved-filter-groups
+          '(("default"
+             ("ERC" (mode . erc-mode))
+             )))
+    (add-hook 'ibuffer-mode-hook
+              #'(lambda ()
+                 (ibuffer-switch-to-saved-filter-groups "default"))))
 
   (use-package ibuffer-projectile
     :after ibuffer
@@ -2144,7 +2152,7 @@ Finally, specify to =erc= that you use a =.authinfo= file with:
       (interactive)
       (if (get-buffer "irc.freenode.net:6667")
           (erc-track-switch-buffer 1)
-        (erc :server "irc.freenode.net" :port 6667 :nick "rememberYou")))
+        (erc :server "irc.freenode.net" :port 6667 :nick "omgitsaheadcrab")))
     :hook ((ercn-notify . my/erc-notify)
            (erc-send-pre . my/erc-preprocess))
     :custom-face
@@ -2165,6 +2173,7 @@ Finally, specify to =erc= that you use a =.authinfo= file with:
     (erc-join-buffer 'bury)
     (erc-kill-buffer-on-part t)
     (erc-kill-queries-on-quit t)
+    (erc-use-auth-source-for-nickserv-password t)
     (erc-kill-server-buffer-on-quit t)
     (erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
     (erc-lurker-threshold-time 43200)
@@ -2357,7 +2366,7 @@ smaller, simpler, and smoother to use yet highly customizable.
 
  #+begin_src emacs-lisp :tangle yes
  (global-set-key [f5]
-                 '(lambda () "Refresh the buffer from the disk (prompt of modified)."
+                 #'(lambda () "Refresh the buffer from the disk (prompt of modified)."
                     (interactive)
                     (revert-buffer t (not (buffer-modified-p)) t)))
  #+end_src
