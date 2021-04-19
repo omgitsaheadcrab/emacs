@@ -62,6 +62,7 @@
   - [[#linters][Linters]]
   - [[#lorem-ipsum][Lorem Ipsum]]
   - [[#navigation][Navigation]]
+  - [[#notmuch][Notmuch]]
   - [[#parentheses][Parentheses]]
   - [[#paste][Paste]]
   - [[#pdf][PDF]]
@@ -2497,6 +2498,80 @@ efficient way to go to the beginning of a line with =move-beginning-of-line=
   (use-package imenu
     :ensure nil
     :bind ("C-r" . imenu))
+#+end_src
+
+** Notmuch
+
+Using `notmuch` as my email client. I followed [[https://sqrtminusone.xyz/posts/2021-02-27-gmail/][this guide]].
+
+To use you'll need to install both
+
+#+begin_src bash
+sudo pacman -S notmuch
+yay -S gmailieer-git
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package notmuch
+  :ensure nil
+  :commands (notmuch)
+  :config
+  (add-hook 'notmuch-hello-mode-hook
+            (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+Configure your inboxes
+#+begin_src emacs-lisp :tangle yes
+  (setq notmuch-saved-searches
+     '((:name "inbox (omgitsaheadcrab)" :query "tag:inbox AND tag:omgitsaheadcrab" :sort-order newest-first)
+       (:name "unread (omgitsaheadcrab)" :query "tag:unread AND tag:omgitsaheadcrab" :sort-order newest-first)
+       (:name "sent (omgitsaheadcrab)" :query "tag:sent AND tag:omgitsaheadcrab" :sort-order newest-first)
+       (:name "all mail (omgitsaheadcrab)" :query "tag:omgitsaheadcrab" :sort-order newest-first)
+       (:name "inbox (t.backerdirks)" :query "tag:inbox AND tag:t.backerdirks" :sort-order newest-first)
+       (:name "unread (t.backerdirks)" :query "tag:unread AND tag:t.backerdirks" :sort-order newest-first)
+       (:name "sent (t.backerdirks)" :query "tag:sent AND tag:t.backerdirks" :sort-order newest-first)
+       (:name "all mail (t.backerdirks)" :query "tag:t.backerdirks" :sort-order newest-first)
+       (:name "drafts" :query "tag:draft" :sort-order newest-first)))
+#+end_src
+
+Configure senders to automatically choose the correct auth from `.authinfo.gpg`
+#+begin_src emacs-lisp :tangle yes
+  (setq mail-specify-envelope-from t)
+  (setq message-sendmail-envelope-from 'header)
+  (setq mail-envelope-from 'header)
+  (setq notmuch-always-prompt-for-sender t)
+
+  ;; Configure known SMTP servers. Emacs prompts for passwords and saves them in ~/.authinfo
+  (setq smtp-accounts          ;; Format: Sender Mail address - SMTP Server - Port - Username
+        '(("omgitsaheadcrab@gmail.com" "smtp.gmail.com" 587 "omgitsaheadcrab@gmail.com")
+          ("t.backerdirks@gmail.com" "smtp.gmail.com" 587 "t.backerdirks@gmail.com")
+          ))
+
+  ;; Set the SMTP Server according to the mail address we use for sending
+  (defun my/set-smtp-server-message-send-and-exit ()
+    "Set SMTP server from list of multiple ones and send mail."
+    (interactive)
+    (message-remove-header "X-Message-SMTP-Method") ;; Remove. We always determine it by the From field
+    (let ((sender
+           (message-fetch-field "From")))
+      (loop for (addr server port usr) in smtp-accounts
+            when (string-match addr sender)
+            do (message-add-header (format "X-Message-SMTP-Method: smtp %s %d %s" server port usr)))
+      (let ((xmess
+             (message-fetch-field "X-Message-SMTP-Method")))
+        (if xmess
+            (progn
+              (message (format "Sending message using '%s' with config '%s'" sender xmess))
+              (message-send-and-exit))
+          (error "Could not find SMTP Server for this Sender address: %s. You might want to correct it or add it to the SMTP Server list 'smtp-accounts'" sender)))))
+
+  ;; Send emails via multiple servers
+  (defun my/local-notmuch-compose-mode ()
+    "Keys."
+    (local-set-key (kbd "C-c C-c")  'my/set-smtp-server-message-send-and-exit))
+
+  ;; set in group mode hook
+  (add-hook 'notmuch-message-mode-hook 'my/local-notmuch-compose-mode)
 #+end_src
 
 ** Parentheses
