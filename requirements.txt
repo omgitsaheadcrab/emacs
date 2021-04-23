@@ -1,0 +1,13 @@
+black
+black-macchiato
+debugpy
+epc
+flake8
+future
+importmagic
+isort
+mypy
+pyls-black
+pyls-isort
+pyls-mypy
+python-language-server[all]
