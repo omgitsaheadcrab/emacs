@@ -18,6 +18,7 @@ Environment=XDG_CONFIG_HOME=/home/odin/.config
 Environment=XDG_DATA_HOME=/home/odin/.local/share
 Environment=XDG_LIB_HOME=/home/odin/.local/lib
 Environment=SSH_AUTH_SOCK=/run/user/1000/ssh-agent.socket
+Environment=NOTMUCH_CONFIG=/home/odin/.config/notmuch/config
 Restart=on-failure
 
 [Install]
