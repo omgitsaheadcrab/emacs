@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# contributor: Tobias Backer Dirks <omgitsaheadcrab@gmail.com>
+# contributor: Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
 # name: Function Doxygen Doc
 # key: doxfile
 # group: custom
@@ -7,7 +7,7 @@
 /**
  * @file      ${1:`(file-name-nondirectory(buffer-file-name))`}
  * @brief     ${2:<file description>}
- * @author    ${3:Tobias Backer Dirks <omgitsaheadcrab@gmail.com>}
+ * @author    ${3:Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>}
  * @date      ${4:`(format-time-string "%Y-%m-%d")`}
  * @copyright ${5:Copyright © `(format-time-string "%Y")` Tobias Backer Dirks}
 ${6:*
