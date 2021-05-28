@@ -419,6 +419,13 @@ Code formatting with clang-format
     :after ccls)
 #+end_src
 
+Google style
+#+begin_src emacs-lisp :tangle yes
+  (use-package google-c-style
+    :hook ((c-mode c++-mode) . google-set-c-style)
+    (c-mode-common . google-make-newline-indent))
+#+end_src
+
 ** CMake
 
 CMake is a cross-platform build system generator.
