@@ -1,6 +1,8 @@
 # -*- mode: snippet -*-
+# contributor: Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
 # name: #ifndef XXX; #define XXX; #endif
 # key: once
+# group: custom
 # --
 #ifndef ${1:`(upcase
               (concat
