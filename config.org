@@ -2449,6 +2449,7 @@ Flycheck lints warnings and errors directly within buffers.
     :init (global-flycheck-mode)
     :custom
     (flycheck-display-errors-delay .3)
+    (flycheck-checker-error-threshold 1000)
     (flycheck-pylintrc "~/.pylintrc")
     (flycheck-python-pylint-executable "/usr/bin/pylint")
     (flycheck-stylelintrc "~/.stylelintrc.json")
