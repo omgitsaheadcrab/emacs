@@ -423,7 +423,8 @@ Google style
 #+begin_src emacs-lisp :tangle yes
   (use-package google-c-style
     :hook ((c-mode c++-mode) . google-set-c-style)
-    (c-mode-common . google-make-newline-indent))
+    (c-mode-common . google-make-newline-indent)
+    :commands google-set-c-style)
 #+end_src
 
 ** CMake
