@@ -1143,6 +1143,9 @@ like being able to find my way easily.
       (unless (eq ibuffer-sorting-mode 'alphabetic)
         (ibuffer-do-sort-by-alphabetic)))
     :hook (ibuffer . my/ibuffer-projectile))
+
+  ;; You probably don't want to see empty project groups
+  (setq ibuffer-show-empty-filter-groups nil)
 #+end_src
 
 Some buffers should not be deleted by accident:
