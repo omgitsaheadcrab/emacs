@@ -356,7 +356,6 @@ Use [[https://github.com/arcticicestudio/nord-emacs][nord-theme]] with [[https:/
   (use-package solaire-mode
     :custom (solaire-mode-remap-fringe t)
     :config
-    (solaire-mode-swap-bg)
     (solaire-global-mode +1))
 #+end_src
 
