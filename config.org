@@ -925,7 +925,8 @@ Let's take a look to my Python configuration:
       (lsp--set-configuration lsp-cfg)))
 
   ;; Activate that after lsp has started
-  (add-hook 'lsp-after-initialize-hook 'lsp-set-cfg)
+  ;; (add-hook 'lsp-after-initialize-hook 'lsp-set-cfg)
+  (add-hook 'python-mode-hook 'lsp-set-cfg)
 
   (use-package pyvenv
     :after python
