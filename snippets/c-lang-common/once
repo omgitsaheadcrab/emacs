@@ -5,9 +5,11 @@
 # group: custom
 # --
 #ifndef ${1:`(upcase
-              (concat
-               (subst-char-in-string ?/ ?_
-                                     (file-relative-name
+                (concat
+                (projectile-project-name)
+                "_"
+                (subst-char-in-string ?/ ?_
+                                      (file-relative-name
                                       (file-name-sans-extension buffer-file-name)
                                       (projectile-project-root)))))`_H_}
 #define $1
