@@ -1886,7 +1886,8 @@ Group Projectile commands.
       ("p" counsel-projectile-switch-project "project"))
      "Other"
      (("c" projectile-compile-project "compile project")
-      ("i" projectile-invalidate-cache "reset cache"))
+      ("i" projectile-invalidate-cache "reset cache")
+      ("x" projectile-run-project "run project"))
      "Search"
      (("r" projectile-replace "replace")
       ("R" projectile-replace-regexp "regexp replace")
