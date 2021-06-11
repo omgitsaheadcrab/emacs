@@ -260,6 +260,7 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
     (lsp-enable-on-type-formatting nil)
     (lsp-prefer-flymake nil)
     (lsp-pyls-plugins-flake8-enabled t)
+    (lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error" "--clang-tidy"))
     (lsp-session-file (expand-file-name (format "%s/emacs/lsp-session-v1" xdg-data)))
     (lsp-restart 'auto-restart))
 
@@ -378,7 +379,7 @@ client for LSP servers [[https://github.com/MaskRay/ccls][ccls]] and as server.
 To use =ccls= with GNU Emacs, you must first install it with the package manager
 of your operating system.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (use-package ccls
     :after projectile
     :ensure-system-package ccls
