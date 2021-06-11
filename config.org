@@ -415,8 +415,8 @@ to do:
 
 Code formatting with clang-format
 #+begin_src emacs-lisp :tangle yes
-  (use-package clang-format
-    :after ccls)
+  (use-package clang-format)
+;    :after ccls)
 #+end_src
 
 Google style
