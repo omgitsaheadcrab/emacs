@@ -1885,7 +1885,8 @@ Group Projectile commands.
       ("f" counsel-projectile-find-file "file")
       ("p" counsel-projectile-switch-project "project"))
      "Other"
-     (("i" projectile-invalidate-cache "reset cache"))
+     (("c" projectile-compile-project "compile project")
+      ("i" projectile-invalidate-cache "reset cache"))
      "Search"
      (("r" projectile-replace "replace")
       ("R" projectile-replace-regexp "regexp replace")
@@ -2335,7 +2336,8 @@ smaller, simpler, and smoother to use yet highly customizable.
                   (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
                   (ivy-rich-switch-buffer-major-mode (:width 20 :face warning)))
                  :predicate (lambda (cand) (get-buffer cand))))
-    (ivy-rich-mode 1))
+    (ivy-rich-mode 1)
+    (setq projectile-compile-project-cmd "cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES"))
 
   (use-package all-the-icons-ivy
     :after (all-the-icons ivy)
