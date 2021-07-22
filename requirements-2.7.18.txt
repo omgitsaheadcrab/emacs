@@ -1,14 +1,8 @@
-black
-black-macchiato
 debugpy
 epc
 flake8
 future
 importmagic
 isort
-mypy
 pdbpp
-pyls-black
-pyls-isort
-pyls-mypy
 python-language-server
