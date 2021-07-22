@@ -2970,21 +2970,22 @@ locally, download the desktop version and change the paths indicated below.
 
  Persistent the scratch buffer
  #+begin_src emacs-lisp :tangle yes
- (use-package persistent-scratch
-   :preface
-   (defun my-save-buffer ()
-     "Save scratch and other buffer."
-     (interactive)
-     (let ((scratch-name "*scratch*"))
-       (if (string-equal (buffer-name) scratch-name)
-           (progn
-             (message "Saving %s..." scratch-name)
-             (persistent-scratch-save)
-             (message "Wrote %s" scratch-name))
-         (save-buffer))))
-   :hook (persistent-scratch-setup-default)
-   :bind (:map org-mode-map
-               ("C-x C-s" . my-save-buffer)))
+   (use-package persistent-scratch
+     :preface
+     (defun my-save-buffer ()
+       "Save scratch and other buffer."
+       (interactive)
+       (let ((scratch-name "*scratch*"))
+         (if (string-equal (buffer-name) scratch-name)
+             (progn
+               (message "Saving %s..." scratch-name)
+               (persistent-scratch-save)
+               (message "Wrote %s" scratch-name))
+           (save-buffer))))
+     :hook (persistent-scratch-setup-default)
+     :bind (:map org-mode-map
+                 ("C-x C-s" . my-save-buffer))
+     :config (persistent-scratch-setup-default))
  #+end_src
 
  Set persistent scratch as an org-mode buffer
