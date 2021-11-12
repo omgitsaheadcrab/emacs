@@ -244,13 +244,13 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
   (use-package lsp-mode
     :config
     (lsp-register-custom-settings
-     '(("pyls.plugins.pyls_mypy.enabled" t t)
+     '(("pylsp.plugins.pylsp_mypy.enabled" t t)
        ;; disable live mode to fix imports
-       ("pyls.plugins.pyls_mypy.live_mode" nil t)
+       ("pylsp.plugins.pylsp_mypy.live_mode" nil t)
        ;; Disable these as they're duplicated by flake8
-       ("pyls.plugins.pycodestyle.enabled" nil t)
-       ("pyls.plugins.mccabe.enabled" nil t)
-       ("pyls.plugins.pyflakes.enabled" nil t)))
+       ("pylsp.plugins.pycodestyle.enabled" nil t)
+       ("pylsp.plugins.mccabe.enabled" nil t)
+       ("pylsp.plugins.pyflakes.enabled" nil t)))
     :hook ((c-mode c++-mode java-mode json-mode python-mode typescript-mode xml-mode) . lsp)
     :custom
     (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
@@ -259,7 +259,7 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
     (lsp-enable-snippet nil)
     (lsp-enable-on-type-formatting nil)
     (lsp-prefer-flymake nil)
-    (lsp-pyls-plugins-flake8-enabled t)
+    (lsp-pylsp-plugins-flake8-enabled t)
     (lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error" "--clang-tidy"))
     (lsp-session-file (expand-file-name (format "%s/emacs/lsp-session-v1" xdg-data)))
     (lsp-restart 'auto-restart))
@@ -842,10 +842,10 @@ operating system.
 
 ** Python
 
-I use [[https://github.com/palantir/python-language-server][pyls]] as my LSP client. I use [[https://github.com/psf/black][black]] to reformat my Python buffer. Before use it, don't forget to
+I use [[https://github.com/palantir/python-language-server][pylsp]] as my LSP client. I use [[https://github.com/psf/black][black]] to reformat my Python buffer. Before use it, don't forget to
 install =python-black= in your system.
 
-Also, you'll need =python-language-server[all]=, =pyls-black=, =pyls-isort=, =pyls-mypy=, =mypy=,
+Also, you'll need =python-lsp-server[all]=, =pylsp-black=, =pylsp-isort=, =pylsp-mypy=, =mypy=,
 =flake8=.
 
 To sort my Python imports, [[https://github.com/paetzke/py-isort.el][py-isort]] does a good job. Also, don't forget to
@@ -854,8 +854,8 @@ install =python-isort= in your system.
 Automagically resolve imports (requires =importmagic= and =epc=)
 
 #+begin_src bash
-  pip install python-language-server[all]
-  pip install pyls-black pyls-isort pyls-mypy
+  pip install python-lsp-server[all]
+  pip install pylsp-black pylsp-isort pylsp-mypy
   pip install black black-macchiato isort mypy future
   pip install flake8 epc importmagic debugpy
 #+end_src
@@ -902,7 +902,7 @@ Let's take a look to my Python configuration:
 
   ;; Show flake8 errors in lsp-ui
   (defun lsp-set-cfg ()
-    (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
+    (let ((lsp-cfg `(:pylsp (:configurationSources ("flake8")))))
       (lsp--set-configuration lsp-cfg)))
 
   ;; Activate that after lsp has started

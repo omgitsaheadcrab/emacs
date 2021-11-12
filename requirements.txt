@@ -8,7 +8,7 @@ importmagic
 isort
 mypy
 pdbpp
-pyls-black
-pyls-isort
-pyls-mypy
-python-language-server[all]
+pylsp-black
+pylsp-isort
+pylsp-mypy
+python-lsp-server[all]
