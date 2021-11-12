@@ -8,7 +8,10 @@ importmagic
 isort
 mypy
 pdbpp
-pylsp-black
-pylsp-isort
+pyls-flake8
+pyls-isort
+pyls-memestra
 pylsp-mypy
+pylsp-rope
+python-lsp-black
 python-lsp-server[all]

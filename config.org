@@ -855,9 +855,9 @@ Automagically resolve imports (requires =importmagic= and =epc=)
 
 #+begin_src bash
   pip install python-lsp-server[all]
-  pip install pylsp-black pylsp-isort pylsp-mypy
-  pip install black black-macchiato isort mypy future
-  pip install flake8 epc importmagic debugpy
+  pip install black black-macchiato debugpy epc flake8 futureimportmagic isort
+  pip install mypy pdbpp pyls-flake8 pyls-isort pyls-memestra pylsp-mypy
+  pip install pylsp-rope python-lsp-black
 #+end_src
 
 Let's take a look to my Python configuration:
