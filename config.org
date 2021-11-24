@@ -112,7 +112,7 @@ Configure package sources.
 #+begin_src emacs-lisp :tangle yes
   (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                            ("melpa" . "http://melpa.org/packages/")
-                           ("org" . "http://orgmode.org/elpa/")))
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 #+end_src
 
 ** use-package
