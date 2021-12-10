@@ -110,9 +110,8 @@ This configuration was inspired by (read: large swathes copied from)
 Configure package sources.
 
 #+begin_src emacs-lisp :tangle yes
-  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                           ("melpa" . "http://melpa.org/packages/")
-                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/") t)
 #+end_src
 
 ** use-package
@@ -3357,7 +3356,7 @@ authoring documents with a fast and effective plain-text system.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package org
-    :ensure org-plus-contrib
+    :ensure org-contrib
     :delight "Θ "
     :bind ("C-c i" . org-insert-structure-template)
     :preface
@@ -3687,7 +3686,7 @@ To allow this, I use =org-pomodoro= making sure I get that in my status bar:
 
 The best solution to maintain your contacts. I tend to use =org-contacts= to
 remember their birthdays, so I can be the first to wish them that. Be careful
-that to install it, this one is available with =org-plus-contrib=.
+that to install it, this one is available with =org-contrib=.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package org-contacts
