@@ -250,7 +250,7 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
        ("pylsp.plugins.pycodestyle.enabled" nil t)
        ("pylsp.plugins.mccabe.enabled" nil t)
        ("pylsp.plugins.pyflakes.enabled" nil t)))
-    :hook ((c-mode c++-mode dockerfile-mode java-mode json-mode python-mode typescript-mode xml-mode yml-mode) . lsp)
+    :hook ((c-mode c++-mode dockerfile-mode java-mode json-mode python-mode typescript-mode xml-mode yaml-mode) . lsp)
     :custom
     (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
     (lsp-enable-folding nil)
@@ -1038,7 +1038,7 @@ However, =xml-mode= exists to help us:
     :ensure t
     :delight "ψ "
     :mode "\\.yml\\'"
-    :interpreter ("yml" . yml-mode)
+    :interpreter ("yml" . yaml-mode)
     :config
      (add-hook 'yaml-mode-hook
       '(lambda ()
