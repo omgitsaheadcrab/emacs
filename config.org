@@ -1035,10 +1035,15 @@ However, =xml-mode= exists to help us:
 
 #+begin_src emacs-lisp :tangle yes
   (use-package yaml-mode
+    :ensure t
     :delight "ψ "
     :mode "\\.yml\\'"
-    :interpreter ("yml" . yml-mode))
-#+end_src`
+    :interpreter ("yml" . yml-mode)
+    :config
+     (add-hook 'yaml-mode-hook
+      '(lambda ()
+        (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+#+end_src
 
 * Advanced Configuration
 
