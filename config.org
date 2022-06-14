@@ -1511,7 +1511,8 @@ this, Emacs treats "undo itself as another editing that can be undone".
     :init (global-undo-tree-mode)
     :custom
     (undo-tree-visualizer-timestamps t)
-    (undo-tree-visualizer-diff t))
+    (undo-tree-visualizer-diff t)
+    (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo"))))
 #+end_src
 
 *** =web-mode=
