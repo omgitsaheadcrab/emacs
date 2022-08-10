@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# contributor: omgitsaheadcrab <omgitsaheadcrab@gmail.com>
+# name: namespace
+# key: ns
+# group: custom
+# --
+namespace ${1:namespace} {
+    `yas/selected-text`
+}  // namespace $1
