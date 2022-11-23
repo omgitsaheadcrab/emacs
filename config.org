@@ -32,6 +32,7 @@
   - [[#lua][Lua]]
   - [[#markdown][Markdown]]
   - [[#python][Python]]
+  - [[#rust][Rust]]
   - [[#shell-script][Shell-script]]
   - [[#sql][SQL]]
   - [[#typescript][TypeScript]]
@@ -250,7 +251,7 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
        ("pylsp.plugins.pycodestyle.enabled" nil t)
        ("pylsp.plugins.mccabe.enabled" nil t)
        ("pylsp.plugins.pyflakes.enabled" nil t)))
-    :hook ((c-mode c++-mode dockerfile-mode java-mode json-mode python-mode typescript-mode xml-mode yaml-mode) . lsp)
+    :hook ((c-mode c++-mode dockerfile-mode java-mode json-mode python-mode rust-mode typescript-mode xml-mode yaml-mode) . lsp)
     :custom
     (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
     (lsp-enable-folding nil)
@@ -261,43 +262,51 @@ found on the [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] page.
     (lsp-pylsp-plugins-flake8-enabled t)
     (lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error" "--clang-tidy"))
     (lsp-session-file (expand-file-name (format "%s/emacs/lsp-session-v1" xdg-data)))
-    (lsp-restart 'auto-restart))
+    (lsp-restart 'auto-restart)
+    (lsp-rust-analyzer-server-display-inlay-hints t)
+    (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+    (lsp-rust-analyzer-display-chaining-hints t)
+    (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+    (lsp-rust-analyzer-display-closure-return-type-hints t)
+    (lsp-rust-analyzer-display-parameter-hints nil)
+    (lsp-rust-analyzer-display-reborrow-hints nil)
+    )
 
-  (use-package lsp-ui)
+    (use-package lsp-ui)
 
-  (use-package dap-mode
-  :defer
-  :custom
-  (dap-auto-configure-mode t                           "Automatically configure dap.")
-  (dap-auto-configure-features
-   '(sessions locals breakpoints expressions tooltip)  "Remove the button panel in the top.")
-  :config
-  ;;; dap for c++
-  (require 'dap-lldb)
+    (use-package dap-mode
+    :defer
+    :custom
+    (dap-auto-configure-mode t                           "Automatically configure dap.")
+    (dap-auto-configure-features
+     '(sessions locals breakpoints expressions tooltip)  "Remove the button panel in the top.")
+    :config
+    ;;; dap for c++
+    (require 'dap-lldb)
 
-  ;;; set the debugger executable (c++)
-  (setq dap-lldb-debug-program '("/usr/bin/lldb-vscode"))
+    ;;; set the debugger executable (c++)
+    (setq dap-lldb-debug-program '("/usr/bin/lldb-vscode"))
 
-  ;;; ask user for executable to debug if not specified explicitly (c++)
-  (setq dap-lldb-debugged-program-function (lambda () (read-file-name "Select file to debug.")))
+    ;;; ask user for executable to debug if not specified explicitly (c++)
+    (setq dap-lldb-debugged-program-function (lambda () (read-file-name "Select file to debug.")))
 
-  ;;; default debug template for (c++)
-  (dap-register-debug-template
-   "C++ LLDB dap"
-   (list :type "lldb-vscode"
-         :cwd nil
-         :args nil
-         :request "launch"
-         :program nil))
+    ;;; default debug template for (c++)
+    (dap-register-debug-template
+     "C++ LLDB dap"
+     (list :type "lldb-vscode"
+           :cwd nil
+           :args nil
+           :request "launch"
+           :program nil))
 
-  (defun dap-debug-create-or-edit-json-template ()
-    "Edit the C++ debugging configuration or create + edit if none exists yet."
-    (interactive)
-    (let ((filename (concat (lsp-workspace-root) "/launch.json"))
-      (default "~/.config/emacs/dap-default-launch.json"))
-      (unless (file-exists-p filename)
-    (copy-file default filename))
-      (find-file-existing filename))))
+    (defun dap-debug-create-or-edit-json-template ()
+      "Edit the C++ debugging configuration or create + edit if none exists yet."
+      (interactive)
+      (let ((filename (concat (lsp-workspace-root) "/launch.json"))
+        (default "~/.config/emacs/dap-default-launch.json"))
+        (unless (file-exists-p filename)
+      (copy-file default filename))
+        (find-file-existing filename))))
 #+end_src
 
 ** Theming
@@ -522,14 +531,14 @@ Provides minibuffer hints when working with Emacs Lisp.
 *** Common Lisp
 
 For arch install the sbcl and quicklisp packages.
-#+begin_src bash tangle: no
+#+begin_src bash :tangle no
 sudo pacman -S sbcl
 yay -S quicklisp
 echo '(load "/usr/lib/quicklisp/setup")' > ~/.sbclrc
 #+end_src
 
 Then within sbcl install SLIME
-#+begin_src tangle :no
+#+begin_src emacs-lisp tangle :no
 (quicklisp-quickstart:install)
 (ql:quickload "quicklisp-slime-helper")
 #+end_src
@@ -549,7 +558,7 @@ Then within sbcl install SLIME
 *** Scheme
 
 For arch install the guile package.
-#+begin_src bash tangle: no
+#+begin_src bash :tangle no
 sudo pacman -S guile
 #+end_src
 
@@ -967,15 +976,47 @@ Let's take a look to my Python configuration:
 
   (require 'dap-python)
   (setq dap-python-debugger 'debugpy)
+#+end_src
 
-  (use-package python-pytest
-    :after python
-    :custom
-    (python-pytest-arguments
-     '("--color"          ;; colored output in the buffer
-       "--failed-first"   ;; run the previous failed tests first
-       "--maxfail=5"))    ;; exit in 5 continuous failures in a run
-    )
+** Rust
+rustic is an extension of rust-mode which adds a number of useful features (see
+the its github readme) to it. It is the core of the setup and you can use just
+it without any other Emacs packages (and without rust-analyzer) if you just want
+code highlighting, compilation and cargo commands bound to emacs shortcuts, and
+a few other features.
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package rust-mode
+    :ensure)
+
+  (use-package rustic
+    :ensure
+    :bind (:map rustic-mode-map
+                ("M-j" . lsp-ui-imenu)
+                ("M-?" . lsp-find-references)
+                ("C-c C-c l" . flycheck-list-errors)
+                ("C-c C-c a" . lsp-execute-code-action)
+                ("C-c C-c r" . lsp-rename)
+                ("C-c C-c q" . lsp-workspace-restart)
+                ("C-c C-c Q" . lsp-workspace-shutdown)
+                ("C-c C-c s" . lsp-rust-analyzer-status))
+    :config
+    ;; uncomment for less flashiness
+    ;; (setq lsp-eldoc-hook nil)
+    ;; (setq lsp-enable-symbol-highlighting nil)
+    ;; (setq lsp-signature-auto-activate nil)
+
+    ;; comment to disable rustfmt on save
+    (setq rustic-format-on-save nil)
+    (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+
+  (defun rk/rustic-mode-hook ()
+    ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+    ;; save rust buffers that are not file visiting. Once
+    ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+    ;; no longer be necessary.
+    (when buffer-file-name
+      (setq-local buffer-save-without-query t)))
 #+end_src
 
 ** Shell-script
@@ -3723,7 +3764,7 @@ The best solution to maintain your contacts. I tend to use =org-contacts= to
 remember their birthdays, so I can be the first to wish them that. Be careful
 that to install it, this one is available with =org-contrib=.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
   (use-package org-contacts
     :ensure nil
     :after org
